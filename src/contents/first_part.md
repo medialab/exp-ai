@@ -1,0 +1,1 @@
+Vous participez à une enquête dans le cadre de la conception d’un outil de Machine Learning. Cette enquête est réalisée par l’Institut Mines-Télécom et Sciences Po dans le cadre d’un travail de recherche.
