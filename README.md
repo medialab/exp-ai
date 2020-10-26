@@ -1,3 +1,59 @@
+
+# Global tech spec
+
+History navigation management (go back-forward in steps) -> handle with state or history or spatial organization
+
+# State tree spec
+
+```
+* data
+    * variablesSorting = Array<str>
+    * annotations = Map (keys => variables name sorted, joined and sluggified)
+        * xRange = Array<float>{2} (portion of min-max in 0-1 domain)
+        * yRange = Array<float>{2} (portion of min-max in 0-1 domain)
+        * demographicParity? = Boolean (when possibility of using democraphic parity vs reject focus)
+        * comment? = string (user comment for each choice)
+* ui
+```
+
+# Components tree spec
+
+Rough architecture:
+
+* Container
+    * Header
+    * StepsContainer
+        * StepContainer
+            *BrushableScatterplot
+        * ...
+    * Footer
+    
+
+
+Components list:
+
+* Container
+* StepContainer
+* BrushableScatterplot
+
+# Stories
+
+* sort variables
+* annotate first variable couple
+* delete local data
+* review overview of choices
+* print experiment result
+* download experiment results
+* inbound explanations
+
+# UX/nav
+
+* unfolding vertical UI (one screen per step)
+
+
+---
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
