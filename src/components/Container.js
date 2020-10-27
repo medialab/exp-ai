@@ -14,6 +14,7 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import SortScreen from "./SortScreen";
 import Step3 from "./Step3";
+import MainChoiceScreen from "./MainChoiceScreen";
 
 function Container({
   ui: { currentStep, numberOfSteps },
@@ -40,6 +41,9 @@ function Container({
       // sort variables
       case 4:
         return <SortScreen />;
+      // main choice
+      case 5:
+        return <MainChoiceScreen />;
       default:
         return <>Step {stepIndex}</>;
     }

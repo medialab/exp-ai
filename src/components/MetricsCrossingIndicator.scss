@@ -1,0 +1,15 @@
+.metrics-crossing-indicator {
+  .crossing-indicator-items {
+    list-style: none;
+    padding: 0;
+    .crossing-indicator-item {
+      border: 1px solid black;
+      padding: var(--gutter-small);
+      margin-bottom: var(--gutter-small);
+      &.active {
+        background: black;
+        color: white;
+      }
+    }
+  }
+}
