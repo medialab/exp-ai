@@ -6,6 +6,7 @@
 import { applyMiddleware, createStore, compose } from "redux";
 import rootReducer from "./rootReducer";
 import promiseMiddleware from "./promiseMiddleware";
+import { rememberEnhancer } from "redux-remember";
 
 /**
  * Configures store with a possible inherited state and appropriate reducers
@@ -22,9 +23,13 @@ export default function configureStore(initialState = {}) {
         // related middlewares
         middleware,
         // connection to redux dev tools
-        window.__REDUX_DEVTOOLS_EXTENSION__()
+        window.__REDUX_DEVTOOLS_EXTENSION__(),
+        rememberEnhancer(window.localStorage, ["ui", "data", "history"])
       )(createStore)
-    : compose(middleware)(createStore);
+    : compose(
+        middleware,
+        rememberEnhancer(window.localStorage, ["ui", "data", "history"])
+      )(createStore);
 
   const store = createStoreWithMiddleware(rootReducer, initialState);
   return store;
