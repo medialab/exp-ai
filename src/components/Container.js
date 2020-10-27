@@ -6,51 +6,34 @@ import * as uiDuck from "../state/duckUi";
 import StepNav from "./StepNav";
 
 import "./Container.scss";
+
 import StepContainer from "./StepContainer";
+import Header from "./Header";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import SortScreen from "./SortScreen";
+import Step3 from "./Step3";
 
 function Container({ ui: { currentStep, numberOfSteps }, setCurrentStep }) {
   const renderStep = (stepIndex = 0) => {
     switch (stepIndex) {
+      // header
       case 0:
-        return (
-          <StepContainer
-            key={stepIndex}
-            active={stepIndex === currentStep}
-            style={{ background: "lightgreen" }}
-          >
-            Step {stepIndex}
-          </StepContainer>
-        );
+        return <Header />;
+      // intro 1 (dataiku outputs)
       case 1:
-        return (
-          <StepContainer
-            key={stepIndex}
-            active={stepIndex === currentStep}
-            style={{ background: "green" }}
-          >
-            Step {stepIndex}
-          </StepContainer>
-        );
+        return <Step1 />;
+      // intro 2 (eu priniples)
       case 2:
-        return (
-          <StepContainer
-            key={stepIndex}
-            active={stepIndex === currentStep}
-            style={{ background: "blue" }}
-          >
-            Step {stepIndex}
-          </StepContainer>
-        );
+        return <Step2 />;
+      // intro 3 (variables presentation)
+      case 3:
+        return <Step3 />;
+      // sort variables
+      case 4:
+        return <SortScreen />;
       default:
-        return (
-          <StepContainer
-            key={stepIndex}
-            active={stepIndex === currentStep}
-            style={{ background: "purple" }}
-          >
-            Step {stepIndex}
-          </StepContainer>
-        );
+        return <>Step {stepIndex}</>;
     }
   };
 
@@ -60,7 +43,11 @@ function Container({ ui: { currentStep, numberOfSteps }, setCurrentStep }) {
   }
   return (
     <div className="container">
-      {steps.map((s, index) => renderStep(index))}
+      {steps.map((s, index) => (
+        <StepContainer key={index} active={index === currentStep}>
+          {renderStep(index)}
+        </StepContainer>
+      ))}
       <StepNav
         {...{
           currentStep,
@@ -72,7 +59,8 @@ function Container({ ui: { currentStep, numberOfSteps }, setCurrentStep }) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
   ...state,
   ...uiDuck.selector(state.ui),
 });

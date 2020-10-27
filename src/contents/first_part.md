@@ -1,1 +1,4 @@
-Vous participez à une enquête dans le cadre de la conception d’un outil de Machine Learning. Cette enquête est réalisée par l’Institut Mines-Télécom et Sciences Po dans le cadre d’un travail de recherche.
+Supposez que vous êtes un data scientist dans une banque et que l’on vous demande de réaliser un
+algorithme de ML pour la prédiction du risque de défaut de vos clients à partir d’un historique de
+données. Vous avez à disposition les données sur une interface et nous vous demandons de créer le
+classifieur de ML à l’aide de l’outil Dataiku.

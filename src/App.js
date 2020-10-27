@@ -20,7 +20,7 @@ function App() {
   return (
     <Provider store={store}>
       <Helmet>
-        <title>{translate("siteTitle")}</title>
+        <title>{translate("site_title")}</title>
       </Helmet>
       <Container />
     </Provider>

@@ -25,7 +25,7 @@ export const setNumberOfSteps = (payload) => ({
  */
 const DEFAULT_STATE = {
   currentStep: 0,
-  numberOfSteps: 3,
+  numberOfSteps: 5,
 };
 
 function ui(state = DEFAULT_STATE, action) {
