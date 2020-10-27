@@ -1,5 +1,6 @@
 import get from "axios";
 import { csvParse } from "d3-dsv";
+import { uniq } from "lodash";
 
 const formatModels = (data) => {
   return data.map((datum, id) => {

@@ -1,0 +1,63 @@
+- id: age
+- name: age
+- description: 
+- id: credit_history
+- name: historique de crédit
+- description: 
+- id: foreign_worker
+- name: travailleur étranger
+- description: 
+- id: housing
+- name: logement
+- description: 
+- id: installment_as_income_perc
+- name: installment_as_income_perc
+- description: 
+- id: other_debtors
+- name: other_debtors
+- description: 
+- id: personal._status
+- name: statut personnel
+- description: 
+- id: present_emp_since
+- name: emploi actuel depuis
+- description: 
+- id: property
+- name: propriétaire
+- description: 
+- id: telephone
+- name: téléphone
+- description: 
+- id: account_check_status
+- name: statut du compte
+- description: 
+- id: credits_this_bank
+- name: crédits précédents dans cette banque
+- description: 
+- id: other_installment_plans
+- name: autres plans d'installation
+- description: 
+- id: sex
+- name: sexe
+- description: 
+- id: credit_amount
+- name: montant du crédit
+- description: 
+- id: savings
+- name: épargnes
+- description: 
+- id: people_under_maintenance
+- name: personnes à charge
+- description: 
+- id: present_res_since
+- name: résidence actuelle depuis
+- description: 
+- id: job
+- name: emploi
+- description: 
+- id: duration_in_month
+- name: durée en mois
+- description: 
+- id: purpose
+- name: objectif
+- description: 

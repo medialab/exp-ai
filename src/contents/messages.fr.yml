@@ -4,3 +4,5 @@ next_step: continuer
 step_1_title: Étape 1
 step_2_title: Étape 2
 step_3_title: Étape 3
+sort_screen_title: Classer les métriques
+sort_screen_prompt: Veuillez classer les indicateurs dans l'ordre qui vous semble être celui du plus important au moins important

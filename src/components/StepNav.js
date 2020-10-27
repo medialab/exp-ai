@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import cx from "classnames";
-import translate from "../helpers/translate";
 
 import "./StepNav.scss";
 
@@ -22,7 +21,6 @@ function StepNav({ currentStep, numberOfSteps, setCurrentStep }) {
             className={cx("step-nav-item", { active: index === currentStep })}
             onClick={() => setCurrentStep(index)}
             key={index}
-            title={`${translate("step")} ${index + 1}`}
           />
         ))}
       </ul>
