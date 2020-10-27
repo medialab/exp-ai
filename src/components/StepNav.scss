@@ -1,0 +1,21 @@
+.step-nav {
+  padding: var(--gutter-small);
+  .step-nav-items-container {
+    list-style: none;
+    padding: 0;
+    .step-nav-item {
+      width: var(--gutter-small);
+      height: var(--gutter-small);
+      background: red;
+      margin-bottom: var(--gutter-small);
+      border-radius: 50%;
+      cursor: pointer;
+      &:not(.active) {
+        opacity: 0.5;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
