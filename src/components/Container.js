@@ -1,8 +1,9 @@
-import react from "react";
+import react, { useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as uiDuck from "../state/duckUi";
+import * as dataDuck from "../state/duckData";
 import StepNav from "./StepNav";
 
 import "./Container.scss";
@@ -14,7 +15,14 @@ import Step2 from "./Step2";
 import SortScreen from "./SortScreen";
 import Step3 from "./Step3";
 
-function Container({ ui: { currentStep, numberOfSteps }, setCurrentStep }) {
+function Container({
+  ui: { currentStep, numberOfSteps },
+  setCurrentStep,
+  getData,
+}) {
+  useEffect(() => {
+    getData();
+  }, []);
   const renderStep = (stepIndex = 0) => {
     switch (stepIndex) {
       // header
@@ -63,12 +71,14 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   ...state,
   ...uiDuck.selector(state.ui),
+  ...dataDuck.selector(state.data),
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       ...uiDuck,
+      ...dataDuck,
     },
     dispatch
   );
