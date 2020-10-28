@@ -2,6 +2,9 @@ import react, { useEffect, useState } from "react";
 import { min, max } from "d3-array";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import "./FilterForm.scss";
+
+import BrushableScatterPlot from "./BrushableScatterPlot";
 
 import { useDebounce } from "../helpers/hooks";
 import { filterModels } from "../helpers/filters";
@@ -284,11 +287,31 @@ function FilterForm({ metrics, models, onSubmit, filters = [] }) {
       },
     ]);
   };
+  const handleBrushChange = ({
+    x: [thatXMin, thatXMax],
+    y: [thatYMin, thatYMax],
+  }) => {
+    setChoosenMin1(thatXMin);
+    setChoosenMax1(thatXMax);
+    setChoosenMin2(thatYMin);
+    setChoosenMax2(thatYMax);
+  };
   return (
     <form className="filter-form" onSubmit={handleSubmit}>
+      <BrushableScatterPlot
+        data={models}
+        xVariable={metric1.id}
+        yVariable={metric2.id}
+        filteredVariables={filteredVariables}
+        brush={{
+          x: [choosenMin1, choosenMax1],
+          y: [choosenMin2, choosenMax2],
+        }}
+        onBrushChange={handleBrushChange}
+      />
       <h4>
-        Vous sélectionnez dans <code>{metric1.name}</code> et{" "}
-        <code>{metric2.name}</code>
+        Vous filtrer dans <code>{metric1.name}</code> sur les x et{" "}
+        <code>{metric2.name}</code> sur les y
       </h4>
       <VariableInputs
         metric={metric1}

@@ -24,6 +24,7 @@
     overflow: hidden;
     position: relative;
     overflow: auto;
+    padding-bottom: 2rem;
     &:nth-child(even) {
       background: lightgreen;
     }

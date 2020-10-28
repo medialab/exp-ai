@@ -1,0 +1,48 @@
+.filter-form {
+  .brushable-scatterplot-container {
+    position: relative;
+    .brushable-scatterplot {
+      background: white;
+      cursor: crosshair;
+      .dot {
+        fill: blue;
+        opacity: 0.5;
+        pointer-events: all;
+
+        &.active {
+          fill: green;
+          stroke: darkgreen;
+          opacity: 0.8;
+        }
+        &:hover {
+          stroke: red;
+          z-index: 5;
+        }
+      }
+      &.is-brushing {
+        .dot {
+          pointer-events: none;
+        }
+      }
+    }
+    .chart-tooltip {
+      position: absolute;
+      background: black;
+      color: white;
+      transition: 0.2s ease all;
+      pointer-events: none;
+      font-size: 0.8rem;
+      padding: var(--gutter-small);
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        .tooltip-info {
+          &.active {
+            font-weight: 800;
+          }
+        }
+      }
+    }
+  }
+}
