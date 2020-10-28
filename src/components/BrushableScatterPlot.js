@@ -40,16 +40,10 @@ function BrushableScatterPlot({
   const xScale = scaleLinear()
     .domain(xExtent)
     .range([axisMargin + padding, width - padding]);
-  const xScaleReverse = scaleLinear()
-    .range(xExtent)
-    .domain([axisMargin + padding, width - padding]);
 
   const yScale = scaleLinear()
-    .domain(yExtent)
+    .domain(yExtent.reverse())
     .range([padding, height - axisMargin - padding]);
-  const yScaleReverse = scaleLinear()
-    .range(yExtent)
-    .domain([padding, height - axisMargin - padding]);
 
   const [hoveredElement, setHoveredElement] = useState(undefined);
   const [tooltipPosition, setTooltipPosition] = useState([0, 0]);
@@ -67,16 +61,16 @@ function BrushableScatterPlot({
           setIsBrushing(true);
           setHoveredElement(undefined);
           const svgDims = svgRef.current.getBoundingClientRect();
-          const thatX = xScaleReverse(e.clientX - svgDims.x);
-          const thatY = yScaleReverse(e.clientY - svgDims.y);
+          const thatX = xScale.invert(e.clientX - svgDims.x);
+          const thatY = yScale.invert(e.clientY - svgDims.y);
           setXRange([thatX, thatX]);
           setYRange([thatY, thatY]);
         }}
         onMouseMove={(e) => {
           if (isBrushing) {
             const svgDims = svgRef.current.getBoundingClientRect();
-            const thatX = xScaleReverse(e.clientX - svgDims.x);
-            const thatY = yScaleReverse(e.clientY - svgDims.y);
+            const thatX = xScale.invert(e.clientX - svgDims.x);
+            const thatY = yScale.invert(e.clientY - svgDims.y);
             setXRange([xMin, thatX]);
             setYRange([yMin, thatY]);
           }
@@ -114,7 +108,7 @@ function BrushableScatterPlot({
         </g>
         <rect
           x={xScale(min([xMin, xMax]))}
-          y={yScale(min([yMin, yMax]))}
+          y={yScale(min([yMin, yMax])) - Math.abs(yScale(yMax) - yScale(yMin))}
           width={Math.abs(xScale(xMax) - xScale(xMin))}
           height={Math.abs(yScale(yMax) - yScale(yMin))}
           fill="rgba(0,0,0,0.5)"
@@ -160,7 +154,7 @@ function BrushableScatterPlot({
                 onMouseMove={handleOvered}
                 onMouseLeave={handleLeave}
                 key={index}
-                r={width / 100}
+                r={width / 200}
               />
             );
           })}

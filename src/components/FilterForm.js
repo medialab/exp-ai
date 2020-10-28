@@ -130,20 +130,21 @@ function VariableInputs({
   );
 }
 
-function FilterForm({ metrics, models, onSubmit, filters = [] }) {
+function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
   let [metric1, metric2] = metrics;
+
+  const defaultFilteredVariables = variables
+    .filter(({ relates_to_privacy }) => relates_to_privacy)
+    .map(({ id }) => id);
 
   const [absoluteMin1, setAbsoluteMin1] = useState(0);
   const [absoluteMax2, setAbsoluteMax2] = useState(0);
   const [filteredVariables, setFilteredVariables] = useState(
-    variables
-      .filter(({ relates_to_privacy }) => relates_to_privacy)
-      .map(({ id }) => id)
+    defaultFilteredVariables
   );
 
   const [absoluteMin2, setAbsoluteMin2] = useState(0);
   const [absoluteMax1, setAbsoluteMax1] = useState(0);
-
   const [choosenMin1, setChoosenMin1] = useState(null);
   const [choosenMax2, setChoosenMax2] = useState(null);
 
@@ -151,6 +152,25 @@ function FilterForm({ metrics, models, onSubmit, filters = [] }) {
   const [choosenMax1, setChoosenMax1] = useState(null);
 
   const [filteredModels, setFilteredModels] = useState(models);
+
+  useEffect(() => {
+    if (values && values.length > 1) {
+      setChoosenMin1(values[0].range[0]);
+      setChoosenMax1(values[0].range[1]);
+      setChoosenMin2(values[1].range[0]);
+      setChoosenMax2(values[1].range[1]);
+      const hasVariables = values.find((v) => v.variables);
+      if (hasVariables) {
+        setFilteredVariables(hasVariables.variables);
+      }
+    } else {
+      setChoosenMin1(absoluteMin1);
+      setChoosenMax1(absoluteMax1);
+      setChoosenMin2(absoluteMin2);
+      setChoosenMax2(absoluteMax2);
+      setFilteredVariables(defaultFilteredVariables);
+    }
+  }, [values]);
 
   useDebounce(
     () => {
@@ -219,10 +239,12 @@ function FilterForm({ metrics, models, onSubmit, filters = [] }) {
     setAbsoluteMin2(absMin2);
     setAbsoluteMax2(absMax2);
 
-    setChoosenMin1(absMin1);
-    setChoosenMax1(absMax1);
-    setChoosenMin2(absMin2);
-    setChoosenMax2(absMax2);
+    if (!values) {
+      setChoosenMin1(absMin1);
+      setChoosenMax1(absMax1);
+      setChoosenMin2(absMin2);
+      setChoosenMax2(absMax2);
+    }
 
     setFilteredVariables(
       variables
@@ -313,6 +335,8 @@ function FilterForm({ metrics, models, onSubmit, filters = [] }) {
         Vous filtrer dans <code>{metric1.name}</code> sur les x et{" "}
         <code>{metric2.name}</code> sur les y
       </h4>
+      <p>{filteredModels.length} modèles sélectionnés</p>
+
       <VariableInputs
         metric={metric1}
         values={[choosenMin1, choosenMax1]}
@@ -341,8 +365,6 @@ function FilterForm({ metrics, models, onSubmit, filters = [] }) {
           setFilteredVariables(theseVars);
         }}
       />
-
-      <p>{filteredModels.length} modèles sélectionnés</p>
 
       <button onClick={handleValidate} type="submit">
         Valider

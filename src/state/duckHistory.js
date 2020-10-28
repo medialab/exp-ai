@@ -22,6 +22,8 @@ const DEFAULT_STATE = {};
 function data(state = DEFAULT_STATE, action) {
   const { payload } = action;
   switch (action.type) {
+    case "RESET_APP":
+      return DEFAULT_STATE;
     default:
       return state;
   }

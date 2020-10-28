@@ -17,7 +17,6 @@ function Step1({ ui: { currentStep }, setCurrentStep }) {
     <section className="step-1">
       <h1>{translate("step_1_title")}</h1>
       <Md source={intro} />
-      <h2>Todo form dataiku</h2>
 
       <ContinueButton onClick={() => setCurrentStep(currentStep + 1)} />
     </section>

@@ -7,7 +7,8 @@ import { setPropInState } from "../helpers/stateHelpers";
 import { SET_METRICS_ORDER } from "./duckData";
 const SET_CURRENT_STEP = "SET_CURRENT_STEP";
 const SET_NUMBER_OF_STEPS = "SET_NUMBER_OF_STEPS";
-const SET_METRICS_ORDER_IS_VALIDATED = "SET_METRICS_ORDER_IS_VALIDATED";
+export const SET_METRICS_ORDER_IS_VALIDATED = "SET_METRICS_ORDER_IS_VALIDATED";
+export const SET_MAIN_CHOICE_IS_VALIDATED = "SET_MAIN_CHOICE_IS_VALIDATED";
 
 /**
  * ACTION FUNCTIONS
@@ -25,6 +26,10 @@ export const setMetricsOrderIsValidated = (payload) => ({
   type: SET_METRICS_ORDER_IS_VALIDATED,
   payload,
 });
+export const setMainChoiceIsValidated = (payload) => ({
+  type: SET_MAIN_CHOICE_IS_VALIDATED,
+  payload,
+});
 
 /**
  * REDUCER
@@ -33,15 +38,28 @@ const DEFAULT_STATE = {
   currentStep: 0,
   numberOfSteps: 5,
   metricsOrderIsValidated: false,
+  mainChoiceIsValidated: false,
 };
 
 function ui(state = DEFAULT_STATE, action) {
   const { payload } = action;
   switch (action.type) {
+    case "RESET_APP":
+      return DEFAULT_STATE;
     case SET_CURRENT_STEP:
     case SET_NUMBER_OF_STEPS:
-    case SET_METRICS_ORDER_IS_VALIDATED:
       return setPropInState(action.type, payload, state);
+    case SET_METRICS_ORDER_IS_VALIDATED:
+      return {
+        ...state,
+        metricsOrderIsValidated: payload,
+        mainChoiceIsValidated: payload ? state.mainChoiceIsValidated : false,
+      };
+    case SET_MAIN_CHOICE_IS_VALIDATED:
+      return {
+        ...state,
+        mainChoiceIsValidated: payload,
+      };
     case SET_METRICS_ORDER:
       return {
         ...state,
@@ -62,9 +80,11 @@ export default ui;
 const currentStep = (state) => state.currentStep;
 const numberOfSteps = (state) => state.numberOfSteps;
 const metricsOrderIsValidated = (state) => state.metricsOrderIsValidated;
+const mainChoiceIsValidated = (state) => state.mainChoiceIsValidated;
 
 export const selector = createStructuredSelector({
   currentStep,
   numberOfSteps,
   metricsOrderIsValidated,
+  mainChoiceIsValidated,
 });

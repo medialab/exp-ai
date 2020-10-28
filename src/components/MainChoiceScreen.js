@@ -13,13 +13,22 @@ import MetricsCrossingIndicator from "./MetricsCrossingIndicator";
 import FilterForm from "./FilterForm";
 
 function MainChoiceScreen({
-  ui: { currentStep, numberOfSteps, metricsOrderIsValidated },
-  data: { metricsOrder, models },
+  ui: { currentStep, numberOfSteps, mainChoiceIsValidated },
+  data: { metricsOrder, models, filters },
   setCurrentStep,
-  setMetricsOrder,
   setNumberOfSteps,
-  setMetricsOrderIsValidated,
+  setMainChoiceIsValidated,
+  addFilters,
 }) {
+  const handleSubmit = (theseFilters) => {
+    const [filter1, filter2] = theseFilters;
+    addFilters({
+      0: filter1,
+      1: filter2,
+    });
+    setMainChoiceIsValidated(true);
+    setNumberOfSteps(7);
+  };
   return (
     <section className="main-choice-screen">
       <h1>{translate("main_choice_screen_title")}</h1>
@@ -30,9 +39,18 @@ function MainChoiceScreen({
           active: i <= 1,
         }))}
       />
-      <FilterForm metrics={metricsOrder.slice(0, 2)} models={models} />
+      <FilterForm
+        metrics={metricsOrder.slice(0, 2)}
+        models={models}
+        onSubmit={handleSubmit}
+        values={
+          filters["0"] && filters["1"]
+            ? [filters["0"], filters["1"]]
+            : undefined
+        }
+      />
       <ContinueButton
-        disabled={numberOfSteps <= 6}
+        disabled={!mainChoiceIsValidated || numberOfSteps <= 6}
         onClick={() => setCurrentStep(currentStep + 1)}
       />
     </section>

@@ -8,8 +8,10 @@ import metrics from "../contents/metrics_list.fr.yml";
 /**
  * ACTION NAMES
  */
+import { SET_METRICS_ORDER_IS_VALIDATED } from "./duckUi";
 const GET_DATA = "GET_DATA";
 export const SET_METRICS_ORDER = "SET_METRICS_ORDER";
+export const ADD_FILTERS = "ADD_FILTERS";
 
 /**
  * ACTION FUNCTIONS
@@ -25,17 +27,25 @@ export const setMetricsOrder = (payload) => ({
   payload,
 });
 
+export const addFilters = (payload) => ({
+  type: ADD_FILTERS,
+  payload,
+});
+
 /**
  * REDUCER
  */
 const DEFAULT_STATE = {
   models: [],
   metricsOrder: [...metrics],
+  filters: {},
 };
 
 function data(state = DEFAULT_STATE, action) {
   const { payload, result } = action;
   switch (action.type) {
+    case "RESET_APP":
+      return DEFAULT_STATE;
     case `${GET_DATA}`:
       return state;
     case `${GET_DATA}_SUCCESS`:
@@ -47,6 +57,20 @@ function data(state = DEFAULT_STATE, action) {
       return state;
     case SET_METRICS_ORDER:
       return setPropInState(action.type, payload, state);
+    case ADD_FILTERS:
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          ...payload,
+        },
+      };
+    // reset filters cases
+    case SET_METRICS_ORDER_IS_VALIDATED:
+      return {
+        ...state,
+        filters: DEFAULT_STATE.filters,
+      };
     default:
       return state;
   }
@@ -61,8 +85,10 @@ export default data;
 
 const models = (state) => state.models;
 const metricsOrder = (state) => state.metricsOrder;
+const filters = (state) => state.filters;
 
 export const selector = createStructuredSelector({
   models,
   metricsOrder,
+  filters,
 });

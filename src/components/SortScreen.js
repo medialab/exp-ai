@@ -35,6 +35,7 @@ function SortScreen({
     );
 
     setMetricsOrder(items);
+    setNumberOfSteps(5);
   };
 
   const handleValidateOrder = () => {
