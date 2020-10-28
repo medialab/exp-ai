@@ -5,7 +5,6 @@
     .crossing-indicator-item {
       border: 1px solid black;
       padding: var(--gutter-small);
-      margin-bottom: var(--gutter-small);
       &.active {
         background: black;
         color: white;

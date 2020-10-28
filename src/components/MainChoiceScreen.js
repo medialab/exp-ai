@@ -10,9 +10,11 @@ import * as dataDuck from "../state/duckData";
 import ContinueButton from "./ContinueButton";
 import MetricsCrossingIndicator from "./MetricsCrossingIndicator";
 
+import FilterForm from "./FilterForm";
+
 function MainChoiceScreen({
   ui: { currentStep, numberOfSteps, metricsOrderIsValidated },
-  data: { metricsOrder },
+  data: { metricsOrder, models },
   setCurrentStep,
   setMetricsOrder,
   setNumberOfSteps,
@@ -28,7 +30,7 @@ function MainChoiceScreen({
           active: i <= 1,
         }))}
       />
-
+      <FilterForm metrics={metricsOrder.slice(0, 2)} models={models} />
       <ContinueButton
         disabled={numberOfSteps <= 6}
         onClick={() => setCurrentStep(currentStep + 1)}
