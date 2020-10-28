@@ -1,63 +1,84 @@
 - id: age
-- name: age
-- description: 
+  name: age
+  description:
+  relates_to_privacy: true
 - id: credit_history
-- name: historique de crédit
-- description: 
+  name: historique de crédit
+  description:
+  relates_to_privacy: false
 - id: foreign_worker
-- name: travailleur étranger
-- description: 
+  name: travailleur étranger
+  description:
+  relates_to_privacy: true
 - id: housing
-- name: logement
-- description: 
+  name: logement
+  description:
+  relates_to_privacy: false
 - id: installment_as_income_perc
-- name: installment_as_income_perc
-- description: 
+  name: installment_as_income_perc
+  description:
+  relates_to_privacy: false
 - id: other_debtors
-- name: other_debtors
-- description: 
+  name: other_debtors
+  description:
+  relates_to_privacy: false
 - id: personal._status
-- name: statut personnel
-- description: 
+  name: statut personnel
+  description:
+  relates_to_privacy: true
 - id: present_emp_since
-- name: emploi actuel depuis
-- description: 
+  name: emploi actuel depuis
+  description:
+  relates_to_privacy: false
 - id: property
-- name: propriétaire
-- description: 
+  name: propriétaire
+  description:
+  relates_to_privacy: false
 - id: telephone
-- name: téléphone
-- description: 
+  name: téléphone
+  description:
+  relates_to_privacy: true
 - id: account_check_status
-- name: statut du compte
-- description: 
+  name: statut du compte
+  description:
+  relates_to_privacy: false
 - id: credits_this_bank
-- name: crédits précédents dans cette banque
-- description: 
+  name: crédits précédents dans cette banque
+  description:
+  relates_to_privacy: false
 - id: other_installment_plans
-- name: autres plans d'installation
-- description: 
+  name: autres plans d'installation
+  description:
+  relates_to_privacy: false
 - id: sex
-- name: sexe
-- description: 
+  name: sexe
+  description:
+  relates_to_privacy: true
 - id: credit_amount
-- name: montant du crédit
-- description: 
+  name: montant du crédit
+  description:
+  relates_to_privacy: false
 - id: savings
-- name: épargnes
-- description: 
+  name: épargnes
+  description:
+  relates_to_privacy: false
 - id: people_under_maintenance
-- name: personnes à charge
-- description: 
+  name: personnes à charge
+  description:
+  relates_to_privacy: false
 - id: present_res_since
-- name: résidence actuelle depuis
-- description: 
+  name: résidence actuelle depuis
+  description:
+  relates_to_privacy: false
 - id: job
-- name: emploi
-- description: 
+  name: emploi
+  description:
+  relates_to_privacy: false
 - id: duration_in_month
-- name: durée en mois
-- description: 
+  name: durée en mois
+  description:
+  relates_to_privacy: false
 - id: purpose
-- name: objectif
-- description: 
+  name: objectif
+  description:
+  relates_to_privacy: false

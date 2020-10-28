@@ -23,6 +23,7 @@
     transition: all 0.5s ease;
     overflow: hidden;
     position: relative;
+    overflow: auto;
     &:nth-child(even) {
       background: lightgreen;
     }
@@ -36,5 +37,9 @@
     display: flex;
     justify-content: center;
     padding: var(--gutter-small);
+    pointer-events: none;
+    button {
+      pointer-events: all;
+    }
   }
 }
