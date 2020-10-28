@@ -200,13 +200,13 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
     metric2 = metrics[1];
     let absMin1, absMax1, absMin2, absMax2;
     if (metric1.id === "Privacy") {
-      absMin1 = min(
+      absMin1 = -max(
         models,
         (d) =>
           d.variables.filter((vName) => -filteredVariables.includes(vName))
             .length
       );
-      absMax1 = max(
+      absMax1 = -min(
         models,
         (d) =>
           d.variables.filter((vName) => -filteredVariables.includes(vName))
@@ -217,13 +217,13 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
       absMax1 = max(models, (d) => +d[metric1.id]);
     }
     if (metric2.id === "Privacy") {
-      absMin2 = min(
+      absMin2 = -max(
         models,
         (d) =>
           d.variables.filter((vName) => -filteredVariables.includes(vName))
             .length
       );
-      absMax2 = max(
+      absMax2 = -min(
         models,
         (d) =>
           d.variables.filter((vName) => -filteredVariables.includes(vName))
@@ -255,13 +255,13 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
 
   useEffect(() => {
     if (metric1.id === "Privacy") {
-      const absMin1 = min(
+      const absMin1 = -max(
         models,
         (d) =>
           d.variables.filter((vName) => -filteredVariables.includes(vName))
             .length
       );
-      const absMax1 = max(
+      const absMax1 = -min(
         models,
         (d) =>
           d.variables.filter((vName) => -filteredVariables.includes(vName))
@@ -271,13 +271,13 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
       setAbsoluteMax1(absMax1);
     }
     if (metric2.id === "Privacy") {
-      const absMin2 = min(
+      const absMin2 = -max(
         models,
         (d) =>
           -d.variables.filter((vName) => filteredVariables.includes(vName))
             .length
       );
-      const absMax2 = max(
+      const absMax2 = -min(
         models,
         (d) =>
           -d.variables.filter((vName) => filteredVariables.includes(vName))

@@ -50,6 +50,7 @@ function BrushableScatterPlot({
   const [isBrushing, setIsBrushing] = useState(false);
 
   const svgRef = useRef(null);
+
   return (
     <div className="brushable-scatterplot-container">
       <svg
@@ -138,8 +139,16 @@ function BrushableScatterPlot({
             };
             const x = xAccessor(datum);
             const y = yAccessor(datum);
-            const xExtent = [xMin, xMax].sort();
-            const yExtent = [yMin, yMax].sort();
+            const xExtent = [xMin, xMax].sort((a, b) => {
+              if (a > b) {
+                return 1;
+              } else return -1;
+            });
+            const yExtent = [yMin, yMax].sort((a, b) => {
+              if (a > b) {
+                return 1;
+              } else return -1;
+            });
             const active =
               x >= xExtent[0] &&
               x <= xExtent[1] &&

@@ -12,7 +12,11 @@ export const filterModels = (models, filters) => {
       switch (type) {
         case "range":
         default:
-          const [min, max] = range;
+          const [min, max] = range.sort((a, b) => {
+            if (a > b) {
+              return 1;
+            } else return -1;
+          });
           return value >= min && value <= max;
       }
     });
