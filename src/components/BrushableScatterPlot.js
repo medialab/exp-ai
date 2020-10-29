@@ -24,6 +24,7 @@ function BrushableScatterPlot({
   onBrushChange,
   readOnly = false,
   minified = false,
+  highlightedNodeId,
 }) {
   const [[xMin, xMax], setXRange] = useState([xMinOriginal, xMaxOriginal]);
   const [[yMin, yMax], setYRange] = useState([yMinOriginal, yMaxOriginal]);
@@ -57,6 +58,7 @@ function BrushableScatterPlot({
   const svgRef = useRef(null);
 
   const handleMouseDown = (e) => {
+    if (readOnly) return;
     setIsBrushing(true);
     setHoveredElement(undefined);
     const svgDims = svgRef.current.getBoundingClientRect();
@@ -67,6 +69,7 @@ function BrushableScatterPlot({
   };
 
   const handleMouseMove = (e) => {
+    if (readOnly) return;
     if (isBrushing) {
       const svgDims = svgRef.current.getBoundingClientRect();
       const thatX = xScale.invert(e.clientX - svgDims.x);
@@ -77,6 +80,7 @@ function BrushableScatterPlot({
   };
 
   const handleMouseUp = () => {
+    if (readOnly) return;
     setIsBrushing(false);
     if (xMin !== xMax && yMin !== yMax) {
       onBrushChange({
@@ -97,7 +101,8 @@ function BrushableScatterPlot({
         ref={svgRef}
         className={cx("brushable-scatterplot", {
           "is-brushing": isBrushing,
-          "is-read-only": readOnly,
+          "is-readonly": readOnly,
+          "is-minified": minified,
         })}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -134,6 +139,7 @@ function BrushableScatterPlot({
             const handleOvered = () => {
               if (
                 !readOnly &&
+                !minified &&
                 !isBrushing &&
                 (!hoveredElement || hoveredElement.id !== datum.id)
               ) {
@@ -147,6 +153,7 @@ function BrushableScatterPlot({
             const handleLeave = () => {
               if (
                 !readOnly &&
+                !minified &&
                 !isBrushing &&
                 hoveredElement &&
                 hoveredElement.id === datum.id
@@ -175,11 +182,15 @@ function BrushableScatterPlot({
               <circle
                 cx={xScale(x)}
                 cy={yScale(y)}
-                className={cx("dot", { active: active })}
+                className={cx("dot", {
+                  "is-active": active,
+                  "is-highlighted":
+                    highlightedNodeId && highlightedNodeId === datum.id,
+                })}
                 onMouseEnter={handleOvered}
                 onMouseMove={handleOvered}
                 onMouseLeave={handleLeave}
-                key={index}
+                key={datum.id}
                 r={width / 200}
               />
             );
@@ -194,7 +205,7 @@ function BrushableScatterPlot({
             top: tooltipPosition[1],
           }}
         >
-          {hoveredElement && !readOnly && (
+          {hoveredElement && !readOnly && !minified && (
             <ul>
               {metrics.map(({ id, name }) => {
                 return (

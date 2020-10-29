@@ -3,11 +3,22 @@
   .brushable-scatterplot {
     background: white;
     cursor: crosshair;
+    &.is-readonly {
+      cursor: default;
+    }
     .dot {
       fill: blue;
       opacity: 0.3;
       pointer-events: all;
       transition: 0.2s ease all;
+
+      &.is-active {
+        opacity: 0.8;
+      }
+      &.is-highlighted {
+        r: 10px;
+        fill: red;
+      }
     }
     &.is-brushing {
       .dot {
@@ -16,9 +27,6 @@
     }
     &:not(.is-readonly) {
       .dot {
-        &.active {
-          opacity: 0.8;
-        }
         &:hover {
           z-index: 5;
           r: 10px;

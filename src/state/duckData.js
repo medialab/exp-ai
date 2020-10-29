@@ -12,6 +12,7 @@ import { SET_METRICS_ORDER_IS_VALIDATED } from "./duckUi";
 const GET_DATA = "GET_DATA";
 export const SET_METRICS_ORDER = "SET_METRICS_ORDER";
 export const ADD_FILTERS = "ADD_FILTERS";
+export const SET_CHOOSEN_MODEL = "SET_CHOOSEN_MODEL";
 
 /**
  * ACTION FUNCTIONS
@@ -32,6 +33,11 @@ export const addFilters = (payload) => ({
   payload,
 });
 
+export const setChoosenModel = (payload) => ({
+  type: SET_CHOOSEN_MODEL,
+  payload,
+});
+
 /**
  * REDUCER
  */
@@ -39,6 +45,7 @@ const DEFAULT_STATE = {
   models: [],
   metricsOrder: [...metrics],
   filters: {},
+  choosenModel: undefined,
 };
 
 function data(state = DEFAULT_STATE, action) {
@@ -71,6 +78,11 @@ function data(state = DEFAULT_STATE, action) {
         ...state,
         filters: DEFAULT_STATE.filters,
       };
+    case SET_CHOOSEN_MODEL:
+      return {
+        ...state,
+        choosenModel: payload,
+      };
     default:
       return state;
   }
@@ -86,9 +98,11 @@ export default data;
 const models = (state) => state.models;
 const metricsOrder = (state) => state.metricsOrder;
 const filters = (state) => state.filters;
+const choosenModel = (state) => state.choosenModel;
 
 export const selector = createStructuredSelector({
   models,
   metricsOrder,
   filters,
+  choosenModel,
 });

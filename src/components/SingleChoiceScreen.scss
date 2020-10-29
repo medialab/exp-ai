@@ -1,0 +1,12 @@
+.single-choice-screen {
+  .model-choice-table {
+    tbody {
+      .model-row {
+        cursor: pointer;
+        &.is-active {
+          background: red;
+        }
+      }
+    }
+  }
+}

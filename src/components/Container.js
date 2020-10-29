@@ -25,10 +25,12 @@ import {
   STEP_METRICS_SORTING,
   STEP_MAIN_CHOICE,
   STEP_SECONDARY_CHOICE_1,
-  // STEP_SECONDARY_CHOICE_2,
-  // STEP_DATAIKU_FEEDBACK,
-  // STEP_CONCLUSION
+  STEP_SECONDARY_CHOICE_2,
+  STEP_MODEL_CHOICE,
+  STEP_DATAIKU_FEEDBACK,
+  STEP_CONCLUSION,
 } from "../constants";
+import SingleChoiceScreen from "./SingleChoiceScreen";
 
 function Container({
   ui: { currentStep, numberOfSteps },
@@ -60,7 +62,25 @@ function Container({
         return <MainChoiceScreen />;
       // second choice
       case STEP_SECONDARY_CHOICE_1:
-        return <SecondChoiceScreen />;
+        return (
+          <SecondChoiceScreen
+            metricsExtent={[2, 3]}
+            previousExtents={[[0, 1]]}
+          />
+        );
+      case STEP_SECONDARY_CHOICE_2:
+        return (
+          <SecondChoiceScreen
+            nextStep={STEP_MODEL_CHOICE}
+            previousExtents={[
+              [0, 1],
+              [2, 3],
+            ]}
+            metricsExtent={[3, 4]}
+          />
+        );
+      case STEP_MODEL_CHOICE:
+        return <SingleChoiceScreen />;
       default:
         return <>Step {stepIndex}</>;
     }
