@@ -1,0 +1,56 @@
+.brushable-scatterplot-container {
+  position: relative;
+  .brushable-scatterplot {
+    background: white;
+    cursor: crosshair;
+    .dot {
+      fill: blue;
+      opacity: 0.3;
+      pointer-events: all;
+      transition: 0.2s ease all;
+    }
+    &.is-brushing {
+      .dot {
+        pointer-events: none;
+      }
+    }
+    &:not(.is-readonly) {
+      .dot {
+        &.active {
+          opacity: 0.8;
+        }
+        &:hover {
+          z-index: 5;
+          r: 10px;
+        }
+      }
+    }
+  }
+
+  .chart-tooltip {
+    position: absolute;
+    background: black;
+    color: white;
+    transition: 0.2s ease all;
+    pointer-events: none;
+    font-size: 0.8rem;
+    padding: var(--gutter-small);
+    transform: scale(0.1);
+    transform-origin: top left;
+    opacity: 0;
+    &.is-active {
+      transform: scale(1);
+      opacity: 1;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      .tooltip-info {
+        &.active {
+          font-weight: 800;
+        }
+      }
+    }
+  }
+}

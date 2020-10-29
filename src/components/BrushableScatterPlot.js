@@ -6,6 +6,8 @@ import { Axis, axisPropsFromTickScale, LEFT, BOTTOM } from "react-d3-axis";
 
 import metrics from "../contents/metrics_list.fr.yml";
 
+import "./BrushableScatterPlot.scss";
+
 function BrushableScatterPlot({
   data,
   xVariable,
@@ -20,9 +22,12 @@ function BrushableScatterPlot({
     y: [yMinOriginal, yMaxOriginal],
   },
   onBrushChange,
+  readOnly = false,
+  minified = false,
 }) {
   const [[xMin, xMax], setXRange] = useState([xMinOriginal, xMaxOriginal]);
   const [[yMin, yMax], setYRange] = useState([yMinOriginal, yMaxOriginal]);
+  const numberOfTicks = minified ? 3 : 10;
   useEffect(() => {
     setXRange([xMinOriginal, xMaxOriginal]);
     setYRange([yMinOriginal, yMaxOriginal]);
@@ -51,50 +56,60 @@ function BrushableScatterPlot({
 
   const svgRef = useRef(null);
 
+  const handleMouseDown = (e) => {
+    setIsBrushing(true);
+    setHoveredElement(undefined);
+    const svgDims = svgRef.current.getBoundingClientRect();
+    const thatX = xScale.invert(e.clientX - svgDims.x);
+    const thatY = yScale.invert(e.clientY - svgDims.y);
+    setXRange([thatX, thatX]);
+    setYRange([thatY, thatY]);
+  };
+
+  const handleMouseMove = (e) => {
+    if (isBrushing) {
+      const svgDims = svgRef.current.getBoundingClientRect();
+      const thatX = xScale.invert(e.clientX - svgDims.x);
+      const thatY = yScale.invert(e.clientY - svgDims.y);
+      setXRange([xMin, thatX]);
+      setYRange([yMin, thatY]);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsBrushing(false);
+    if (xMin !== xMax && yMin !== yMax) {
+      onBrushChange({
+        x: [xMin, xMax].sort(),
+        y: [yMin, yMax].sort(),
+      });
+    } else {
+      setXRange([xMinOriginal, xMaxOriginal]);
+      setYRange([yMinOriginal, yMaxOriginal]);
+    }
+  };
+
   return (
     <div className="brushable-scatterplot-container">
       <svg
         width={width}
         height={height}
         ref={svgRef}
-        className={cx("brushable-scatterplot", { "is-brushing": isBrushing })}
-        onMouseDown={(e) => {
-          setIsBrushing(true);
-          setHoveredElement(undefined);
-          const svgDims = svgRef.current.getBoundingClientRect();
-          const thatX = xScale.invert(e.clientX - svgDims.x);
-          const thatY = yScale.invert(e.clientY - svgDims.y);
-          setXRange([thatX, thatX]);
-          setYRange([thatY, thatY]);
-        }}
-        onMouseMove={(e) => {
-          if (isBrushing) {
-            const svgDims = svgRef.current.getBoundingClientRect();
-            const thatX = xScale.invert(e.clientX - svgDims.x);
-            const thatY = yScale.invert(e.clientY - svgDims.y);
-            setXRange([xMin, thatX]);
-            setYRange([yMin, thatY]);
-          }
-        }}
-        onMouseUp={() => {
-          setIsBrushing(false);
-          if (xMin !== xMax && yMin !== yMax) {
-            onBrushChange({
-              x: [xMin, xMax].sort(),
-              y: [yMin, yMax].sort(),
-            });
-          } else {
-            setXRange([xMinOriginal, xMaxOriginal]);
-            setYRange([yMinOriginal, yMaxOriginal]);
-          }
-        }}
+        className={cx("brushable-scatterplot", {
+          "is-brushing": isBrushing,
+          "is-read-only": readOnly,
+        })}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       >
         <g
           transform={`translate(0, ${height - axisMargin - padding})`}
           className="x-axis"
         >
           <Axis
-            {...axisPropsFromTickScale(xScale, 10)}
+            {...axisPropsFromTickScale(xScale, numberOfTicks)}
             style={{ orient: BOTTOM }}
           />
         </g>
@@ -103,7 +118,7 @@ function BrushableScatterPlot({
           className="y-axis"
         >
           <Axis
-            {...axisPropsFromTickScale(yScale, 10)}
+            {...axisPropsFromTickScale(yScale, numberOfTicks)}
             style={{ orient: LEFT }}
           />
         </g>
@@ -118,6 +133,7 @@ function BrushableScatterPlot({
           {data.map((datum, index) => {
             const handleOvered = () => {
               if (
+                !readOnly &&
                 !isBrushing &&
                 (!hoveredElement || hoveredElement.id !== datum.id)
               ) {
@@ -130,6 +146,7 @@ function BrushableScatterPlot({
             };
             const handleLeave = () => {
               if (
+                !readOnly &&
                 !isBrushing &&
                 hoveredElement &&
                 hoveredElement.id === datum.id
@@ -171,14 +188,13 @@ function BrushableScatterPlot({
       </svg>
       {
         <div
-          className="chart-tooltip"
+          className={cx("chart-tooltip", { "is-active": hoveredElement })}
           style={{
-            opacity: hoveredElement ? 1 : 0,
             left: tooltipPosition[0],
             top: tooltipPosition[1],
           }}
         >
-          {hoveredElement && (
+          {hoveredElement && !readOnly && (
             <ul>
               {metrics.map(({ id, name }) => {
                 return (
