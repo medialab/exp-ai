@@ -6,5 +6,7 @@ step_2_title: Étape 2
 step_3_title: Étape 3
 sort_screen_title: Classer les métriques
 sort_screen_prompt: Veuillez classer les indicateurs dans l'ordre qui vous semble être celui du plus important au moins important
-main_choice_screen_title: Sélectionner des modèles dans les deux dimensions les plus importants
-main_choice_screen_intro: Vous sélectionnez des modèles à partir des deux indicateurs que vous avez définis comme les plus importants
+main_choice_screen_title: Sélectionner des modèles dans les deux dimensions les plus importantes
+main_choice_screen_intro: Veuillez sélectionnez des modèles à partir des deux indicateurs que vous avez définis comme les plus importants
+second_choice_screen_title: Sélectionner des modèles dans les autres dimensions
+second_choice_screen_intro: Veuillez sélectionnez des modèles dans les modèles déjà choisis

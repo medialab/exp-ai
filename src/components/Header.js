@@ -11,13 +11,14 @@ import * as uiDuck from "../state/duckUi";
 import intro from "!!raw-loader!../contents/global_intro.md";
 
 import ContinueButton from "./ContinueButton";
+import { STEP_DATAIKU_PRACTICE } from "../constants";
 
 function Header({ ui: { currentStep }, setCurrentStep }) {
   return (
     <header className="header">
       <h1>{translate("site_title")}</h1>
       <Md source={intro} />
-      <ContinueButton onClick={() => setCurrentStep(currentStep + 1)} />
+      <ContinueButton onClick={() => setCurrentStep(STEP_DATAIKU_PRACTICE)} />
     </header>
   );
 }

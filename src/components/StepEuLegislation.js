@@ -10,15 +10,18 @@ import translate from "../helpers/translate";
 import * as uiDuck from "../state/duckUi";
 import ContinueButton from "./ContinueButton";
 
-import intro from "!!raw-loader!../contents/first_part.md";
+import intro from "!!raw-loader!../contents/principles_eu.md";
+import { STEP_METRICS_EXPLANATION } from "../constants";
 
-function Step1({ ui: { currentStep }, setCurrentStep }) {
+function Step2({ ui: { currentStep }, setCurrentStep }) {
   return (
-    <section className="step-1">
-      <h1>{translate("step_1_title")}</h1>
+    <section className="step-2">
+      <h1>{translate("step_2_title")}</h1>
       <Md source={intro} />
 
-      <ContinueButton onClick={() => setCurrentStep(currentStep + 1)} />
+      <ContinueButton
+        onClick={() => setCurrentStep(STEP_METRICS_EXPLANATION)}
+      />
     </section>
   );
 }
@@ -37,4 +40,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Step1);
+export default connect(mapStateToProps, mapDispatchToProps)(Step2);

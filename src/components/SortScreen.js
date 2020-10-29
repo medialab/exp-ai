@@ -11,6 +11,7 @@ import * as dataDuck from "../state/duckData";
 import ContinueButton from "./ContinueButton";
 
 import { reorder, getItemStyle, getListStyle } from "../helpers/sorting";
+import { STEP_MAIN_CHOICE, STEP_METRICS_SORTING } from "../constants";
 
 // import metrics from "../contents/metrics_list.fr.yml";
 
@@ -35,12 +36,12 @@ function SortScreen({
     );
 
     setMetricsOrder(items);
-    setNumberOfSteps(5);
+    setNumberOfSteps(STEP_METRICS_SORTING);
   };
 
   const handleValidateOrder = () => {
     setMetricsOrderIsValidated(true);
-    setNumberOfSteps(6);
+    setNumberOfSteps(STEP_MAIN_CHOICE);
   };
   return (
     <section className="sort-screen">
@@ -85,8 +86,8 @@ function SortScreen({
         Valider
       </button>
       <ContinueButton
-        disabled={!metricsOrderIsValidated || numberOfSteps <= 5}
-        onClick={() => setCurrentStep(currentStep + 1)}
+        disabled={!metricsOrderIsValidated || numberOfSteps <= STEP_MAIN_CHOICE}
+        onClick={() => setCurrentStep(STEP_MAIN_CHOICE)}
       />
     </section>
   );

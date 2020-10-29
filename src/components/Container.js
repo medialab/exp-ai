@@ -10,11 +10,25 @@ import "./Container.scss";
 
 import StepContainer from "./StepContainer";
 import Header from "./Header";
-import Step1 from "./Step1";
-import Step2 from "./Step2";
+import StepDataikuIntro from "./StepDataikuIntro";
+import StepEuLegislation from "./StepEuLegislation";
+import StepMetricsIntro from "./StepMetricsIntro";
 import SortScreen from "./SortScreen";
-import Step3 from "./Step3";
 import MainChoiceScreen from "./MainChoiceScreen";
+import SecondChoiceScreen from "./SecondChoiceScreen";
+
+import {
+  STEP_HEADER,
+  STEP_DATAIKU_PRACTICE,
+  STEP_EU_LEGISLATION,
+  STEP_METRICS_EXPLANATION,
+  STEP_METRICS_SORTING,
+  STEP_MAIN_CHOICE,
+  STEP_SECONDARY_CHOICE_1,
+  // STEP_SECONDARY_CHOICE_2,
+  // STEP_DATAIKU_FEEDBACK,
+  // STEP_CONCLUSION
+} from "../constants";
 
 function Container({
   ui: { currentStep, numberOfSteps },
@@ -27,23 +41,26 @@ function Container({
   const renderStep = (stepIndex = 0) => {
     switch (stepIndex) {
       // header
-      case 0:
+      case STEP_HEADER:
         return <Header />;
       // intro 1 (dataiku outputs)
-      case 1:
-        return <Step1 />;
+      case STEP_DATAIKU_PRACTICE:
+        return <StepDataikuIntro />;
       // intro 2 (eu priniples)
-      case 2:
-        return <Step2 />;
+      case STEP_EU_LEGISLATION:
+        return <StepEuLegislation />;
       // intro 3 (variables presentation)
-      case 3:
-        return <Step3 />;
+      case STEP_METRICS_EXPLANATION:
+        return <StepMetricsIntro />;
       // sort variables
-      case 4:
+      case STEP_METRICS_SORTING:
         return <SortScreen />;
       // main choice
-      case 5:
+      case STEP_MAIN_CHOICE:
         return <MainChoiceScreen />;
+      // second choice
+      case STEP_SECONDARY_CHOICE_1:
+        return <SecondChoiceScreen />;
       default:
         return <>Step {stepIndex}</>;
     }
