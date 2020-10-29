@@ -153,13 +153,13 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
       const absMin2 = -max(
         models,
         (d) =>
-          -d.variables.filter((vName) => filteredVariables.includes(vName))
+          d.variables.filter((vName) => filteredVariables.includes(vName))
             .length
       );
       const absMax2 = -min(
         models,
         (d) =>
-          -d.variables.filter((vName) => filteredVariables.includes(vName))
+          d.variables.filter((vName) => filteredVariables.includes(vName))
             .length
       );
       setAbsoluteMin2(absMin2);

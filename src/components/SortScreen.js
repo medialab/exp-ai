@@ -36,12 +36,12 @@ function SortScreen({
     );
 
     setMetricsOrder(items);
-    setNumberOfSteps(STEP_METRICS_SORTING);
+    setNumberOfSteps(STEP_METRICS_SORTING + 1);
   };
 
   const handleValidateOrder = () => {
     setMetricsOrderIsValidated(true);
-    setNumberOfSteps(STEP_MAIN_CHOICE);
+    setNumberOfSteps(STEP_MAIN_CHOICE + 1);
   };
   return (
     <section className="sort-screen">

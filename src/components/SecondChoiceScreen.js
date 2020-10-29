@@ -14,6 +14,8 @@ import MetricsCrossingIndicator from "./MetricsCrossingIndicator";
 import FilterForm from "./FilterForm";
 import BrushableScatterPlot from "./BrushableScatterPlot";
 
+import { STEP_SECONDARY_CHOICE_2 } from "../constants";
+
 function SecondChoiceScreen({
   ui: { currentStep, numberOfSteps, mainChoiceIsValidated },
   data: { metricsOrder, models, filters },
@@ -21,73 +23,93 @@ function SecondChoiceScreen({
   setNumberOfSteps,
   setMainChoiceIsValidated,
   addFilters,
-  updateFilter,
+  metricsExtent: [fromMetric, toMetric] = [2, 3],
+  previousExtents = [],
+  nextStep = STEP_SECONDARY_CHOICE_2,
 }) {
   const handleSubmit = (theseFilters) => {
     const [filter1, filter2] = theseFilters;
     addFilters({
-      2: filter1,
-      3: filter2,
+      [fromMetric + ""]: filter1,
+      [toMetric + ""]: filter2,
     });
     setMainChoiceIsValidated(true);
-    setNumberOfSteps(7);
+    setNumberOfSteps(nextStep + 1);
   };
-  let firstFilteredVariables = [filters["0"], filters["1"]].find(
-    (f) => f.variables
-  );
-  firstFilteredVariables = firstFilteredVariables
-    ? firstFilteredVariables.variables
-    : undefined;
+
   return (
-    <section className="main-choice-screen">
+    <section className="second-choice-screen">
       <h1>{translate("second_choice_screen_title")}</h1>
       <p>{translate("second_choice_screen_intro")}</p>
-      {/* mini scatterplot for previous steps */}
-      <BrushableScatterPlot
-        data={models}
-        xVariable={filters["0"].variable}
-        yVariable={filters["1"].variable}
-        filteredVariables={firstFilteredVariables}
-        brush={{
-          x: filters["0"].range,
-          y: filters["1"].range,
-        }}
-        readOnly
-        minified
-        width={200}
-        height={200}
-        onBrushChange={({
-          x: [thatXMin, thatXMax],
-          y: [thatYMin, thatYMax],
-        }) => {
-          addFilters({
-            0: { ...filters["0"], range: [thatXMin, thatXMax] },
-            1: { ...filters["1"], range: [thatYMin, thatYMax] },
-          });
-        }}
-      />
+      {/* mini scatterplots for previous steps */}
+      {previousExtents.map(([from, to], index) => {
+        let theseVariables = [filters[from + ""], filters[to + ""]].find(
+          (f) => f.variables
+        );
+        theseVariables = theseVariables ? theseVariables.variables : undefined;
+        return (
+          <BrushableScatterPlot
+            key={index}
+            data={
+              from === 0
+                ? models
+                : filterModels(
+                    models,
+                    Object.entries(filters)
+                      .filter(([key]) => +key < from)
+                      .map(([_key, filter]) => filter)
+                  )
+            }
+            xVariable={filters[from + ""].variable}
+            yVariable={filters[to + ""].variable}
+            filteredVariables={theseVariables}
+            brush={{
+              x: filters[from + ""].range,
+              y: filters[to + ""].range,
+            }}
+            minified
+            width={200}
+            height={200}
+            onBrushChange={({
+              x: [thatXMin, thatXMax],
+              y: [thatYMin, thatYMax],
+            }) => {
+              addFilters({
+                [from + ""]: {
+                  ...filters[from + ""],
+                  range: [thatXMin, thatXMax],
+                },
+                [to + ""]: { ...filters[to + ""], range: [thatYMin, thatYMax] },
+              });
+            }}
+          />
+        );
+      })}
+
       <MetricsCrossingIndicator
         metrics={metricsOrder.map((m, i) => ({
           ...m,
-          active: i === 2 || i === 3,
+          active: i >= fromMetric && i <= toMetric,
         }))}
       />
       <FilterForm
-        metrics={metricsOrder.slice(2, 4)}
+        metrics={metricsOrder.slice(fromMetric, toMetric + 1)}
         models={filterModels(
           models,
-          Object.entries(filters).map(([_key, filter]) => filter)
+          Object.entries(filters)
+            .filter(([key]) => +key < fromMetric)
+            .map(([_key, filter]) => filter)
         )}
         onSubmit={handleSubmit}
         values={
-          filters["2"] && filters["3"]
-            ? [filters["2"], filters["3"]]
+          filters[fromMetric + ""] && filters[toMetric + ""]
+            ? [filters[fromMetric + ""], filters[toMetric + ""]]
             : undefined
         }
       />
       <ContinueButton
-        disabled={!mainChoiceIsValidated || numberOfSteps <= 7}
-        onClick={() => setCurrentStep(currentStep + 1)}
+        disabled={!mainChoiceIsValidated || numberOfSteps <= nextStep}
+        onClick={() => setCurrentStep(nextStep)}
       />
     </section>
   );
