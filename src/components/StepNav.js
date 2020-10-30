@@ -1,4 +1,7 @@
-import React, { useState, useMemo } from "react";
+import React, {
+  useState,
+  useMemo,
+} from "react"; /* eslint no-unused-vars : 0 */
 import cx from "classnames";
 
 import "./StepNav.scss";

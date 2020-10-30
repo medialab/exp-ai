@@ -1,5 +1,5 @@
 /* eslint import/no-webpack-loader-syntax: off */
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Md from "react-markdown";
@@ -10,10 +10,10 @@ import * as uiDuck from "../state/duckUi";
 
 import intro from "!!raw-loader!../contents/global_intro.md";
 
-import ContinueButton from "./ContinueButton";
+import ContinueButton from "../components/ContinueButton";
 import { STEP_DATAIKU_PRACTICE } from "../constants";
 
-function Header({ ui: { currentStep }, setCurrentStep }) {
+function HeaderContainer({ setCurrentStep }) {
   return (
     <header className="header">
       <h1>{translate("site_title")}</h1>
@@ -37,4 +37,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

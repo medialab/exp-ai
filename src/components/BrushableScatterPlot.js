@@ -1,4 +1,8 @@
-import react, { useEffect, useRef, useState } from "react";
+import react, {
+  useEffect,
+  useRef,
+  useState,
+} from "react"; /* eslint no-unused-vars : 0 */
 import { extent, min } from "d3-array";
 import { scaleLinear } from "d3-scale";
 import cx from "classnames";
@@ -129,13 +133,17 @@ function BrushableScatterPlot({
             style={{ orient: LEFT }}
           />
         </g>
-        <rect
-          x={xScale(min([xMin, xMax]))}
-          y={yScale(min([yMin, yMax])) - Math.abs(yScale(yMax) - yScale(yMin))}
-          width={Math.abs(xScale(xMax) - xScale(xMin))}
-          height={Math.abs(yScale(yMax) - yScale(yMin))}
-          fill="rgba(0,0,0,0.5)"
-        />
+        {xMin && xMax && yMin && yMax ? (
+          <rect
+            x={xScale(min([xMin, xMax]))}
+            y={
+              yScale(min([yMin, yMax])) - Math.abs(yScale(yMax) - yScale(yMin))
+            }
+            width={Math.abs(xScale(xMax) - xScale(xMin))}
+            height={Math.abs(yScale(yMax) - yScale(yMin))}
+            fill="rgba(0,0,0,0.5)"
+          />
+        ) : null}
         <g className="chart">
           {data.map((datum, index) => {
             const handleOvered = () => {

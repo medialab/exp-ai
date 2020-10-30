@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useRef } from "react"; /* eslint no-unused-vars : 0 */
 import { Transition } from "react-transition-group";
 
 const visibleStyle = {
@@ -21,11 +21,13 @@ const transitionStyles = {
 const duration = 300;
 
 function StepContainer({ children, active, style = {}, ...otherProps }) {
+  const nodeRef = useRef(null);
   return (
-    <Transition in={active} timeout={duration}>
+    <Transition nodeRef={nodeRef} in={active} timeout={duration}>
       {(state) => (
         <div
           className="step-container"
+          ref={nodeRef}
           {...otherProps}
           style={{
             ...style,

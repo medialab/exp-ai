@@ -1,4 +1,4 @@
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 import translate from "../helpers/translate";
 
 function ContinueButton({ onClick, disabled }) {

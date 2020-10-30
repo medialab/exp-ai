@@ -1,4 +1,4 @@
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -7,14 +7,12 @@ import translate from "../helpers/translate";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
-import ContinueButton from "./ContinueButton";
-import MetricsCrossingIndicator from "./MetricsCrossingIndicator";
+import MetricsCrossingIndicator from "../components/MetricsCrossingIndicator";
 
-import FilterForm from "./FilterForm";
+import FilterForm from "../components/FilterForm";
 import { STEP_SECONDARY_CHOICE_1 } from "../constants";
 
-function MainChoiceScreen({
-  ui: { currentStep, numberOfSteps, mainChoiceIsValidated },
+function MainChoiceContainer({
   data: { metricsOrder, models, filters },
   setCurrentStep,
   setNumberOfSteps,
@@ -51,10 +49,6 @@ function MainChoiceScreen({
             : undefined
         }
       />
-      {/* <ContinueButton
-        disabled={!mainChoiceIsValidated || numberOfSteps <= 6}
-        onClick={() => setCurrentStep(currentStep + 1)}
-      /> */}
     </section>
   );
 }
@@ -75,4 +69,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainChoiceScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainChoiceContainer);

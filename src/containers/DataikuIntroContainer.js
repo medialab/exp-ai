@@ -1,5 +1,5 @@
 /* eslint import/no-webpack-loader-syntax: off */
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,12 +8,12 @@ import Md from "react-markdown";
 import translate from "../helpers/translate";
 
 import * as uiDuck from "../state/duckUi";
-import ContinueButton from "./ContinueButton";
+import ContinueButton from "../components/ContinueButton";
 
 import intro from "!!raw-loader!../contents/first_part.md";
 import { STEP_EU_LEGISLATION } from "../constants";
 
-function Step1({ ui: { currentStep }, setCurrentStep }) {
+function DataikuIntroContainer({ setCurrentStep }) {
   return (
     <section className="step-1">
       <h1>{translate("step_1_title")}</h1>
@@ -38,4 +38,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Step1);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DataikuIntroContainer);

@@ -1,4 +1,4 @@
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 import cx from "classnames";
 
 import "./MetricsCrossingIndicator.scss";

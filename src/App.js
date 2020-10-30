@@ -1,16 +1,13 @@
 /* eslint import/no-webpack-loader-syntax: off */
-import logo from "./logo.svg";
 import "./App.scss";
 
 import { Provider } from "react-redux";
 import { Helmet } from "react-helmet";
 
-import Container from "./components/Container";
+import Container from "./containers/GlobalContainer";
 
 import configureStore from "./state/store";
 import translate from "./helpers/translate";
-
-import intro from "!!raw-loader!./contents/global_intro.md";
 
 const initialState = {};
 

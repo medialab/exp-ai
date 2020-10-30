@@ -1,16 +1,10 @@
-import react, { useState, useEffect } from "react";
+import react, { useEffect } from "react"; /* eslint no-unused-vars : 0 */
 
 export function useDebounce(fn, values, delay) {
-  // const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
-    // Update debounced value after delay
-    const handler = setTimeout(() => {
-      fn();
-      // setDebouncedValue(value);
-    }, delay);
+    const handler = setTimeout(fn, delay);
     return () => {
       clearTimeout(handler);
     };
-  }, [delay, ...values]);
-  // return debouncedValue;
+  }, [delay, fn, ...values]); /* eslint react-hooks/exhaustive-deps : 0 */
 }

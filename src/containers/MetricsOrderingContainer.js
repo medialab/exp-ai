@@ -1,4 +1,4 @@
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,15 +8,14 @@ import translate from "../helpers/translate";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
-import ContinueButton from "./ContinueButton";
 
 import { reorder, getItemStyle, getListStyle } from "../helpers/sorting";
 import { STEP_MAIN_CHOICE, STEP_METRICS_SORTING } from "../constants";
 
 // import metrics from "../contents/metrics_list.fr.yml";
 
-function SortScreen({
-  ui: { currentStep, numberOfSteps, metricsOrderIsValidated },
+function MetricsOrderingContainer({
+  ui: { metricsOrderIsValidated },
   data: { metricsOrder },
   setCurrentStep,
   setMetricsOrder,
@@ -86,10 +85,6 @@ function SortScreen({
       <button disabled={metricsOrderIsValidated} onClick={handleValidateOrder}>
         Valider
       </button>
-      {/* <ContinueButton
-        disabled={!metricsOrderIsValidated || numberOfSteps <= STEP_MAIN_CHOICE}
-        onClick={() => setCurrentStep(STEP_MAIN_CHOICE)}
-      /> */}
     </section>
   );
 }
@@ -110,4 +105,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(SortScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MetricsOrderingContainer);

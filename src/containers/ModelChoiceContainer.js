@@ -1,4 +1,4 @@
-import react, { createContext, useState } from "react";
+import react, { useState } from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -9,16 +9,16 @@ import { filterModels } from "../helpers/filters";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
-import ContinueButton from "./ContinueButton";
-import BrushableScatterPlot from "./BrushableScatterPlot";
+import ContinueButton from "../components/ContinueButton";
+import BrushableScatterPlot from "../components/BrushableScatterPlot";
 
-import "./SingleChoiceScreen.scss";
+import "./ModelChoiceContainer.scss";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 
 import { STEP_DATAIKU_FEEDBACK } from "../constants";
 
-function SingleChoiceScreen({
+function ModelChoiceContainer({
   ui: { numberOfSteps, mainChoiceIsValidated },
   data: { models, filters, choosenModel },
   setChoosenModel,
@@ -170,4 +170,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleChoiceScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModelChoiceContainer);

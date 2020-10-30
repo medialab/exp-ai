@@ -1,4 +1,7 @@
-import react, { useEffect, useState } from "react";
+import react, {
+  useEffect,
+  useState,
+} from "react"; /* eslint no-unused-vars : 0 */
 
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";

@@ -1,4 +1,4 @@
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 import translate from "../helpers/translate";
 
 import {
@@ -110,7 +110,7 @@ ${history
       <ul className="history-details">
         {history.map(({ action, date }, index) => {
           return (
-            <li key={date}>
+            <li key={index}>
               <div>{new Date(date).toLocaleTimeString()}</div>
               <div>{renderAction(action, date, index)}</div>
             </li>

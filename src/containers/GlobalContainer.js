@@ -1,24 +1,25 @@
-import react, { useEffect } from "react";
+import react, { useEffect } from "react"; /* eslint no-unused-vars : 0 */
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
-import StepNav from "./StepNav";
+import StepNav from "../components/StepNav";
 
-import "./Container.scss";
+import "./GlobalContainer.scss";
 
-import StepContainer from "./StepContainer";
-import Header from "./Header";
-import StepDataikuIntro from "./StepDataikuIntro";
-import StepEuLegislation from "./StepEuLegislation";
-import StepMetricsIntro from "./StepMetricsIntro";
-import SortScreen from "./SortScreen";
-import MainChoiceScreen from "./MainChoiceScreen";
-import SecondChoiceScreen from "./SecondChoiceScreen";
-import DataikuInputs from "./DataikuInputs";
-import SingleChoiceScreen from "./SingleChoiceScreen";
-import StepConclusion from "./StepConclusion";
+import StepContainer from "../components/StepContainer";
+
+import HeaderContainer from "./HeaderContainer";
+import DataikuIntroContainer from "./DataikuIntroContainer";
+import EuLegislationContainer from "./EuLegislationContainer";
+import MetricsIntroContainer from "./MetricsIntroContainer";
+import MetricsOrderingContainer from "./MetricsOrderingContainer";
+import MainChoiceContainer from "./MainChoiceContainer";
+import SecondaryChoiceContainer from "./SecondaryChoiceContainer";
+import DataikuInputsContainer from "./DataikuInputsContainer";
+import ModelChoiceContainer from "./ModelChoiceContainer";
+import ConclusionContainer from "./ConclusionContainer";
 
 import {
   STEP_HEADER,
@@ -34,7 +35,7 @@ import {
   STEP_CONCLUSION,
 } from "../constants";
 
-function Container({
+function GlobalContainer({
   ui: { currentStep, numberOfSteps },
   setCurrentStep,
   startApp,
@@ -43,38 +44,38 @@ function Container({
   useEffect(() => {
     startApp();
     getData();
-  }, []);
+  }, [startApp, getData]);
   const renderStep = (stepIndex = 0) => {
     switch (stepIndex) {
       // header
       case STEP_HEADER:
-        return <Header />;
+        return <HeaderContainer />;
       // intro 1 (dataiku outputs)
       case STEP_DATAIKU_PRACTICE:
-        return <StepDataikuIntro />;
+        return <DataikuIntroContainer />;
       // intro 2 (eu priniples)
       case STEP_EU_LEGISLATION:
-        return <StepEuLegislation />;
+        return <EuLegislationContainer />;
       // intro 3 (variables presentation)
       case STEP_METRICS_EXPLANATION:
-        return <StepMetricsIntro />;
+        return <MetricsIntroContainer />;
       // sort variables
       case STEP_METRICS_SORTING:
-        return <SortScreen />;
+        return <MetricsOrderingContainer />;
       // main choice
       case STEP_MAIN_CHOICE:
-        return <MainChoiceScreen />;
+        return <MainChoiceContainer />;
       // second choice
       case STEP_SECONDARY_CHOICE_1:
         return (
-          <SecondChoiceScreen
+          <SecondaryChoiceContainer
             metricsExtent={[2, 3]}
             previousExtents={[[0, 1]]}
           />
         );
       case STEP_SECONDARY_CHOICE_2:
         return (
-          <SecondChoiceScreen
+          <SecondaryChoiceContainer
             nextStep={STEP_MODEL_CHOICE}
             previousExtents={[
               [0, 1],
@@ -84,11 +85,11 @@ function Container({
           />
         );
       case STEP_MODEL_CHOICE:
-        return <SingleChoiceScreen />;
+        return <ModelChoiceContainer />;
       case STEP_DATAIKU_FEEDBACK:
-        return <DataikuInputs />;
+        return <DataikuInputsContainer />;
       case STEP_CONCLUSION:
-        return <StepConclusion />;
+        return <ConclusionContainer />;
       default:
         return <>Step {stepIndex}</>;
     }
@@ -132,4 +133,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(GlobalContainer);

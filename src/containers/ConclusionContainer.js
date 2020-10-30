@@ -1,8 +1,7 @@
-import react, { useEffect, useState } from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import cx from "classnames";
 
 import translate from "../helpers/translate";
 
@@ -10,13 +9,13 @@ import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
 import * as historyDuck from "../state/duckHistory";
 
-import History from "./History";
+import History from "../components/History";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import { STEP_METRICS_SORTING } from "../constants";
 import downloadFile from "../helpers/download";
 
-function StepConclusion({
+function ConclusionContainer({
   data: { dataikuResults, choosenModel, filters },
   history,
   resetApp,
@@ -120,4 +119,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(StepConclusion);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConclusionContainer);

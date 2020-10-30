@@ -1,4 +1,4 @@
-import react from "react";
+import react from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,16 +8,14 @@ import { filterModels } from "../helpers/filters";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
-import ContinueButton from "./ContinueButton";
-import MetricsCrossingIndicator from "./MetricsCrossingIndicator";
+import MetricsCrossingIndicator from "../components/MetricsCrossingIndicator";
 
-import FilterForm from "./FilterForm";
-import BrushableScatterPlot from "./BrushableScatterPlot";
+import FilterForm from "../components/FilterForm";
+import BrushableScatterPlot from "../components/BrushableScatterPlot";
 
 import { STEP_SECONDARY_CHOICE_2 } from "../constants";
 
-function SecondChoiceScreen({
-  ui: { currentStep, numberOfSteps, mainChoiceIsValidated },
+function SecondChoiceContainer({
   data: { metricsOrder, models, filters },
   setCurrentStep,
   setNumberOfSteps,
@@ -108,10 +106,6 @@ function SecondChoiceScreen({
             : undefined
         }
       />
-      {/* <ContinueButton
-        disabled={!mainChoiceIsValidated || numberOfSteps <= nextStep}
-        onClick={() => setCurrentStep(nextStep)}
-      /> */}
     </section>
   );
 }
@@ -132,4 +126,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondChoiceScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SecondChoiceContainer);

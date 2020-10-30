@@ -1,4 +1,7 @@
-import react, { useEffect, useState } from "react";
+import react, {
+  useEffect,
+  useState,
+} from "react"; /* eslint no-unused-vars : 0 */
 import { min, max } from "d3-array";
 import "./FilterForm.scss";
 
@@ -50,7 +53,7 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
       setChoosenMax2(absoluteMax2);
       setFilteredVariables(defaultFilteredVariables);
     }
-  }, [values]);
+  }, [values]); /* eslint react-hooks/exhaustive-deps : 0 */
 
   useDebounce(
     () => {

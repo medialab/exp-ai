@@ -1,20 +1,22 @@
-import react, { useEffect, useState } from "react";
+import react, {
+  useEffect,
+  useState,
+} from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import cx from "classnames";
 
 import translate from "../helpers/translate";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
-import ContinueButton from "./ContinueButton";
+import ContinueButton from "../components/ContinueButton";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 
 import { STEP_CONCLUSION } from "../constants";
 
-function DataikuInputs({
+function DataikuInputsContainer({
   ui: { numberOfSteps, mainChoiceIsValidated },
   data: { dataikuResults },
   setCurrentStep,
@@ -90,4 +92,7 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataikuInputs);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DataikuInputsContainer);
