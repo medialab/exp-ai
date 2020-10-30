@@ -38,74 +38,92 @@ function SecondChoiceContainer({
 
   return (
     <section className="second-choice-screen">
-      <h1>{translate("second_choice_screen_title")}</h1>
-      <p>{translate("second_choice_screen_intro")}</p>
-      {/* mini scatterplots for previous steps */}
-      {previousExtents.map(([from, to], index) => {
-        let theseVariables = [filters[from + ""], filters[to + ""]].find(
-          (f) => f.variables
-        );
-        theseVariables = theseVariables ? theseVariables.variables : undefined;
-        return (
-          <BrushableScatterPlot
-            key={index}
-            data={
-              from === 0
-                ? models
-                : filterModels(
-                    models,
-                    Object.entries(filters)
-                      .filter(([key]) => +key < from)
-                      .map(([_key, filter]) => filter)
-                  )
-            }
-            xVariable={filters[from + ""].variable}
-            yVariable={filters[to + ""].variable}
-            filteredVariables={theseVariables}
-            brush={{
-              x: filters[from + ""].range,
-              y: filters[to + ""].range,
-            }}
-            minified
-            width={200}
-            height={200}
-            onBrushChange={({
-              x: [thatXMin, thatXMax],
-              y: [thatYMin, thatYMax],
-            }) => {
-              addFilters({
-                [from + ""]: {
-                  ...filters[from + ""],
-                  range: [thatXMin, thatXMax],
-                },
-                [to + ""]: { ...filters[to + ""], range: [thatYMin, thatYMax] },
-              });
-            }}
+      <h1 className="step-title">{translate("second_choice_screen_title")}</h1>
+      <div className="columns-container">
+        <aside className="column is-aside">
+          <p className="instructions">
+            {translate("second_choice_screen_intro")}
+          </p>
+          <MetricsCrossingIndicator
+            metrics={metricsOrder.map((m, i) => ({
+              ...m,
+              active: i >= fromMetric && i <= toMetric,
+            }))}
           />
-        );
-      })}
-
-      <MetricsCrossingIndicator
-        metrics={metricsOrder.map((m, i) => ({
-          ...m,
-          active: i >= fromMetric && i <= toMetric,
-        }))}
-      />
-      <FilterForm
-        metrics={metricsOrder.slice(fromMetric, toMetric + 1)}
-        models={filterModels(
-          models,
-          Object.entries(filters)
-            .filter(([key]) => +key < fromMetric)
-            .map(([_key, filter]) => filter)
-        )}
-        onSubmit={handleSubmit}
-        values={
-          filters[fromMetric + ""] && filters[toMetric + ""]
-            ? [filters[fromMetric + ""], filters[toMetric + ""]]
-            : undefined
-        }
-      />
+          <h4>Vos arbitrages précédents :</h4>
+          {/* mini scatterplots for previous steps */}
+          {previousExtents.map(([from, to], index) => {
+            let theseVariables = [filters[from + ""], filters[to + ""]].find(
+              (f) => f.variables
+            );
+            theseVariables = theseVariables
+              ? theseVariables.variables
+              : undefined;
+            return (
+              <div key={index} className="mini-graph-container">
+                <h5>
+                  <code>{filters[from + ""].variable}</code> vs{" "}
+                  <code>{filters[to + ""].variable}</code>
+                </h5>
+                <BrushableScatterPlot
+                  data={
+                    from === 0
+                      ? models
+                      : filterModels(
+                          models,
+                          Object.entries(filters)
+                            .filter(([key]) => +key < from)
+                            .map(([_key, filter]) => filter)
+                        )
+                  }
+                  xVariable={filters[from + ""].variable}
+                  yVariable={filters[to + ""].variable}
+                  filteredVariables={theseVariables}
+                  brush={{
+                    x: filters[from + ""].range,
+                    y: filters[to + ""].range,
+                  }}
+                  minified
+                  width={200}
+                  height={200}
+                  onBrushChange={({
+                    x: [thatXMin, thatXMax],
+                    y: [thatYMin, thatYMax],
+                  }) => {
+                    addFilters({
+                      [from + ""]: {
+                        ...filters[from + ""],
+                        range: [thatXMin, thatXMax],
+                      },
+                      [to + ""]: {
+                        ...filters[to + ""],
+                        range: [thatYMin, thatYMax],
+                      },
+                    });
+                  }}
+                />
+              </div>
+            );
+          })}
+        </aside>
+        <main className="column is-main">
+          <FilterForm
+            metrics={metricsOrder.slice(fromMetric, toMetric + 1)}
+            models={filterModels(
+              models,
+              Object.entries(filters)
+                .filter(([key]) => +key < fromMetric)
+                .map(([_key, filter]) => filter)
+            )}
+            onSubmit={handleSubmit}
+            values={
+              filters[fromMetric + ""] && filters[toMetric + ""]
+                ? [filters[fromMetric + ""], filters[toMetric + ""]]
+                : undefined
+            }
+          />
+        </main>
+      </div>
     </section>
   );
 }

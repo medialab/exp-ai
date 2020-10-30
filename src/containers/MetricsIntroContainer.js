@@ -15,9 +15,13 @@ import { STEP_METRICS_SORTING } from "../constants";
 
 function MetricsIntroContainer({ setCurrentStep }) {
   return (
-    <section className="step-2">
-      <h1>{translate("step_3_title")}</h1>
-      <Md source={intro} />
+    <section className="step-3 contents-wrapper">
+      <div className="contents-container">
+        <h1 className="step-title">{translate("step_3_title")}</h1>
+        <div className="contents">
+          <Md source={intro} />
+        </div>
+      </div>
 
       <ContinueButton onClick={() => setCurrentStep(STEP_METRICS_SORTING)} />
     </section>

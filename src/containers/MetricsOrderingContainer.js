@@ -3,7 +3,7 @@ import react from "react"; /* eslint no-unused-vars : 0 */
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import cx from "classnames";
 import translate from "../helpers/translate";
 
 import * as uiDuck from "../state/duckUi";
@@ -11,6 +11,7 @@ import * as dataDuck from "../state/duckData";
 
 import { reorder, getItemStyle, getListStyle } from "../helpers/sorting";
 import { STEP_MAIN_CHOICE, STEP_METRICS_SORTING } from "../constants";
+import InfoTip from "../components/InfoTip";
 
 // import metrics from "../contents/metrics_list.fr.yml";
 
@@ -45,15 +46,17 @@ function MetricsOrderingContainer({
   };
   return (
     <section className="sort-screen">
-      <h1>{translate("sort_screen_title")}</h1>
-      <p>{translate("sort_screen_prompt")}</p>
+      <h1 className="step-title">{translate("sort_screen_title")}</h1>
+      <p className="instructions">{translate("sort_screen_prompt")}</p>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
+              className={cx("draggable-list", {
+                "is-dragging": snapshot.isDraggingOver,
+              })}
             >
               {metricsOrder.map((item, index) => (
                 <Draggable
@@ -66,13 +69,26 @@ function MetricsOrderingContainer({
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={getItemStyle(
+                      className={cx("draggable-item", {
+                        "is-dragged": snapshot.isDragging,
+                      })}
+                      style={
+                        provided.draggableProps
+                          .style /*getItemStyle(
                         snapshot.isDragging,
                         provided.draggableProps.style
-                      )}
+                      )*/
+                      }
                     >
-                      <h3>{item.name} </h3>
-                      {/* <p>{item.short_description}</p> */}
+                      <h3>
+                        <span className="number-indicator">{index + 1}</span>
+                        {item.name}{" "}
+                        <InfoTip
+                          data-effect="solid"
+                          data-place="right"
+                          tip={item.short_description}
+                        />
+                      </h3>
                     </div>
                   )}
                 </Draggable>

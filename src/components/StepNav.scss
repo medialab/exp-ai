@@ -6,12 +6,14 @@
     .step-nav-item {
       width: var(--gutter-small);
       height: var(--gutter-small);
-      background: red;
+      background: var(--color-black);
       margin-bottom: var(--gutter-small);
       border-radius: 50%;
       cursor: pointer;
       &:not(.active) {
         opacity: 0.5;
+        border: 1px solid var(--color-black);
+        background: none;
         &:hover {
           opacity: 0.8;
         }

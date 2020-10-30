@@ -1,12 +1,33 @@
 .single-choice-screen {
+  h2 {
+    margin: 0;
+  }
   .model-choice-table {
+    thead th {
+      background: var(--color-black);
+      color: white;
+      vertical-align: top;
+      padding: var(--gutter-small);
+    }
     tbody {
+      font-weight: 400;
       .model-row {
         cursor: pointer;
+        &:nth-child(even) {
+          background: lightgrey;
+        }
         &.is-active {
-          background: red;
+          background: brown;
         }
       }
+    }
+  }
+
+  .mini-graph-title {
+    display: flex;
+    flex-flow: row nowrap;
+    > span:last-of-type {
+      flex: 1;
     }
   }
 }

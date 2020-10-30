@@ -2,6 +2,7 @@ import react from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import Tooltip from "react-tooltip";
 
 import translate from "../helpers/translate";
 
@@ -10,6 +11,7 @@ import * as dataDuck from "../state/duckData";
 import * as historyDuck from "../state/duckHistory";
 
 import History from "../components/History";
+import InfoTip from "../components/InfoTip";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import { STEP_METRICS_SORTING } from "../constants";
@@ -42,38 +44,50 @@ interface;${metricsList
     .join(";")};${privacyVariables.join(", ")}`;
   return (
     <section className="single-choice-screen">
-      <h1>{translate("conclusion_screen_title")}</h1>
-      <div>
+      <h1 className="step-title">{translate("conclusion_screen_title")}</h1>
+      <div className="step-section">
         <h2>{translate("conclusion_results_title")}</h2>
-        <div>
-          <h3>{translate("first_model_dataiku")}</h3>
-          <ul>
-            {metricsList.map(({ id, name }) => {
-              return (
-                <li key={id}>
-                  <span>{name}</span> : {dataikuResults[id]}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <div>
-          <h3>{translate("second_model_choosen")}</h3>
-          <ul>
-            {metricsList.map(({ id, name }) => {
-              const value =
-                id === "Privacy"
-                  ? -choosenModel.variables.filter((vName) =>
-                      privacyVariables.includes(vName)
-                    ).length
-                  : choosenModel[id];
-              return (
-                <li key={id}>
-                  <span>{name}</span> : {value}
-                </li>
-              );
-            })}
-          </ul>
+        <div className="results-container">
+          <div className="result-container">
+            <h3>{translate("first_model_dataiku")}</h3>
+            <ul>
+              {metricsList.map(({ id, name, short_description }) => {
+                return (
+                  <li key={id}>
+                    <span className="label-container">
+                      <code>
+                        {name} <InfoTip tip={short_description} />{" "}
+                      </code>
+                    </span>{" "}
+                    <span>{dataikuResults[id]}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <div className="result-container">
+            <h3>{translate("second_model_choosen")}</h3>
+            <ul>
+              {metricsList.map(({ id, name, short_description }) => {
+                const value =
+                  id === "Privacy"
+                    ? -choosenModel.variables.filter((vName) =>
+                        privacyVariables.includes(vName)
+                      ).length
+                    : choosenModel[id];
+                return (
+                  <li key={id}>
+                    <span className="label-container">
+                      <code>
+                        {name} <InfoTip tip={short_description} />{" "}
+                      </code>
+                    </span>{" "}
+                    <span>{value}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
         <div>
           <button onClick={() => downloadFile(csv, "csv", "modeles_expe")}>
@@ -81,7 +95,7 @@ interface;${metricsList
           </button>
         </div>
       </div>
-      <div>
+      <div className="step-section">
         <h2>{translate("conclusion_history_title")}</h2>
         <History history={history} />
       </div>
@@ -96,6 +110,7 @@ interface;${metricsList
           {translate("restart")}
         </button>
       </div>
+      <Tooltip />
     </section>
   );
 }

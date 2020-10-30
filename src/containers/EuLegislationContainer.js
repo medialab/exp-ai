@@ -15,9 +15,13 @@ import { STEP_METRICS_EXPLANATION } from "../constants";
 
 function EuLegislationContainer({ setCurrentStep }) {
   return (
-    <section className="step-2">
-      <h1>{translate("step_2_title")}</h1>
-      <Md source={intro} />
+    <section className="step-2 contents-wrapper">
+      <div className="contents-container">
+        <h1 className="step-title">{translate("step_2_title")}</h1>
+        <div className="contents">
+          <Md source={intro} />
+        </div>
+      </div>
 
       <ContinueButton
         onClick={() => setCurrentStep(STEP_METRICS_EXPLANATION)}

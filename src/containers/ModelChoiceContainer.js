@@ -45,111 +45,136 @@ function ModelChoiceContainer({
   privacyVariables = privacyVariables && privacyVariables.variables;
   return (
     <section className="single-choice-screen">
-      <h1>{translate("model_choice_screen_title")}</h1>
-      <p>{translate("model_choice_screen_intro")}</p>
-      {/* mini scatterplots for previous steps */}
-      {previousExtents.map(([from, to], index) => {
-        let theseVariables = [filters[from + ""], filters[to + ""]].find(
-          (f) => f.variables
-        );
-        theseVariables = theseVariables ? theseVariables.variables : undefined;
-        return (
-          <BrushableScatterPlot
-            key={index}
-            data={
-              from === 0
-                ? models
-                : filterModels(
-                    models,
-                    Object.entries(filters)
-                      .filter(([key]) => +key < from)
-                      .map(([_key, filter]) => filter)
-                  )
-            }
-            xVariable={filters[from + ""].variable}
-            yVariable={filters[to + ""].variable}
-            filteredVariables={theseVariables}
-            brush={{
-              x: filters[from + ""].range,
-              y: filters[to + ""].range,
-            }}
-            readOnly
-            minified
-            highlightedNodeId={
-              choosenModel
-                ? highlightedNodeId || choosenModel.id
-                : highlightedNodeId
-            }
-            width={200}
-            height={200}
-            onBrushChange={({
-              x: [thatXMin, thatXMax],
-              y: [thatYMin, thatYMax],
-            }) => {
-              addFilters({
-                [from + ""]: {
-                  ...filters[from + ""],
-                  range: [thatXMin, thatXMax],
-                },
-                [to + ""]: { ...filters[to + ""], range: [thatYMin, thatYMax] },
-              });
-            }}
-          />
-        );
-      })}
-      <table className="model-choice-table">
-        <thead>
-          <tr>
-            {metricsList.map(({ name, id }) => (
-              <th key={id}>{name}</th>
-            ))}
-            <th>Variables</th>
-          </tr>
-        </thead>
-        <tbody
-          onMouseLeave={() => {
-            setHighlightedNodeId(undefined);
-          }}
-        >
-          {visibleModels.map((model) => {
-            return (
-              <tr
-                key={model.id}
-                onMouseOver={() => {
-                  setHighlightedNodeId(model.id);
-                }}
-                onClick={() => {
-                  setChoosenModel(model);
-                  setNumberOfSteps(STEP_DATAIKU_FEEDBACK + 1);
-                  setCurrentStep(STEP_DATAIKU_FEEDBACK);
-                }}
-                className={cx("model-row", {
-                  "is-active": choosenModel
-                    ? model.id === highlightedNodeId ||
-                      model.id === choosenModel.id
-                    : model.id === highlightedNodeId,
-                })}
-              >
+      <h1 className="step-title">{translate("model_choice_screen_title")}</h1>
+      <div className="columns-container">
+        <aside className="column is-aside">
+          <p className="instructions">
+            {translate("model_choice_screen_intro")}
+          </p>
+          {/* mini scatterplots for previous steps */}
+          <div className="">
+            {previousExtents.map(([from, to], index) => {
+              let theseVariables = [filters[from + ""], filters[to + ""]].find(
+                (f) => f.variables
+              );
+              theseVariables = theseVariables
+                ? theseVariables.variables
+                : undefined;
+              return (
+                <div key={index} className="mini-graph-container">
+                  <h5 className="mini-graph-title">
+                    <span>
+                      <span className="number-indicator">{index + 1}</span>
+                    </span>
+                    <span>
+                      <code>{filters[from + ""].variable}</code> vs{" "}
+                      <code>{filters[to + ""].variable}</code>
+                    </span>
+                  </h5>
+                  <BrushableScatterPlot
+                    data={
+                      from === 0
+                        ? models
+                        : filterModels(
+                            models,
+                            Object.entries(filters)
+                              .filter(([key]) => +key < from)
+                              .map(([_key, filter]) => filter)
+                          )
+                    }
+                    xVariable={filters[from + ""].variable}
+                    yVariable={filters[to + ""].variable}
+                    filteredVariables={theseVariables}
+                    brush={{
+                      x: filters[from + ""].range,
+                      y: filters[to + ""].range,
+                    }}
+                    readOnly
+                    minified
+                    highlightedNodeId={
+                      choosenModel
+                        ? highlightedNodeId || choosenModel.id
+                        : highlightedNodeId
+                    }
+                    width={200}
+                    height={200}
+                    onBrushChange={({
+                      x: [thatXMin, thatXMax],
+                      y: [thatYMin, thatYMax],
+                    }) => {
+                      addFilters({
+                        [from + ""]: {
+                          ...filters[from + ""],
+                          range: [thatXMin, thatXMax],
+                        },
+                        [to + ""]: {
+                          ...filters[to + ""],
+                          range: [thatYMin, thatYMax],
+                        },
+                      });
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </aside>
+        <main className="column is-main">
+          <table className="model-choice-table">
+            <thead>
+              <tr>
                 {metricsList.map(({ name, id }) => (
-                  <th key={id}>
-                    {id === "Privacy" && privacyVariables
-                      ? -model.variables.filter((vName) =>
-                          privacyVariables.includes(vName)
-                        ).length
-                      : model[id]}
-                  </th>
+                  <th key={id}>{name}</th>
                 ))}
-                <th>{model.variables.join(", ")}</th>
+                <th>Variables</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody
+              onMouseLeave={() => {
+                setHighlightedNodeId(undefined);
+              }}
+            >
+              {visibleModels.map((model) => {
+                return (
+                  <tr
+                    key={model.id}
+                    onMouseOver={() => {
+                      setHighlightedNodeId(model.id);
+                    }}
+                    onClick={() => {
+                      setChoosenModel(model);
+                      setNumberOfSteps(STEP_DATAIKU_FEEDBACK + 1);
+                      setCurrentStep(STEP_DATAIKU_FEEDBACK);
+                    }}
+                    className={cx("model-row", {
+                      "is-active": choosenModel
+                        ? model.id === highlightedNodeId ||
+                          model.id === choosenModel.id
+                        : model.id === highlightedNodeId,
+                    })}
+                  >
+                    {metricsList.map(({ name, id }) => (
+                      <th key={id}>
+                        {id === "Privacy" && privacyVariables
+                          ? -model.variables.filter((vName) =>
+                              privacyVariables.includes(vName)
+                            ).length
+                          : model[id]}
+                      </th>
+                    ))}
+                    <th>{model.variables.join(", ")}</th>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </main>
+      </div>
 
-      <ContinueButton
+      {/* <ContinueButton
         disabled={!mainChoiceIsValidated || numberOfSteps <= nextStep}
         onClick={() => setCurrentStep(nextStep)}
-      />
+      /> */}
     </section>
   );
 }

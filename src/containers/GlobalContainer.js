@@ -1,6 +1,7 @@
 import react, { useEffect } from "react"; /* eslint no-unused-vars : 0 */
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import Tooltip from "react-tooltip";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
@@ -113,6 +114,7 @@ function GlobalContainer({
           numberOfSteps,
         }}
       />
+      <Tooltip />
     </div>
   );
 }

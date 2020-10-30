@@ -6,8 +6,16 @@
     &.is-readonly {
       cursor: default;
     }
+    .brush {
+      fill: black;
+      opacity: 0.3;
+    }
+    text {
+      font-family: var(--font-family-main);
+      user-select: none;
+    }
     .dot {
-      fill: blue;
+      fill: darkolivegreen;
       opacity: 0.3;
       pointer-events: all;
       transition: 0.2s ease all;
@@ -17,7 +25,7 @@
       }
       &.is-highlighted {
         r: 10px;
-        fill: red;
+        fill: brown;
       }
     }
     &.is-brushing {

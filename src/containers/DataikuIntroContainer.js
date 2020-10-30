@@ -15,9 +15,13 @@ import { STEP_EU_LEGISLATION } from "../constants";
 
 function DataikuIntroContainer({ setCurrentStep }) {
   return (
-    <section className="step-1">
-      <h1>{translate("step_1_title")}</h1>
-      <Md source={intro} />
+    <section className="step-1 contents-wrapper">
+      <div className="contents-container">
+        <h1 className="step-title">{translate("step_1_title")}</h1>
+        <div className="emphasis">
+          <Md source={intro} />
+        </div>
+      </div>
 
       <ContinueButton onClick={() => setCurrentStep(STEP_EU_LEGISLATION)} />
     </section>

@@ -39,39 +39,45 @@ function DataikuInputsContainer({
     setCurrentStep(nextStep);
   };
   return (
-    <section className="single-choice-screen">
-      <h1>{translate("dataiku_input_screen_title")}</h1>
-      <p>{translate("dataiku_input_screen_intro")}</p>
-      <form onSubmit={handleSubmit}>
-        <ul>
-          {metricsList.map(({ id, name }) => {
-            const handleChange = (e) => {
-              console.log(id, e.target.value);
-              setData({
-                ...data,
-                [id]: e.target.value,
-              });
-            };
-            return (
-              <li key={id}>
-                <label>{name}</label>
-                <input
-                  placeholder={`entrez vous résultats pour la métrique ${name}`}
-                  value={data[id] || ""}
-                  onChange={handleChange}
-                />
-              </li>
-            );
-          })}
-        </ul>
-        <button type="submit" onClick={handleSubmit}>
-          Valider et passer aux conclusions
-        </button>
-      </form>
-      <ContinueButton
+    <section className="single-choice-screen contents-wrapper">
+      <div className="contents-container">
+        <h1 className="step-title">
+          {translate("dataiku_input_screen_title")}
+        </h1>
+        <p className="instructions">
+          {translate("dataiku_input_screen_intro")}
+        </p>
+        <form className="form" onSubmit={handleSubmit}>
+          <ul>
+            {metricsList.map(({ id, name }) => {
+              const handleChange = (e) => {
+                console.log(id, e.target.value);
+                setData({
+                  ...data,
+                  [id]: e.target.value,
+                });
+              };
+              return (
+                <li key={id}>
+                  <label>{name}</label>
+                  <input
+                    placeholder={`entrez vous résultats pour la métrique ${name}`}
+                    value={data[id] || ""}
+                    onChange={handleChange}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+          <button type="submit" onClick={handleSubmit}>
+            Valider et passer aux conclusions
+          </button>
+        </form>
+        {/* <ContinueButton
         disabled={!mainChoiceIsValidated || numberOfSteps <= nextStep}
         onClick={() => setCurrentStep(nextStep)}
-      />
+      /> */}
+      </div>
     </section>
   );
 }

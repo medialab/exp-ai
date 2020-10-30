@@ -2,12 +2,16 @@
   .crossing-indicator-items {
     list-style: none;
     padding: 0;
+    font-size: 0.8rem;
     .crossing-indicator-item {
       border: 1px solid black;
-      padding: var(--gutter-small);
+      padding: calc(var(--gutter-small) / 2);
       &.active {
         background: black;
         color: white;
+        .info-tip {
+          border-color: white;
+        }
       }
     }
   }

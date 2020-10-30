@@ -90,8 +90,14 @@ function BrushableScatterPlot({
     setIsBrushing(false);
     if (xMin !== xMax && yMin !== yMax) {
       onBrushChange({
-        x: [+xMin.toFixed(DECIMALS), +xMax.toFixed(DECIMALS)].sort(),
-        y: [+yMin.toFixed(DECIMALS), +yMax.toFixed(DECIMALS)].sort(),
+        x: [
+          +xMin.toFixed ? +xMin.toFixed(DECIMALS) : +xMin,
+          +xMax.toFixed ? +xMax.toFixed(DECIMALS) : +xMax,
+        ].sort(),
+        y: [
+          +yMin.toFixed ? +yMin.toFixed(DECIMALS) : +yMin,
+          +yMax.toFixed ? +yMax.toFixed(DECIMALS) : +yMax,
+        ].sort(),
       });
     } else {
       setXRange([xMinOriginal, xMaxOriginal]);
@@ -141,7 +147,7 @@ function BrushableScatterPlot({
             }
             width={Math.abs(xScale(xMax) - xScale(xMin))}
             height={Math.abs(yScale(yMax) - yScale(yMin))}
-            fill="rgba(0,0,0,0.5)"
+            className="brush"
           />
         ) : null}
         <g className="chart">

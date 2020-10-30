@@ -1,9 +1,17 @@
 /**
+ * Fonts
+ */
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@400;700&display=swap");
+/**
  * VARIABLES
  */
 :root {
+  font-size: 18px;
   --gutter-small: 1rem;
-  --gutter-medium: calc(var(--gutter-small) * 2);
+  --gutter-medium: calc(var(--gutter-small) * 1.6);
+  --gutter-large: calc(var(--gutter-small) * 1.6);
+  --color-black: black;
+  --font-family-main: "Karla", sans-serif;
 }
 
 /**
@@ -25,4 +33,219 @@
 .opa-leave.opa-leave-active {
   opacity: 0.01;
   transition: opacity 300ms ease-in;
+}
+/**
+ * GENERAL STYLING
+ */
+button {
+  font-family: var(--font-family-main);
+  background: none;
+  border: 2px solid var(--color-black);
+  padding: var(--gutter-small);
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 700;
+  &[disabled] {
+    border: none;
+    font-weight: 400;
+  }
+  &:hover:not([disabled]) {
+    background: var(--color-black);
+    color: white;
+  }
+}
+/**
+ * WIP
+ */
+.contents-wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+}
+.contents-container {
+  max-width: 1000px;
+  padding-bottom: 5rem;
+}
+
+.header-title {
+  font-size: 3rem;
+}
+.emphasis {
+  font-style: italic;
+  font-size: 2rem;
+}
+
+.step-title {
+  font-size: 2.5rem;
+}
+
+.number-indicator {
+  border: 1px solid var(--color-black);
+  border-radius: 50%;
+  display: inline-block;
+  width: 1.2em;
+  margin-left: 0;
+  text-align: center;
+  margin-right: 1rem;
+  font-size: 0.8em;
+}
+
+.contents {
+  p,
+  ol,
+  ul {
+    font-size: 1.2rem;
+  }
+
+  ol {
+    list-style: none;
+    counter-reset: li;
+    padding: 0;
+  }
+  ol li {
+    margin-bottom: var(--gutter-small);
+  }
+  ol li::before {
+    content: counter(li);
+    counter-increment: li;
+    @extend .number-indicator;
+  }
+}
+
+.draggable-list {
+  // background: lightgrey;
+  padding: 0;
+  border-top: 3px solid var(--color-black);
+  border-bottom: 3px solid var(--color-black);
+  margin-bottom: var(--gutter-large);
+}
+
+.draggable-item {
+  user-select: none;
+  padding: var(--gutter-small);
+  margin: var(--gutter-small) 0;
+  border: 3px solid var(--color-black);
+  background: white;
+  &.is-dragged,
+  &:hover {
+    background: var(--color-black);
+    color: white;
+    .number-indicator,
+    .info-tip {
+      border-color: white;
+    }
+  }
+}
+
+.instructions {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+.columns-container {
+  display: flex;
+  flex-flow: row nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  &.is-centered {
+    justify-content: space-around;
+    .column {
+      flex: 0;
+    }
+  }
+  .column {
+    flex: 1;
+    &.is-main {
+      flex: 3;
+      box-sizing: border-box;
+    }
+    &.is-aside {
+      max-width: 400px;
+      min-width: 400px;
+      margin-right: var(--gutter-medium);
+    }
+    &:not(:first-of-type) {
+      margin-left: var(--gutter-medium);
+    }
+  }
+}
+
+code {
+  font-family: var(--font-family-main);
+  color: white;
+  background: darkgrey;
+  padding: 0.1em 0.3em;
+  .info-tip {
+    border-color: white;
+  }
+}
+
+.form {
+  margin-bottom: 5rem;
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      display: flex;
+      flex-flow: row nowrap;
+      margin-bottom: var(--gutter-small);
+      align-items: center;
+      label {
+        min-width: 30rem;
+        margin-right: var(--gutter-small);
+        text-align: right;
+      }
+      input {
+        font-family: inherit;
+        font-size: 1em;
+        border: 1px solid var(--color-black);
+        box-sizing: border-box;
+        padding: 0.2em;
+        width: 100%;
+        &:focus {
+          outline: none;
+          border-width: 3px;
+        }
+      }
+    }
+  }
+}
+
+.step-section {
+  margin-bottom: var(--gutter-large);
+}
+
+.results-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: stretch;
+  margin-bottom: var(--gutter-small);
+  .result-container {
+    flex: 1;
+    padding: var(--gutter-medium);
+    border: 3px solid var(--color-black);
+    &:not(:last-of-type) {
+      margin-right: var(--gutter-medium);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        margin-bottom: 0.2em;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: stretch;
+        > span {
+          flex: 1;
+        }
+        .label-container {
+          text-align: right;
+          margin-right: 0.2em;
+        }
+      }
+    }
+  }
 }

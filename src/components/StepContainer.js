@@ -1,5 +1,8 @@
 import react, { useRef } from "react"; /* eslint no-unused-vars : 0 */
 import { Transition } from "react-transition-group";
+import cx from "classnames";
+
+import "./StepContainer.scss";
 
 const visibleStyle = {
   opacity: 1,
@@ -26,12 +29,12 @@ function StepContainer({ children, active, style = {}, ...otherProps }) {
     <Transition nodeRef={nodeRef} in={active} timeout={duration}>
       {(state) => (
         <div
-          className="step-container"
+          className={cx("step-container", state)}
           ref={nodeRef}
           {...otherProps}
           style={{
             ...style,
-            ...transitionStyles[state],
+            // ...transitionStyles[state],
           }}
         >
           {children}

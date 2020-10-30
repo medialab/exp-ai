@@ -3,6 +3,7 @@ import react, {
   useState,
 } from "react"; /* eslint no-unused-vars : 0 */
 import { min, max } from "d3-array";
+import Tooltip from "react-tooltip";
 import "./FilterForm.scss";
 
 import BrushableScatterPlot from "./BrushableScatterPlot";
@@ -12,6 +13,7 @@ import { useDebounce } from "../helpers/hooks";
 import { filterModels } from "../helpers/filters";
 import variables from "../contents/variables_list.fr.yml";
 import { DECIMALS } from "../constants";
+import InfoTip from "./InfoTip";
 
 function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
   let [metric1, metric2] = metrics;
@@ -203,55 +205,79 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
   };
   return (
     <form className="filter-form" onSubmit={handleSubmit}>
-      <BrushableScatterPlot
-        data={models}
-        xVariable={metric1.id}
-        yVariable={metric2.id}
-        filteredVariables={filteredVariables}
-        brush={{
-          x: [choosenMin1, choosenMax1],
-          y: [choosenMin2, choosenMax2],
-        }}
-        onBrushChange={handleBrushChange}
-      />
-      <h4>
-        Vous filtrer dans <code>{metric1.name}</code> sur les x et{" "}
-        <code>{metric2.name}</code> sur les y
-      </h4>
-      <p>{filteredModels.length} modèles sélectionnés</p>
+      <div className="columns-container">
+        <div className="column is-main">
+          <BrushableScatterPlot
+            data={models}
+            xVariable={metric1.id}
+            yVariable={metric2.id}
+            filteredVariables={filteredVariables}
+            brush={{
+              x: [choosenMin1, choosenMax1],
+              y: [choosenMin2, choosenMax2],
+            }}
+            onBrushChange={handleBrushChange}
+            width={900}
+            height={600}
+          />
+          <h4>
+            Vous filtrer dans{" "}
+            <code>
+              {metric1.name} <InfoTip tip={metric1.short_description} />
+            </code>{" "}
+            sur les x et{" "}
+            <code>
+              {metric2.name} <InfoTip tip={metric2.short_description} />
+            </code>{" "}
+            sur les y
+          </h4>
+          <p>
+            <span className="count-indicator">{filteredModels.length}</span>{" "}
+            modèles sélectionnés
+          </p>
+        </div>
+        <div className="column is-aside">
+          <VariableInputs
+            metric={metric1}
+            values={[choosenMin1, choosenMax1]}
+            min={absoluteMin1}
+            max={absoluteMax1}
+            axis={"abscisses"}
+            filteredVariables={filteredVariables}
+            onRangeChange={([thatMin, thatMax]) => {
+              setChoosenMin1(thatMin);
+              setChoosenMax1(thatMax);
+            }}
+            onFilteredVariablesChange={(theseVars) => {
+              setFilteredVariables(theseVars);
+            }}
+          />
+          <VariableInputs
+            metric={metric2}
+            values={[choosenMin2, choosenMax2]}
+            min={absoluteMin2}
+            max={absoluteMax2}
+            filteredVariables={filteredVariables}
+            axis={"ordonnées"}
+            onRangeChange={([thatMin, thatMax]) => {
+              setChoosenMin2(thatMin);
+              setChoosenMax2(thatMax);
+            }}
+            onFilteredVariablesChange={(theseVars) => {
+              setFilteredVariables(theseVars);
+            }}
+          />
+        </div>
+      </div>
 
-      <VariableInputs
-        metric={metric1}
-        values={[choosenMin1, choosenMax1]}
-        min={absoluteMin1}
-        max={absoluteMax1}
-        filteredVariables={filteredVariables}
-        onRangeChange={([thatMin, thatMax]) => {
-          setChoosenMin1(thatMin);
-          setChoosenMax1(thatMax);
-        }}
-        onFilteredVariablesChange={(theseVars) => {
-          setFilteredVariables(theseVars);
-        }}
-      />
-      <VariableInputs
-        metric={metric2}
-        values={[choosenMin2, choosenMax2]}
-        min={absoluteMin2}
-        max={absoluteMax2}
-        filteredVariables={filteredVariables}
-        onRangeChange={([thatMin, thatMax]) => {
-          setChoosenMin2(thatMin);
-          setChoosenMax2(thatMax);
-        }}
-        onFilteredVariablesChange={(theseVars) => {
-          setFilteredVariables(theseVars);
-        }}
-      />
-
-      <button onClick={handleValidate} type="submit">
+      <button
+        onClick={handleValidate}
+        type="submit"
+        className="continue-button"
+      >
         Valider
       </button>
+      <Tooltip id="tip" />
     </form>
   );
 }

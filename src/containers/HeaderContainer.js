@@ -15,9 +15,13 @@ import { STEP_DATAIKU_PRACTICE } from "../constants";
 
 function HeaderContainer({ setCurrentStep }) {
   return (
-    <header className="header">
-      <h1>{translate("site_title")}</h1>
-      <Md source={intro} />
+    <header className="header contents-wrapper">
+      <div className="contents-container">
+        <h1 className="header-title">{translate("site_title")}</h1>
+        <div className="emphasis">
+          <Md source={intro} />
+        </div>
+      </div>
       <ContinueButton onClick={() => setCurrentStep(STEP_DATAIKU_PRACTICE)} />
     </header>
   );

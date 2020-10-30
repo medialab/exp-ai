@@ -1,0 +1,17 @@
+.history {
+  .history-details {
+    list-style: none;
+    padding: 0;
+  }
+  .history-item {
+    padding: var(--gutter-small);
+    margin-bottom: var(--gutter-small);
+    border: 2px solid var(--color-black);
+    display: flex;
+    flex-flow: row nowrap;
+    .date-container {
+      width: 5rem;
+      margin-right: var(--gutter-small);
+    }
+  }
+}

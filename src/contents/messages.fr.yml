@@ -1,23 +1,23 @@
 site_title: Pratiques de l'IA
 step: étape
 next_step: continuer
-step_1_title: Étape 1
-step_2_title: Étape 2
-step_3_title: Étape 3
-sort_screen_title: Classer les métriques
-sort_screen_prompt: Veuillez classer les indicateurs dans l'ordre qui vous semble être celui du plus important au moins important
+step_1_title: "Étape 1 : expérimentation avec dataiku"
+step_2_title: "Étape 2 : la législation européenne"
+step_3_title: "Étape 3 : mesurer l'éthique ?"
+sort_screen_title: Classer les indicateurs
+sort_screen_prompt: Veuillez classer les indicateurs dans l'ordre qui vous semble être celui du plus important au moins important.
 main_choice_screen_title: Sélectionner des modèles dans les deux dimensions les plus importantes
-main_choice_screen_intro: Veuillez sélectionnez des modèles à partir des deux indicateurs que vous avez définis comme les plus importants
+main_choice_screen_intro: Veuillez sélectionnez des modèles à partir des deux indicateurs que vous avez définis comme les plus importants.
 second_choice_screen_title: Sélectionner des modèles dans les autres dimensions
-second_choice_screen_intro: Veuillez sélectionnez des modèles dans les modèles déjà choisis
+second_choice_screen_intro: Veuillez sélectionnez des modèles à partir des filtrages précédents.
 model_choice_screen_title: Choisir un modèle
-model_choice_screen_intro: Veuillez sélectionnez le modèle qui correspond à vos préférences
+model_choice_screen_intro: Veuillez sélectionnez le modèle qui correspond à vos préférences.
 dataiku_input_screen_title: Avant de voir vos résultats, entrez les métriques de votre première expérience
-dataiku_input_screen_intro: Veuillez renseigner les informations pour les métriques fournies
+dataiku_input_screen_intro: Veuillez renseigner les informations pour les métriques fournies.
 conclusion_screen_title: Conclusion
 conclusion_results_title: Vos résultats
 conclusion_history_title: Votre historique
-restart: Recommencer
+restart: Recommencer l'expérience
 navigated_to: A navigué sur
 add_filters: A ajouté des filtres pour les indicateurs
 app_header_view: l'accueil
@@ -37,5 +37,6 @@ changed_metrics_order_to: A changé l'ordre des indicateurs pour
 started_the_app: A commencé l'expérimentation
 and: et
 download: télécharger
+download_history: télécharger l'historique
 first_model_dataiku: Premier modèle issu de l'expérience avec Dataiku
 second_model_choosen: Second modèle issu de l'expérience avec cette interface

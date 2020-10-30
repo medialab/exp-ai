@@ -24,6 +24,8 @@ import {
 } from "../constants";
 import downloadFile from "../helpers/download";
 
+import "./History.scss";
+
 const serializeStep = (payload) => {
   switch (payload) {
     case STEP_HEADER:
@@ -110,8 +112,10 @@ ${history
       <ul className="history-details">
         {history.map(({ action, date }, index) => {
           return (
-            <li key={index}>
-              <div>{new Date(date).toLocaleTimeString()}</div>
+            <li className="history-item" key={index}>
+              <div className="date-container">
+                <code>{new Date(date).toLocaleTimeString()}</code>
+              </div>
               <div>{renderAction(action, date, index)}</div>
             </li>
           );
@@ -119,7 +123,7 @@ ${history
       </ul>
       <div>
         <button onClick={() => downloadFile(csv, "csv", "history")}>
-          {translate("download")}
+          {translate("download_history")}
         </button>
       </div>
     </div>

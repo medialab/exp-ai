@@ -31,24 +31,32 @@ function MainChoiceContainer({
   };
   return (
     <section className="main-choice-screen">
-      <h1>{translate("main_choice_screen_title")}</h1>
-      <p>{translate("main_choice_screen_intro")}</p>
-      <MetricsCrossingIndicator
-        metrics={metricsOrder.map((m, i) => ({
-          ...m,
-          active: i <= 1,
-        }))}
-      />
-      <FilterForm
-        metrics={metricsOrder.slice(0, 2)}
-        models={models}
-        onSubmit={handleSubmit}
-        values={
-          filters["0"] && filters["1"]
-            ? [filters["0"], filters["1"]]
-            : undefined
-        }
-      />
+      <h1 className="step-title">{translate("main_choice_screen_title")}</h1>
+      <div className="columns-container">
+        <aside className="column is-aside">
+          <p className="instructions">
+            {translate("main_choice_screen_intro")}
+          </p>
+          <MetricsCrossingIndicator
+            metrics={metricsOrder.map((m, i) => ({
+              ...m,
+              active: i <= 1,
+            }))}
+          />
+        </aside>
+        <main className="column is-main">
+          <FilterForm
+            metrics={metricsOrder.slice(0, 2)}
+            models={models}
+            onSubmit={handleSubmit}
+            values={
+              filters["0"] && filters["1"]
+                ? [filters["0"], filters["1"]]
+                : undefined
+            }
+          />
+        </main>
+      </div>
     </section>
   );
 }
