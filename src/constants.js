@@ -9,3 +9,4 @@ export const STEP_SECONDARY_CHOICE_2 = 7;
 export const STEP_MODEL_CHOICE = 8;
 export const STEP_DATAIKU_FEEDBACK = 9;
 export const STEP_CONCLUSION = 10;
+export const DECIMALS = 4;

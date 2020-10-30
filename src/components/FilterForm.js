@@ -8,6 +8,7 @@ import VariableInputs from "./VariableInputs";
 import { useDebounce } from "../helpers/hooks";
 import { filterModels } from "../helpers/filters";
 import variables from "../contents/variables_list.fr.yml";
+import { DECIMALS } from "../constants";
 
 function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
   let [metric1, metric2] = metrics;
@@ -113,16 +114,16 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
       absMax2 = max(models, (d) => +d[metric2.id]);
     }
 
-    setAbsoluteMin1(absMin1);
-    setAbsoluteMax1(absMax1);
-    setAbsoluteMin2(absMin2);
-    setAbsoluteMax2(absMax2);
+    setAbsoluteMin1(absMin1.toFixed(DECIMALS));
+    setAbsoluteMax1(absMax1.toFixed(DECIMALS));
+    setAbsoluteMin2(absMin2.toFixed(DECIMALS));
+    setAbsoluteMax2(absMax2.toFixed(DECIMALS));
 
     if (!values) {
-      setChoosenMin1(absMin1);
-      setChoosenMax1(absMax1);
-      setChoosenMin2(absMin2);
-      setChoosenMax2(absMax2);
+      setChoosenMin1(absMin1.toFixed(DECIMALS));
+      setChoosenMax1(absMax1.toFixed(DECIMALS));
+      setChoosenMin2(absMin2.toFixed(DECIMALS));
+      setChoosenMax2(absMax2.toFixed(DECIMALS));
     }
 
     setFilteredVariables(

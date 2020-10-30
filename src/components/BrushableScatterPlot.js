@@ -6,6 +6,8 @@ import { Axis, axisPropsFromTickScale, LEFT, BOTTOM } from "react-d3-axis";
 
 import metrics from "../contents/metrics_list.fr.yml";
 
+import { DECIMALS } from "../constants";
+
 import "./BrushableScatterPlot.scss";
 
 function BrushableScatterPlot({
@@ -84,8 +86,8 @@ function BrushableScatterPlot({
     setIsBrushing(false);
     if (xMin !== xMax && yMin !== yMax) {
       onBrushChange({
-        x: [xMin, xMax].sort(),
-        y: [yMin, yMax].sort(),
+        x: [+xMin.toFixed(DECIMALS), +xMax.toFixed(DECIMALS)].sort(),
+        y: [+yMin.toFixed(DECIMALS), +yMax.toFixed(DECIMALS)].sort(),
       });
     } else {
       setXRange([xMinOriginal, xMaxOriginal]);
