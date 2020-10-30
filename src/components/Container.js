@@ -16,6 +16,9 @@ import StepMetricsIntro from "./StepMetricsIntro";
 import SortScreen from "./SortScreen";
 import MainChoiceScreen from "./MainChoiceScreen";
 import SecondChoiceScreen from "./SecondChoiceScreen";
+import DataikuInputs from "./DataikuInputs";
+import SingleChoiceScreen from "./SingleChoiceScreen";
+import StepConclusion from "./StepConclusion";
 
 import {
   STEP_HEADER,
@@ -30,14 +33,15 @@ import {
   STEP_DATAIKU_FEEDBACK,
   STEP_CONCLUSION,
 } from "../constants";
-import SingleChoiceScreen from "./SingleChoiceScreen";
 
 function Container({
   ui: { currentStep, numberOfSteps },
   setCurrentStep,
+  startApp,
   getData,
 }) {
   useEffect(() => {
+    startApp();
     getData();
   }, []);
   const renderStep = (stepIndex = 0) => {
@@ -81,6 +85,10 @@ function Container({
         );
       case STEP_MODEL_CHOICE:
         return <SingleChoiceScreen />;
+      case STEP_DATAIKU_FEEDBACK:
+        return <DataikuInputs />;
+      case STEP_CONCLUSION:
+        return <StepConclusion />;
       default:
         return <>Step {stepIndex}</>;
     }

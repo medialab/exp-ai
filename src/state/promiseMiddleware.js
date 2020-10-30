@@ -6,7 +6,9 @@
  * (ACTION_NAME when started, then ACTION_NAME_SUCCESS or ACTION_NAME_FAIL depending on promise outcome)
  */
 
-export default () => ({ dispatch, getState }) => (next) => (action) => {
+const promiseMiddleware = () => ({ dispatch, getState }) => (next) => (
+  action
+) => {
   // If the action is a function, execute it
   if (typeof action === "function") {
     return action(dispatch, getState);
@@ -44,3 +46,5 @@ export default () => ({ dispatch, getState }) => (next) => (action) => {
     })
     .catch((error) => next({ ...rest, error, type: FAIL }));
 };
+
+export default promiseMiddleware;

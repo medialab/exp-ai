@@ -13,10 +13,15 @@ const GET_DATA = "GET_DATA";
 export const SET_METRICS_ORDER = "SET_METRICS_ORDER";
 export const ADD_FILTERS = "ADD_FILTERS";
 export const SET_CHOOSEN_MODEL = "SET_CHOOSEN_MODEL";
+export const SET_DATAIKU_RESULTS = "SET_DATAIKU_RESULTS";
+export const RESET_APP = "RESET_APP";
 
 /**
  * ACTION FUNCTIONS
  */
+export const resetApp = () => ({
+  type: RESET_APP,
+});
 export const getData = (payload) => ({
   type: GET_DATA,
   payload,
@@ -38,6 +43,11 @@ export const setChoosenModel = (payload) => ({
   payload,
 });
 
+export const setDataikuResults = (payload) => ({
+  type: SET_DATAIKU_RESULTS,
+  payload,
+});
+
 /**
  * REDUCER
  */
@@ -46,13 +56,17 @@ const DEFAULT_STATE = {
   metricsOrder: [...metrics],
   filters: {},
   choosenModel: undefined,
+  dataikuResults: {},
 };
 
 function data(state = DEFAULT_STATE, action) {
   const { payload, result } = action;
   switch (action.type) {
-    case "RESET_APP":
-      return DEFAULT_STATE;
+    case RESET_APP:
+      return {
+        ...DEFAULT_STATE,
+        models: state.models,
+      };
     case `${GET_DATA}`:
       return state;
     case `${GET_DATA}_SUCCESS`:
@@ -78,11 +92,9 @@ function data(state = DEFAULT_STATE, action) {
         ...state,
         filters: DEFAULT_STATE.filters,
       };
+    case SET_DATAIKU_RESULTS:
     case SET_CHOOSEN_MODEL:
-      return {
-        ...state,
-        choosenModel: payload,
-      };
+      return setPropInState(action.type, payload, state);
     default:
       return state;
   }
@@ -99,10 +111,12 @@ const models = (state) => state.models;
 const metricsOrder = (state) => state.metricsOrder;
 const filters = (state) => state.filters;
 const choosenModel = (state) => state.choosenModel;
+const dataikuResults = (state) => state.dataikuResults;
 
 export const selector = createStructuredSelector({
   models,
   metricsOrder,
   filters,
   choosenModel,
+  dataikuResults,
 });

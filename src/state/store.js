@@ -16,7 +16,6 @@ import { rememberEnhancer } from "redux-remember";
 export default function configureStore(initialState = {}) {
   // Compose final middleware with thunk and promises handling
   const middleware = applyMiddleware(promiseMiddleware());
-
   // Create final store and subscribe router in debug env ie. for devtools
   const createStoreWithMiddleware = window.__REDUX_DEVTOOLS_EXTENSION__
     ? compose(

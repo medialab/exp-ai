@@ -4,11 +4,12 @@ import { setPropInState } from "../helpers/stateHelpers";
 /**
  * ACTION NAMES
  */
-import { SET_METRICS_ORDER } from "./duckData";
-const SET_CURRENT_STEP = "SET_CURRENT_STEP";
+import { SET_METRICS_ORDER, RESET_APP } from "./duckData";
+export const SET_CURRENT_STEP = "SET_CURRENT_STEP";
 const SET_NUMBER_OF_STEPS = "SET_NUMBER_OF_STEPS";
 export const SET_METRICS_ORDER_IS_VALIDATED = "SET_METRICS_ORDER_IS_VALIDATED";
 export const SET_MAIN_CHOICE_IS_VALIDATED = "SET_MAIN_CHOICE_IS_VALIDATED";
+export const START_APP = "START_APP";
 
 /**
  * ACTION FUNCTIONS
@@ -31,6 +32,11 @@ export const setMainChoiceIsValidated = (payload) => ({
   payload,
 });
 
+export const startApp = (payload) => ({
+  type: START_APP,
+  payload,
+});
+
 /**
  * REDUCER
  */
@@ -44,7 +50,7 @@ const DEFAULT_STATE = {
 function ui(state = DEFAULT_STATE, action) {
   const { payload } = action;
   switch (action.type) {
-    case "RESET_APP":
+    case RESET_APP:
       return DEFAULT_STATE;
     case SET_CURRENT_STEP:
     case SET_NUMBER_OF_STEPS:

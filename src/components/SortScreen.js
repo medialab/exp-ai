@@ -42,6 +42,7 @@ function SortScreen({
   const handleValidateOrder = () => {
     setMetricsOrderIsValidated(true);
     setNumberOfSteps(STEP_MAIN_CHOICE + 1);
+    setCurrentStep(STEP_MAIN_CHOICE);
   };
   return (
     <section className="sort-screen">
@@ -85,10 +86,10 @@ function SortScreen({
       <button disabled={metricsOrderIsValidated} onClick={handleValidateOrder}>
         Valider
       </button>
-      <ContinueButton
+      {/* <ContinueButton
         disabled={!metricsOrderIsValidated || numberOfSteps <= STEP_MAIN_CHOICE}
         onClick={() => setCurrentStep(STEP_MAIN_CHOICE)}
-      />
+      /> */}
     </section>
   );
 }

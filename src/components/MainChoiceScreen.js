@@ -11,6 +11,7 @@ import ContinueButton from "./ContinueButton";
 import MetricsCrossingIndicator from "./MetricsCrossingIndicator";
 
 import FilterForm from "./FilterForm";
+import { STEP_SECONDARY_CHOICE_1 } from "../constants";
 
 function MainChoiceScreen({
   ui: { currentStep, numberOfSteps, mainChoiceIsValidated },
@@ -27,7 +28,8 @@ function MainChoiceScreen({
       1: filter2,
     });
     setMainChoiceIsValidated(true);
-    setNumberOfSteps(7);
+    setNumberOfSteps(STEP_SECONDARY_CHOICE_1 + 1);
+    setCurrentStep(STEP_SECONDARY_CHOICE_1);
   };
   return (
     <section className="main-choice-screen">
@@ -49,10 +51,10 @@ function MainChoiceScreen({
             : undefined
         }
       />
-      <ContinueButton
+      {/* <ContinueButton
         disabled={!mainChoiceIsValidated || numberOfSteps <= 6}
         onClick={() => setCurrentStep(currentStep + 1)}
-      />
+      /> */}
     </section>
   );
 }

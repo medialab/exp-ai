@@ -35,6 +35,7 @@ function SecondChoiceScreen({
     });
     setMainChoiceIsValidated(true);
     setNumberOfSteps(nextStep + 1);
+    setCurrentStep(nextStep);
   };
 
   return (
@@ -107,10 +108,10 @@ function SecondChoiceScreen({
             : undefined
         }
       />
-      <ContinueButton
+      {/* <ContinueButton
         disabled={!mainChoiceIsValidated || numberOfSteps <= nextStep}
         onClick={() => setCurrentStep(nextStep)}
-      />
+      /> */}
     </section>
   );
 }

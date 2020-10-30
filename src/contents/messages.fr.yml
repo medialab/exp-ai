@@ -12,3 +12,30 @@ second_choice_screen_title: Sélectionner des modèles dans les autres dimension
 second_choice_screen_intro: Veuillez sélectionnez des modèles dans les modèles déjà choisis
 model_choice_screen_title: Choisir un modèle
 model_choice_screen_intro: Veuillez sélectionnez le modèle qui correspond à vos préférences
+dataiku_input_screen_title: Avant de voir vos résultats, entrez les métriques de votre première expérience
+dataiku_input_screen_intro: Veuillez renseigner les informations pour les métriques fournies
+conclusion_screen_title: Conclusion
+conclusion_results_title: Vos résultats
+conclusion_history_title: Votre historique
+restart: Recommencer
+navigated_to: A navigué sur
+add_filters: A ajouté des filtres pour les indicateurs
+app_header_view: l'accueil
+dataiku_practice_view: la vue dédiée à la phase d'expérimentation avec Heroku
+eu_legislation_view: la vue dédiée à la legislation européenne
+metrics_explanation_view: la vue dédiée à l'explication des indicateurs
+metrics_sorting_view: la vue dédiée à l'ordonnancement des indicateurs
+main_filter_view: la vue dédiée au filtre principal
+secondary_filter_view: la vue dédiée au filtre secondaire
+tertiary_filter_view: la vue dédiée au filtre tertiaire
+model_choice_view: la vue dédiée au choix du modèle
+dataiku_feedback_view: la vue dédiée à entrer les informations heroku
+conclusion_view: la vue de conclusion
+set_choosen_model: A choisi son modèle
+set_dataiku_results: A entré les résultats obtenus via dataiku 
+changed_metrics_order_to: A changé l'ordre des indicateurs pour 
+started_the_app: A commencé l'expérimentation
+and: et
+download: télécharger
+first_model_dataiku: Premier modèle issu de l'expérience avec Dataiku
+second_model_choosen: Second modèle issu de l'expérience avec cette interface
