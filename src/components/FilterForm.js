@@ -119,16 +119,16 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
       absMax2 = max(models, (d) => +d[metric2.id]);
     }
 
-    setAbsoluteMin1(absMin1.toFixed(DECIMALS));
-    setAbsoluteMax1(absMax1.toFixed(DECIMALS));
-    setAbsoluteMin2(absMin2.toFixed(DECIMALS));
-    setAbsoluteMax2(absMax2.toFixed(DECIMALS));
+    setAbsoluteMin1(+absMin1.toFixed(DECIMALS));
+    setAbsoluteMax1(+absMax1.toFixed(DECIMALS));
+    setAbsoluteMin2(+absMin2.toFixed(DECIMALS));
+    setAbsoluteMax2(+absMax2.toFixed(DECIMALS));
 
     if (!values) {
-      setChoosenMin1(absMin1.toFixed(DECIMALS));
-      setChoosenMax1(absMax1.toFixed(DECIMALS));
-      setChoosenMin2(absMin2.toFixed(DECIMALS));
-      setChoosenMax2(absMax2.toFixed(DECIMALS));
+      setChoosenMin1(+absMin1.toFixed(DECIMALS));
+      setChoosenMax1(+absMax1.toFixed(DECIMALS));
+      setChoosenMin2(+absMin2.toFixed(DECIMALS));
+      setChoosenMax2(+absMax2.toFixed(DECIMALS));
     }
 
     setFilteredVariables(
@@ -274,6 +274,7 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
         onClick={handleValidate}
         type="submit"
         className="continue-button"
+        disabled={!filteredModels.length}
       >
         Valider
       </button>
