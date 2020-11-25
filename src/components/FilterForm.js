@@ -198,10 +198,10 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
     x: [thatXMin, thatXMax],
     y: [thatYMin, thatYMax],
   }) => {
-    setChoosenMin1(thatXMin);
-    setChoosenMax1(thatXMax);
-    setChoosenMin2(thatYMin);
-    setChoosenMax2(thatYMax);
+    setChoosenMin1(+thatXMin.toFixed(DECIMALS));
+    setChoosenMax1(+thatXMax.toFixed(DECIMALS));
+    setChoosenMin2(+thatYMin.toFixed(DECIMALS));
+    setChoosenMax2(+thatYMax.toFixed(DECIMALS));
   };
   return (
     <form className="filter-form" onSubmit={handleSubmit}>
