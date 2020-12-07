@@ -13,7 +13,7 @@ import ContinueButton from "../components/ContinueButton";
 import intro from "!!raw-loader!../contents/first_part.md";
 import { STEP_EU_LEGISLATION } from "../constants";
 
-function DataikuIntroContainer({ setCurrentStep }) {
+function DataikuIntroContainer({ setCurrentStep, currentStep }) {
   return (
     <section className="step-1 contents-wrapper">
       <div className="contents-container">
@@ -23,7 +23,10 @@ function DataikuIntroContainer({ setCurrentStep }) {
         </div>
       </div>
 
-      <ContinueButton onClick={() => setCurrentStep(STEP_EU_LEGISLATION)} />
+      <ContinueButton
+        currentStep={currentStep}
+        onSetCurrentStep={setCurrentStep}
+      />
     </section>
   );
 }

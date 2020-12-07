@@ -170,11 +170,6 @@ function ModelChoiceContainer({
           </table>
         </main>
       </div>
-
-      {/* <ContinueButton
-        disabled={!mainChoiceIsValidated || numberOfSteps <= nextStep}
-        onClick={() => setCurrentStep(nextStep)}
-      /> */}
     </section>
   );
 }

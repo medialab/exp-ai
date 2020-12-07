@@ -24,6 +24,7 @@ function SecondChoiceContainer({
   metricsExtent: [fromMetric, toMetric] = [2, 3],
   previousExtents = [],
   nextStep = STEP_SECONDARY_CHOICE_2,
+  currentStep,
 }) {
   const handleSubmit = (theseFilters) => {
     const [filter1, filter2] = theseFilters;
@@ -34,6 +35,9 @@ function SecondChoiceContainer({
     setMainChoiceIsValidated(true);
     setNumberOfSteps(nextStep + 1);
     setCurrentStep(nextStep);
+  };
+  const handlePreviousStep = () => {
+    setCurrentStep(currentStep - 1);
   };
 
   return (
@@ -116,6 +120,7 @@ function SecondChoiceContainer({
                 .map(([_key, filter]) => filter)
             )}
             onSubmit={handleSubmit}
+            onPreviousStep={handlePreviousStep}
             values={
               filters[fromMetric + ""] && filters[toMetric + ""]
                 ? [filters[fromMetric + ""], filters[toMetric + ""]]

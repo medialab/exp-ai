@@ -8,6 +8,7 @@ import "./FilterForm.scss";
 
 import BrushableScatterPlot from "./BrushableScatterPlot";
 import VariableInputs from "./VariableInputs";
+import ContinueButton from "./ContinueButton";
 
 import { useDebounce } from "../helpers/hooks";
 import { filterModels } from "../helpers/filters";
@@ -15,7 +16,14 @@ import variables from "../contents/variables_list.fr.yml";
 import { DECIMALS } from "../constants";
 import InfoTip from "./InfoTip";
 
-function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
+function FilterForm({
+  metrics,
+  models,
+  onSubmit,
+  onPreviousStep,
+  filters = [],
+  values,
+}) {
   let [metric1, metric2] = metrics;
 
   const defaultFilteredVariables = variables
@@ -178,7 +186,6 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
   };
 
   const handleValidate = (e) => {
-    e.preventDefault();
     onSubmit([
       {
         variable: metric1.id,
@@ -221,7 +228,7 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
             height={600}
           />
           <h4>
-            Vous filtrer dans{" "}
+            Vous filtrez dans{" "}
             <code>
               {metric1.name} <InfoTip tip={metric1.short_description} />
             </code>{" "}
@@ -270,14 +277,15 @@ function FilterForm({ metrics, models, onSubmit, filters = [], values }) {
         </div>
       </div>
 
-      <button
-        onClick={handleValidate}
-        type="submit"
-        className="continue-button"
+      <ContinueButton
         disabled={!filteredModels.length}
-      >
-        Valider
-      </button>
+        onSubmit={handleValidate}
+        submitMessage={"validate"}
+        onPreviousStep={onPreviousStep}
+        relativePosition
+        backwardEnabled
+        type={"submit"}
+      />
       <Tooltip id="tip" />
     </form>
   );

@@ -18,6 +18,7 @@ function MainChoiceContainer({
   setNumberOfSteps,
   setMainChoiceIsValidated,
   addFilters,
+  currentStep,
 }) {
   const handleSubmit = (theseFilters) => {
     const [filter1, filter2] = theseFilters;
@@ -28,6 +29,9 @@ function MainChoiceContainer({
     setMainChoiceIsValidated(true);
     setNumberOfSteps(STEP_SECONDARY_CHOICE_1 + 1);
     setCurrentStep(STEP_SECONDARY_CHOICE_1);
+  };
+  const handlePreviousStep = () => {
+    setCurrentStep(currentStep - 1);
   };
   return (
     <section className="main-choice-screen">
@@ -49,6 +53,7 @@ function MainChoiceContainer({
             metrics={metricsOrder.slice(0, 2)}
             models={models}
             onSubmit={handleSubmit}
+            onPreviousStep={handlePreviousStep}
             values={
               filters["0"] && filters["1"]
                 ? [filters["0"], filters["1"]]

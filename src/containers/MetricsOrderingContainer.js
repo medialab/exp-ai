@@ -12,9 +12,9 @@ import * as dataDuck from "../state/duckData";
 import { reorder, getItemStyle, getListStyle } from "../helpers/sorting";
 import { STEP_MAIN_CHOICE, STEP_METRICS_SORTING } from "../constants";
 import InfoTip from "../components/InfoTip";
+import ContinueButton from "../components/ContinueButton";
 
 // import metrics from "../contents/metrics_list.fr.yml";
-
 function MetricsOrderingContainer({
   ui: { metricsOrderIsValidated },
   data: { metricsOrder },
@@ -22,6 +22,7 @@ function MetricsOrderingContainer({
   setMetricsOrder,
   setNumberOfSteps,
   setMetricsOrderIsValidated,
+  currentStep,
 }) {
   const onDragEnd = (result) => {
     // dropped outside the list
@@ -98,9 +99,15 @@ function MetricsOrderingContainer({
           )}
         </Droppable>
       </DragDropContext>
-      <button disabled={metricsOrderIsValidated} onClick={handleValidateOrder}>
-        Valider
-      </button>
+      <ContinueButton
+        currentStep={currentStep}
+        onSetCurrentStep={setCurrentStep}
+        disabled={metricsOrderIsValidated}
+        onSubmit={handleValidateOrder}
+        submitMessage={"validate"}
+        relativePosition
+        backwardEnabled
+      />
     </section>
   );
 }

@@ -13,7 +13,7 @@ import ContinueButton from "../components/ContinueButton";
 import intro from "!!raw-loader!../contents/principles_eu.md";
 import { STEP_METRICS_EXPLANATION } from "../constants";
 
-function EuLegislationContainer({ setCurrentStep }) {
+function EuLegislationContainer({ setCurrentStep, currentStep }) {
   return (
     <section className="step-2 contents-wrapper">
       <div className="contents-container">
@@ -24,7 +24,9 @@ function EuLegislationContainer({ setCurrentStep }) {
       </div>
 
       <ContinueButton
-        onClick={() => setCurrentStep(STEP_METRICS_EXPLANATION)}
+        currentStep={currentStep}
+        onSetCurrentStep={setCurrentStep}
+        backwardEnabled
       />
     </section>
   );

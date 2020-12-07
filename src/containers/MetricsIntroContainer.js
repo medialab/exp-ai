@@ -13,7 +13,7 @@ import ContinueButton from "../components/ContinueButton";
 import intro from "!!raw-loader!../contents/metrics_explanation.md";
 import { STEP_METRICS_SORTING } from "../constants";
 
-function MetricsIntroContainer({ setCurrentStep }) {
+function MetricsIntroContainer({ setCurrentStep, currentStep }) {
   return (
     <section className="step-3 contents-wrapper">
       <div className="contents-container">
@@ -23,7 +23,11 @@ function MetricsIntroContainer({ setCurrentStep }) {
         </div>
       </div>
 
-      <ContinueButton onClick={() => setCurrentStep(STEP_METRICS_SORTING)} />
+      <ContinueButton
+        currentStep={currentStep}
+        onSetCurrentStep={setCurrentStep}
+        backwardEnabled
+      />
     </section>
   );
 }

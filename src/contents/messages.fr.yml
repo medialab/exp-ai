@@ -1,6 +1,8 @@
 site_title: Pratiques de l'IA
 step: étape
 next_step: continuer
+previous_step: retour
+validate: valider
 step_1_title: "Étape 1 : expérimentation avec dataiku"
 step_2_title: "Étape 2 : la législation européenne"
 step_3_title: "Étape 3 : mesurer l'éthique ?"

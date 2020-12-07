@@ -37,5 +37,18 @@
     button {
       pointer-events: all;
     }
+    &.relative-position {
+      position: relative;
+      bottom: unset;
+      left: unset;
+    }
+    .continue-button {
+      &:not(:last-of-type) {
+        margin-right: 1rem;
+      }
+      &.previous {
+        opacity: 0.5;
+      }
+    }
   }
 }
