@@ -42,3 +42,10 @@ download: télécharger
 download_history: télécharger l'historique
 first_model_dataiku: Premier modèle issu de l'expérience avec Dataiku
 second_model_choosen: Second modèle issu de l'expérience avec cette interface
+performance: Performance
+disparate_impact : Disparate impact sur le genre
+errors_distribution: Distribution des erreurs entre hommes et femmes
+privacy: Privacy
+interpretability: Interprétabilité
+dataiku_results_label: Votre score issu de l'étape 1 réalisée avec Dataiku
+privacy_prompt: Définissez les variables qui relèvent de la privacy selon vous

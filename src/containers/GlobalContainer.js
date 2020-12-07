@@ -26,7 +26,12 @@ import {
   STEP_HEADER,
   STEP_DATAIKU_PRACTICE,
   STEP_EU_LEGISLATION,
-  STEP_METRICS_EXPLANATION,
+  STEP_METRICS_EXPLANATION_0,
+  STEP_METRICS_EXPLANATION_1,
+  STEP_METRICS_EXPLANATION_2,
+  STEP_METRICS_EXPLANATION_3,
+  STEP_METRICS_EXPLANATION_4,
+  STEP_METRICS_EXPLANATION_5,
   STEP_METRICS_SORTING,
   STEP_MAIN_CHOICE,
   STEP_SECONDARY_CHOICE_1,
@@ -58,13 +63,19 @@ function GlobalContainer({
       case STEP_EU_LEGISLATION:
         return <EuLegislationContainer />;
       // intro 3 (variables presentation)
-      case STEP_METRICS_EXPLANATION:
+      case STEP_METRICS_EXPLANATION_0:
+      case STEP_METRICS_EXPLANATION_1:
+      case STEP_METRICS_EXPLANATION_2:
+      case STEP_METRICS_EXPLANATION_3:
+      case STEP_METRICS_EXPLANATION_4:
+      case STEP_METRICS_EXPLANATION_5:
         return <MetricsIntroContainer />;
       // sort variables
       case STEP_METRICS_SORTING:
         return <MetricsOrderingContainer />;
       // main choice
       case STEP_MAIN_CHOICE:
+        console.log("render main choice");
         return <MainChoiceContainer />;
       // second choice
       case STEP_SECONDARY_CHOICE_1:
@@ -95,8 +106,9 @@ function GlobalContainer({
         return <>Step {stepIndex}</>;
     }
   };
-
-  let steps = new Array(numberOfSteps);
+  let steps = new Array(
+    numberOfSteps > currentStep + 1 ? numberOfSteps : currentStep + 1
+  );
   for (let i = 0; i < steps.length; i++) {
     steps[i] = i;
   }

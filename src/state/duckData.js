@@ -4,6 +4,7 @@ import { fetchData } from "../helpers/client";
 import { setPropInState } from "../helpers/stateHelpers";
 
 import metrics from "../contents/metrics_list.fr.yml";
+import variables from "../contents/variables_list.fr.yml";
 
 /**
  * ACTION NAMES
@@ -11,6 +12,7 @@ import metrics from "../contents/metrics_list.fr.yml";
 import { SET_METRICS_ORDER_IS_VALIDATED } from "./duckUi";
 const GET_DATA = "GET_DATA";
 export const SET_METRICS_ORDER = "SET_METRICS_ORDER";
+export const SET_PRIVACY_VARIABLES = "SET_PRIVACY_VARIABLES";
 export const ADD_FILTERS = "ADD_FILTERS";
 export const SET_CHOOSEN_MODEL = "SET_CHOOSEN_MODEL";
 export const SET_DATAIKU_RESULTS = "SET_DATAIKU_RESULTS";
@@ -33,6 +35,11 @@ export const setMetricsOrder = (payload) => ({
   payload,
 });
 
+export const setPrivacyVariables = (payload) => ({
+  type: SET_PRIVACY_VARIABLES,
+  payload,
+});
+
 export const addFilters = (payload) => ({
   type: ADD_FILTERS,
   payload,
@@ -51,12 +58,21 @@ export const setDataikuResults = (payload) => ({
 /**
  * REDUCER
  */
+const defaultPrivacyVariables = variables.reduce(
+  (res, { relates_to_privacy, id }) => ({
+    ...res,
+    [id]: relates_to_privacy,
+  }),
+  {}
+);
+
 const DEFAULT_STATE = {
   models: [],
   metricsOrder: [...metrics],
   filters: {},
   choosenModel: undefined,
   dataikuResults: {},
+  privacyVariables: defaultPrivacyVariables,
 };
 
 function data(state = DEFAULT_STATE, action) {
@@ -76,6 +92,7 @@ function data(state = DEFAULT_STATE, action) {
       };
     case `${GET_DATA}_ERROR`:
       return state;
+    case SET_PRIVACY_VARIABLES:
     case SET_METRICS_ORDER:
       return setPropInState(action.type, payload, state);
     case ADD_FILTERS:
@@ -112,6 +129,7 @@ const metricsOrder = (state) => state.metricsOrder;
 const filters = (state) => state.filters;
 const choosenModel = (state) => state.choosenModel;
 const dataikuResults = (state) => state.dataikuResults;
+const privacyVariables = (state) => state.privacyVariables;
 
 export const selector = createStructuredSelector({
   models,
@@ -119,4 +137,5 @@ export const selector = createStructuredSelector({
   filters,
   choosenModel,
   dataikuResults,
+  privacyVariables,
 });

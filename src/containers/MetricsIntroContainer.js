@@ -1,47 +1,172 @@
 /* eslint import/no-webpack-loader-syntax: off */
-import react from "react"; /* eslint no-unused-vars : 0 */
+import react, { useEffect } from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Md from "react-markdown";
+import cx from "classnames";
 
 import translate from "../helpers/translate";
 
 import * as uiDuck from "../state/duckUi";
+import * as dataDuck from "../state/duckData";
 import ContinueButton from "../components/ContinueButton";
 
-import intro from "!!raw-loader!../contents/metrics_explanation.md";
-import { STEP_METRICS_SORTING } from "../constants";
+import variables from "../contents/variables_list.fr.yml";
 
-function MetricsIntroContainer({ setCurrentStep, currentStep }) {
-  return (
+import intro from "!!raw-loader!../contents/metrics_explanation_intro.md";
+import errorsDistribution from "!!raw-loader!../contents/metrics_explanation_errors_distribution.md";
+import interpretability from "!!raw-loader!../contents/metrics_explanation_interpretability.md";
+import performance from "!!raw-loader!../contents/metrics_explanation_performance.md";
+import disparateImpact from "!!raw-loader!../contents/metrics_explanation_disparate_impact.md";
+import privacy from "!!raw-loader!../contents/metrics_explanation_privacy.md";
+import {
+  STEP_METRICS_EXPLANATION_0,
+  STEP_METRICS_EXPLANATION_1,
+  STEP_METRICS_EXPLANATION_2,
+  STEP_METRICS_EXPLANATION_3,
+  STEP_METRICS_EXPLANATION_4,
+  STEP_METRICS_EXPLANATION_5,
+  STEP_METRICS_SORTING,
+} from "../constants";
+
+function MetricsIntroContainer({
+  setCurrentStep,
+  currentStep,
+  setNumberOfSteps,
+  data: { dataikuResults = {}, privacyVariables = {} },
+  setDataikuResults,
+  setPrivacyVariables,
+}) {
+  useEffect(() => {
+    setNumberOfSteps(STEP_METRICS_SORTING + 1);
+  }, [currentStep, setNumberOfSteps]);
+  const viewsModel = {
+    [STEP_METRICS_EXPLANATION_0]: {
+      content: intro,
+      title: translate("step_3_title"),
+    },
+    [STEP_METRICS_EXPLANATION_1]: {
+      content: performance,
+      title: translate("performance"),
+      inputType: "input",
+      relatedMetricsId: "performance",
+    },
+    [STEP_METRICS_EXPLANATION_2]: {
+      content: disparateImpact,
+      title: translate("disparate_impact"),
+      inputType: "input",
+      relatedMetricsId: "fairness_disparate_impact",
+    },
+    [STEP_METRICS_EXPLANATION_3]: {
+      content: errorsDistribution,
+      title: translate("errors_distribution"),
+      inputType: "input",
+      relatedMetricsId: "fairness_accuracy",
+    },
+    [STEP_METRICS_EXPLANATION_4]: {
+      content: privacy,
+      title: translate("privacy"),
+      inputType: "privacy",
+      relatedMetricsId: "privacy",
+    },
+    [STEP_METRICS_EXPLANATION_5]: {
+      content: interpretability,
+      title: translate("interpretability"),
+      inputType: "input",
+      relatedMetricsId: "interpretability",
+    },
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+  const handleDataikuInputChange = (e) => {
+    if (viewsModel[currentStep]) {
+      const value = e.target.value;
+      setDataikuResults({
+        ...dataikuResults,
+        [viewsModel[currentStep].relatedMetricsId]: value,
+      });
+    }
+  };
+  return viewsModel[currentStep] ? (
     <section className="step-3 contents-wrapper">
       <div className="contents-container">
-        <h1 className="step-title">{translate("step_3_title")}</h1>
+        <h1 className="step-title">{viewsModel[currentStep].title}</h1>
         <div className="contents">
-          <Md source={intro} />
+          <Md source={viewsModel[currentStep].content} />
+          {viewsModel[currentStep].inputType ? (
+            <>
+              <h2>{translate("privacy_prompt")}</h2>
+              {viewsModel[currentStep].inputType === "privacy" ? (
+                <>
+                  <ul className={cx("privacy-list")}>
+                    {variables.map(({ id, name }) => (
+                      <li
+                        onClick={() => {
+                          setPrivacyVariables({
+                            ...privacyVariables,
+                            [id]: privacyVariables[id] ? false : true,
+                          });
+                        }}
+                        key={id}
+                      >
+                        <input
+                          checked={privacyVariables[id] === true}
+                          value={id}
+                          readOnly
+                          type="radio"
+                        />
+                        <span className="checkmark" />
+                        <label>{name}</label>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
+              <form className="form results-form" onSubmit={handleSubmit}>
+                <h2>{translate("dataiku_results_label")}</h2>
+                <input
+                  placeholder={`entrez vous résultats pour la métrique ${viewsModel[currentStep].title}`}
+                  value={
+                    dataikuResults[viewsModel[currentStep].relatedMetricsId] ||
+                    ""
+                  }
+                  onChange={handleDataikuInputChange}
+                />
+                <ContinueButton
+                  currentStep={currentStep}
+                  onSetCurrentStep={setCurrentStep}
+                  type={"submit"}
+                  backwardEnabled
+                />
+              </form>
+            </>
+          ) : (
+            <ContinueButton
+              currentStep={currentStep}
+              onSetCurrentStep={setCurrentStep}
+              backwardEnabled
+            />
+          )}
         </div>
       </div>
-
-      <ContinueButton
-        currentStep={currentStep}
-        onSetCurrentStep={setCurrentStep}
-        backwardEnabled
-      />
     </section>
-  );
+  ) : null;
 }
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   ...state,
   ...uiDuck.selector(state.ui),
+  ...dataDuck.selector(state.data),
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       ...uiDuck,
+      ...dataDuck,
     },
     dispatch
   );

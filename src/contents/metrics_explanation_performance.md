@@ -1,0 +1,1 @@
+L'AUC mesure la performance de l'algorithme. Comme traditionnellement dans l’industrie du Machine Learning, on supposera que le data scientist banquier est d’abord incité sur le critère de la performance de son algorithme car l’AUC est proportionnel au gain financier procuré par l’algorithme.

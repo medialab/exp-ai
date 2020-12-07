@@ -1,0 +1,1 @@
+Pour toutes les combinaisons possibles de modèles sur l’ensemble des 20 features, nous avons construit un classifieur à l’aide d’un modèle logistique. Cela fait en tout 2 097 130 classifieurs. Pour chacun de ces classifieurs, nous calculons les indicateurs suivants.

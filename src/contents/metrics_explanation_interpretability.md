@@ -1,0 +1,1 @@
+Selon la législation (RGPD), les demandeurs ont le droit d'exiger une explication des décisions. On considèrera que l’opposé du nombre total de variables dans le modèle comme un proxy de l’interprétabilité des algorithmes. En effet, des explications avec 20 variables seront beaucoup plus difficiles à fournir qu’une explication avec 5 variables.
