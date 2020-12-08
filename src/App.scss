@@ -92,7 +92,8 @@ button {
 }
 
 .number-indicator {
-  border: 1px solid var(--color-black);
+  background: lightgrey;
+  // border: 1px solid var(--color-black);
   border-radius: 50%;
   width: 2rem;
   height: 2rem;
@@ -104,6 +105,7 @@ button {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
+  color: white;
 }
 
 .contents {

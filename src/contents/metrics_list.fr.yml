@@ -1,17 +1,22 @@
 - name: Performance
   id: performance
+  color: '#0096D1'
   short_description: L'AUC mesure la performance de l'algorithme. Comme traditionnellement dans l’industrie du Machine Learning, on supposera que le data scientist banquier est d’abord incité sur le critère de la performance de son algorithme car l’AUC est proportionnel au gain financier procuré par l’algorithme.
 - name: Disparate impact sur le genre
   id: fairness_disparate_impact
+  color: '#984F0E'
   short_description: il s’agit d’un ratio entre le pourcentage d’acceptation chez les femmes et le pourcentage d’acceptation chez les hommes. Lorsque ce ratio est égal à 1, on considérera qu’il n’y pas d’effet disparate entre les hommes et les femmes. Attention, un effet disparate très différent de 1 ne signifie pas qu’il y a différence de traitement. Un effet disparate dit simplement que l’on constate deux effets différents entre les hommes et les femmes sans s’intéresser aux causes de cet effet (le traitement). La différence de traitement peut se tester avec des analyses toute chose égale par ailleurs (testing de CV par exemple).
 - name: Distribution des erreurs entre hommes et femmes
   id: fairness_accuracy
+  color: '#3EBDC6'
   short_description: Une autre manière complémentaire de s’intéresser aux discriminations algorithmiques est de de s’intéresser à la distribution des erreurs entre hommes et femmes. L’erreur dans l’allocation du droit au crédit peut pénaliser les individus dans leur capacité d’agir (acheter une maison, voiture, etc). Il est donc primordial que celle-ci soit distribué de la même manière entre les hommes et les femmes. L’indicateur de la précision mesure le taux de prédictions corrects (c’est-à-dire vrais positifs + vrais négatifs). Une manière de mesurer la différence entre ces taux est de faire la soustraction entre la précision chez les hommes et la précision entre les femmes.
 - name: Privacy
   id: privacy
+  color: '#8D5F5B'
   type: integer
   short_description: Selon les conventions des droits de l’hommes, chaque individu a le droit de disposer de ses données personnelles. Selon la RGPD, il faut donc veiller à ce que ces données privées soient récoltées de manière parcimonieuse (principe de minimisation), pour des finalités bien déterminées (principe de finalité), limiter les failles de sécurité, les fuites possibles, etc, Nous prendrons l’opposé du nombre de variables personnelles comme proxy de la privacy. Les 11 variables personnelles sont present_emp_since, sex, personal.\_status, present_res_since ,property, age, housing, job, people_under_maintenance, telephone, foreign_worker. Le nombre de variables privées est également un proxy de la vulnérabilité aux failles de sécurité par attaques (sécurité).
 - name: Interprétabilité
   id: interpretability
+  color: '#ECC0A5'
   type: integer
   short_description: Selon la législation (RGPD), les demandeurs ont le droit d'exiger une explication des décisions. On considèrera que l’opposé du nombre total de variables dans le modèle comme un proxy de l’interprétabilité des algorithmes. En effet, des explications avec 20 variables seront beaucoup plus difficiles à fournir qu’une explication avec 5 variables.

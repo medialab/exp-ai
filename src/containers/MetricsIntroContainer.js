@@ -7,6 +7,7 @@ import Md from "react-markdown";
 import cx from "classnames";
 
 import translate from "../helpers/translate";
+import { metricsColorMap } from "../helpers/misc";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
@@ -47,30 +48,35 @@ function MetricsIntroContainer({
       title: translate("performance"),
       inputType: "input",
       relatedMetricsId: "performance",
+      color: metricsColorMap["performance"],
     },
     [STEP_METRICS_EXPLANATION_2]: {
       content: disparateImpact,
       title: translate("disparate_impact"),
       inputType: "input",
       relatedMetricsId: "fairness_disparate_impact",
+      color: metricsColorMap["fairness_disparate_impact"],
     },
     [STEP_METRICS_EXPLANATION_3]: {
       content: errorsDistribution,
       title: translate("errors_distribution"),
       inputType: "input",
       relatedMetricsId: "fairness_accuracy",
+      color: metricsColorMap["fairness_accuracy"],
     },
     [STEP_METRICS_EXPLANATION_4]: {
       content: privacy,
       title: translate("privacy"),
       inputType: "privacy",
       relatedMetricsId: "privacy",
+      color: metricsColorMap["privacy"],
     },
     [STEP_METRICS_EXPLANATION_5]: {
       content: interpretability,
       title: translate("interpretability"),
       inputType: "input",
       relatedMetricsId: "interpretability",
+      color: metricsColorMap["interpretability"],
     },
   };
   const handleSubmit = (e) => {
@@ -88,7 +94,23 @@ function MetricsIntroContainer({
   return viewsModel[currentStep] ? (
     <section className="step-3 contents-wrapper">
       <div className="contents-container">
-        <h1 className="step-title">{viewsModel[currentStep].title}</h1>
+        <h1 className="step-title">
+          {viewsModel[currentStep].title}
+          {viewsModel[currentStep].color && (
+            <span
+              style={{
+                background: viewsModel[currentStep].color,
+                display: "inline-block",
+                marginLeft: "1rem",
+                height: "1em",
+                width: "1em",
+                borderRadius: "50%",
+                position: "relative",
+                top: ".2em",
+              }}
+            />
+          )}
+        </h1>
         <div className="contents">
           <Md source={viewsModel[currentStep].content} />
           {viewsModel[currentStep].inputType ? (

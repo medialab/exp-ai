@@ -2,6 +2,9 @@ import React from "react";
 import BrushableScatterPlot from "./BrushableScatterPlot";
 import Slider from "rc-slider";
 import { min, max } from "d3-array";
+
+import { metricsColorMap } from "../helpers/misc";
+
 import metricsList from "../contents/metrics_list.fr.yml";
 import "./MiniGraph.scss";
 
@@ -86,7 +89,13 @@ const MiniGraph = ({
         </div>
         <div className="values-container">
           <span className="value-container">
-            <code>{filters[from + ""].variable}</code>
+            <code
+              style={{
+                background: metricsColorMap[xVariable],
+              }}
+            >
+              {filters[from + ""].variable}
+            </code>
             <Range
               allowCross={false}
               tipFormatter={(val) => val / SLIDER_MULTIPLIER}
@@ -111,7 +120,13 @@ const MiniGraph = ({
           </span>
           <span className="separator">{" vs "}</span>
           <span className="value-container">
-            <code>{filters[to + ""].variable}</code>
+            <code
+              style={{
+                background: metricsColorMap[yVariable],
+              }}
+            >
+              {filters[to + ""].variable}
+            </code>
             <Range
               allowCross={false}
               tipFormatter={(val) => val / SLIDER_MULTIPLIER}

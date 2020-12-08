@@ -5,6 +5,7 @@ import react, {
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "react-tooltip";
+import { metricsColorMap } from "../helpers/misc";
 
 import InfoTip from "./InfoTip";
 
@@ -56,7 +57,12 @@ function VariableInputs({
     <div className="variable-inputs">
       <div>
         <h5>
-          <code onClick={onLabelClick}>
+          <code
+            onClick={onLabelClick}
+            style={{
+              background: metricsColorMap[metric.id],
+            }}
+          >
             {axis}
             {" : "}
             {metric.name}{" "}

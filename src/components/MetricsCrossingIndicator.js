@@ -1,6 +1,8 @@
-import react from "react"; /* eslint no-unused-vars : 0 */
+import React from "react"; /* eslint no-unused-vars : 0 */
 import cx from "classnames";
 import Tooltip from "react-tooltip";
+
+import { metricsColorMap } from "../helpers/misc";
 
 import "./MetricsCrossingIndicator.scss";
 import InfoTip from "./InfoTip";
@@ -13,6 +15,9 @@ function MetricsCrossingIndicator({ metrics }) {
           <li
             className={cx("crossing-indicator-item", { active: metric.active })}
             key={metric.name}
+            style={{
+              background: metricsColorMap[metric.id],
+            }}
           >
             {metric.name}{" "}
             <InfoTip

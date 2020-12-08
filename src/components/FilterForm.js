@@ -244,7 +244,7 @@ function FilterForm({
               y: [choosenMin2, choosenMax2],
             }}
             onBrushChange={handleBrushChange}
-            width={containerWidth * 0.9}
+            width={containerWidth * 0.85}
             height={400}
             style={{
               paddingLeft: containerWidth * 0.1,

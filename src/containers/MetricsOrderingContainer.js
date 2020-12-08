@@ -9,12 +9,13 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import cx from "classnames";
 import translate from "../helpers/translate";
 
+import { metricsColorMap } from "../helpers/misc";
+
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
 
-import { reorder, getItemStyle, getListStyle } from "../helpers/sorting";
+import { reorder } from "../helpers/sorting";
 import { STEP_MAIN_CHOICE, STEP_METRICS_SORTING } from "../constants";
-import InfoTip from "../components/InfoTip";
 import ContinueButton from "../components/ContinueButton";
 import ReactTooltip from "react-tooltip";
 
@@ -99,7 +100,12 @@ function MetricsOrderingContainer({
                       >
                         <h3 className="sortable-title">
                           <span>
-                            <span className="number-indicator">
+                            <span
+                              className="number-indicator"
+                              style={{
+                                background: metricsColorMap[item.id],
+                              }}
+                            >
                               <span>{index + 1}</span>
                             </span>
                           </span>
