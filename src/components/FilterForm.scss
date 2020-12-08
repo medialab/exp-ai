@@ -30,17 +30,17 @@
         border-width: 2px;
       }
     }
-
-    .rc-slider-handle {
-      border-color: var(--color-black);
-    }
-    .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
-      border-color: var(--color-black);
-      border-width: 3px;
-      box-shadow: none;
-    }
-    .rc-slider-track {
-      background-color: var(--color-black);
-    }
   }
+}
+
+.rc-slider-handle {
+  border-color: var(--color-black);
+}
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  border-color: var(--color-black);
+  border-width: 3px;
+  box-shadow: none;
+}
+.rc-slider-track {
+  background-color: var(--color-black);
 }

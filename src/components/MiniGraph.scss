@@ -1,0 +1,46 @@
+.mini-graph-container {
+  .mini-graph-title {
+    display: flex;
+    flex-flow: row nowrap;
+    > span:last-of-type {
+      flex: 1;
+    }
+  }
+
+  &:last-of-type {
+    margin-bottom: 5rem;
+  }
+
+  .values-container {
+    display: flex;
+    flex-flow: row nowrap;
+    .value-container {
+      display: flex;
+      flex-flow: column nowrap;
+      flex: 1;
+    }
+    .separator {
+      padding: 0 0.5rem;
+    }
+  }
+
+  .rc-slider {
+    margin-top: 0.3rem;
+  }
+
+  .brushable-scatterplot {
+    margin-left: 1.5rem;
+  }
+
+  .rc-slider-handle {
+    border-color: var(--color-black);
+  }
+  .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+    border-color: var(--color-black);
+    border-width: 3px;
+    box-shadow: none;
+  }
+  .rc-slider-track {
+    background-color: grey;
+  }
+}

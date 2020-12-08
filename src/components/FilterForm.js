@@ -16,6 +16,7 @@ import { filterModels } from "../helpers/filters";
 import variables from "../contents/variables_list.fr.yml";
 import { DECIMALS } from "../constants";
 import InfoTip from "./InfoTip";
+import translate from "../helpers/translate";
 
 function FilterForm({
   metrics,
@@ -266,7 +267,7 @@ function FilterForm({
       <ContinueButton
         disabled={!filteredModels.length}
         onSubmit={handleValidate}
-        submitMessage={"validate"}
+        submitMessage={translate("validate")}
         onPreviousStep={onPreviousStep}
         backwardEnabled
         type={"submit"}

@@ -15,6 +15,7 @@ import BrushableScatterPlot from "../components/BrushableScatterPlot";
 import "./ModelChoiceContainer.scss";
 
 import metricsList from "../contents/metrics_list.fr.yml";
+import MiniGraph from "../components/MiniGraph";
 
 function ModelChoiceContainer({
   ui: { mainChoiceIsValidated, currentStep },
@@ -54,60 +55,21 @@ function ModelChoiceContainer({
                 ? theseVariables.variables
                 : undefined;
               return (
-                <div key={index} className="mini-graph-container">
-                  <h5 className="mini-graph-title">
-                    <span>
-                      <span className="number-indicator">{index + 1}</span>
-                    </span>
-                    <span>
-                      <code>{filters[from + ""].variable}</code> vs{" "}
-                      <code>{filters[to + ""].variable}</code>
-                    </span>
-                  </h5>
-                  <BrushableScatterPlot
-                    data={
-                      from === 0
-                        ? models
-                        : filterModels(
-                            models,
-                            Object.entries(filters)
-                              .filter(([key]) => +key < from)
-                              .map(([_key, filter]) => filter)
-                          )
-                    }
-                    xVariable={filters[from + ""].variable}
-                    yVariable={filters[to + ""].variable}
-                    filteredVariables={theseVariables}
-                    brush={{
-                      x: filters[from + ""].range,
-                      y: filters[to + ""].range,
-                    }}
-                    readOnly
-                    minified
-                    highlightedNodeId={
-                      choosenModel
-                        ? highlightedNodeId || choosenModel.id
-                        : highlightedNodeId
-                    }
-                    width={200}
-                    height={200}
-                    onBrushChange={({
-                      x: [thatXMin, thatXMax],
-                      y: [thatYMin, thatYMax],
-                    }) => {
-                      addFilters({
-                        [from + ""]: {
-                          ...filters[from + ""],
-                          range: [thatXMin, thatXMax],
-                        },
-                        [to + ""]: {
-                          ...filters[to + ""],
-                          range: [thatYMin, thatYMax],
-                        },
-                      });
-                    }}
-                  />
-                </div>
+                <MiniGraph
+                  key={index}
+                  {...{
+                    index,
+                    filters,
+                    models,
+                    from,
+                    to,
+                    variables: theseVariables,
+                    choosenModel,
+                    highlightedNodeId,
+                    addFilters,
+                    filterModels,
+                  }}
+                />
               );
             })}
           </div>

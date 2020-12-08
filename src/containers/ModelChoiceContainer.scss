@@ -22,16 +22,4 @@
       }
     }
   }
-
-  .mini-graph-title {
-    display: flex;
-    flex-flow: row nowrap;
-    > span:last-of-type {
-      flex: 1;
-    }
-  }
-}
-
-.mini-graph-container:last-of-type {
-  margin-bottom: 5rem;
 }

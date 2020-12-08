@@ -14,6 +14,7 @@ import FilterForm from "../components/FilterForm";
 import BrushableScatterPlot from "../components/BrushableScatterPlot";
 
 import { STEP_SECONDARY_CHOICE_2 } from "../constants";
+import MiniGraph from "../components/MiniGraph";
 
 function SecondChoiceContainer({
   data: { metricsOrder, models, filters, privacyVariables = {} },
@@ -64,6 +65,20 @@ function SecondChoiceContainer({
               ? theseVariables.variables
               : undefined;
             return (
+              <MiniGraph
+                key={index}
+                {...{
+                  index,
+                  filters,
+                  models,
+                  from,
+                  to,
+                  variables: theseVariables,
+                  addFilters,
+                  filterModels,
+                }}
+              />
+              /*
               <div key={index} className="mini-graph-container">
                 <h5>
                   <code>{filters[from + ""].variable}</code> vs{" "}
@@ -106,7 +121,7 @@ function SecondChoiceContainer({
                     });
                   }}
                 />
-              </div>
+              </div>*/
             );
           })}
         </aside>
