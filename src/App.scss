@@ -58,6 +58,11 @@ button {
     background: var(--color-black);
     color: white;
   }
+
+  &.is-active {
+    background: var(--color-black);
+    color: white;
+  }
 }
 /**
  * WIP
@@ -89,12 +94,16 @@ button {
 .number-indicator {
   border: 1px solid var(--color-black);
   border-radius: 50%;
-  display: inline-block;
-  width: 1.2em;
+  width: 2rem;
+  height: 2rem;
   margin-left: 0;
   text-align: center;
   margin-right: 1rem;
   font-size: 0.8em;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .contents {
@@ -148,6 +157,9 @@ button {
   font-weight: 700;
   font-size: 1.2rem;
   margin-top: 0;
+  &.more-instructions {
+    font-style: italic;
+  }
 }
 
 .columns-container {
@@ -300,5 +312,68 @@ code {
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
     }
+  }
+}
+
+.sortable-title {
+  display: flex;
+  flex-flow: row nowrap;
+
+  .main-title {
+    flex: 1;
+    font-weight: 900;
+    min-width: 30%;
+  }
+
+  .move-btn {
+    border: 1px solid var(--color-black);
+    border-radius: 50%;
+    display: inline-block;
+
+    padding: 0.4rem;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.2rem;
+    cursor: pointer;
+    font-size: 0.8em;
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.is-disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    &.first {
+      margin-left: 0;
+    }
+    &.last {
+      margin-right: 1rem;
+    }
+  }
+
+  .metrics-description {
+    margin: 0;
+    font-weight: 400;
+    overflow: hidden;
+    transition: 0.5s ease all;
+    max-width: 0;
+    max-height: 0;
+    padding: 0;
+    font-size: 1px;
+    &.is-visible {
+      max-width: 100%;
+      max-height: 100%;
+      padding-left: 1rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+.draggable-item:hover {
+  .move-btn {
+    border-color: white;
   }
 }

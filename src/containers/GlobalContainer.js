@@ -83,7 +83,7 @@ function GlobalContainer({
             previousExtents={[[0, 1]]}
           />
         ),
-      title: translate("secondary-choice"),
+      title: translate("secondary-choice") + " 1",
       disabled: !metricsOrderIsValidated || Object.keys(filters).length < 2,
     },
     [STEP_SECONDARY_CHOICE_2]: {
@@ -98,7 +98,7 @@ function GlobalContainer({
             metricsExtent={[3, 4]}
           />
         ),
-      title: translate("secondary-choice"),
+      title: translate("secondary-choice") + " 2",
       disabled: !metricsOrderIsValidated || Object.keys(filters).length < 4,
     },
     [STEP_MODEL_CHOICE]: {

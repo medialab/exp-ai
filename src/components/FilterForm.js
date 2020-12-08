@@ -1,5 +1,5 @@
 import react, {
-  useCallback,
+  // useCallback,
   useEffect,
   useState,
 } from "react"; /* eslint no-unused-vars : 0 */
@@ -263,16 +263,15 @@ function FilterForm({
           />
         </div>
       </div>
-
       <ContinueButton
         disabled={!filteredModels.length}
         onSubmit={handleValidate}
         submitMessage={"validate"}
         onPreviousStep={onPreviousStep}
-        relativePosition
         backwardEnabled
         type={"submit"}
       />
+
       <Tooltip id="tip" />
     </form>
   );

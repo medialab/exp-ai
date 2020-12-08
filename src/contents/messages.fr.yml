@@ -8,6 +8,7 @@ step_2_title: "Étape 2 : la législation européenne"
 step_3_title: "Étape 3 : mesurer l'éthique ?"
 sort_screen_title: Classer les indicateurs
 sort_screen_prompt: Veuillez classer les indicateurs dans l'ordre qui vous semble être celui du plus important au moins important.
+sort_screen_prompt_details: Vous pouvez faire glisser les cartes dans l'ordre désiré.
 main_choice_screen_title: Sélectionner des modèles dans les deux dimensions les plus importantes
 main_choice_screen_intro: Veuillez sélectionnez des modèles à partir des deux indicateurs que vous avez définis comme les plus importants.
 second_choice_screen_title: Sélectionner des modèles dans les autres dimensions
@@ -58,3 +59,6 @@ secondary-choice: Arbitrage secondaire
 model-choice: Choix du modèle
 conclusion: Conclusion
 intro-metrics: Introduction aux métriques
+show-descriptions: montrer les descriptions des métriques
+move_up: remonter
+move_down: descendre
