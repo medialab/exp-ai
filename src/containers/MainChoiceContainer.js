@@ -13,9 +13,8 @@ import FilterForm from "../components/FilterForm";
 import { STEP_SECONDARY_CHOICE_1 } from "../constants";
 
 function MainChoiceContainer({
-  data: { metricsOrder, models, filters },
+  data: { metricsOrder, models, filters, privacyVariables },
   setCurrentStep,
-  setNumberOfSteps,
   setMainChoiceIsValidated,
   addFilters,
   currentStep,
@@ -27,12 +26,15 @@ function MainChoiceContainer({
       1: filter2,
     });
     setMainChoiceIsValidated(true);
-    setNumberOfSteps(STEP_SECONDARY_CHOICE_1 + 1);
     setCurrentStep(STEP_SECONDARY_CHOICE_1);
   };
   const handlePreviousStep = () => {
     setCurrentStep(currentStep - 1);
   };
+  const activeMetrics = metricsOrder.map((m, i) => ({
+    ...m,
+    active: i <= 1,
+  }));
   return (
     <section className="main-choice-screen">
       <h1 className="step-title">{translate("main_choice_screen_title")}</h1>
@@ -41,12 +43,7 @@ function MainChoiceContainer({
           <p className="instructions">
             {translate("main_choice_screen_intro")}
           </p>
-          <MetricsCrossingIndicator
-            metrics={metricsOrder.map((m, i) => ({
-              ...m,
-              active: i <= 1,
-            }))}
-          />
+          <MetricsCrossingIndicator metrics={activeMetrics} />
         </aside>
         <main className="column is-main">
           <FilterForm
@@ -54,6 +51,7 @@ function MainChoiceContainer({
             models={models}
             onSubmit={handleSubmit}
             onPreviousStep={handlePreviousStep}
+            privacyVariables={privacyVariables}
             values={
               filters["0"] && filters["1"]
                 ? [filters["0"], filters["1"]]

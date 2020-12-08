@@ -33,14 +33,10 @@ import {
 function MetricsIntroContainer({
   setCurrentStep,
   currentStep,
-  setNumberOfSteps,
   data: { dataikuResults = {}, privacyVariables = {} },
   setDataikuResults,
   setPrivacyVariables,
 }) {
-  useEffect(() => {
-    setNumberOfSteps(STEP_METRICS_SORTING + 1);
-  }, [currentStep, setNumberOfSteps]);
   const viewsModel = {
     [STEP_METRICS_EXPLANATION_0]: {
       content: intro,
@@ -97,9 +93,9 @@ function MetricsIntroContainer({
           <Md source={viewsModel[currentStep].content} />
           {viewsModel[currentStep].inputType ? (
             <>
-              <h2>{translate("privacy_prompt")}</h2>
               {viewsModel[currentStep].inputType === "privacy" ? (
                 <>
+                  <h2>{translate("privacy_prompt")}</h2>
                   <ul className={cx("privacy-list")}>
                     {variables.map(({ id, name }) => (
                       <li

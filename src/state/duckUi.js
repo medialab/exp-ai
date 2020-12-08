@@ -1,12 +1,12 @@
 // import { combineReducers } from 'redux';
 import { createStructuredSelector } from "reselect";
 import { setPropInState } from "../helpers/stateHelpers";
+import { STEP_CONCLUSION } from "../constants";
 /**
  * ACTION NAMES
  */
 import { SET_METRICS_ORDER, RESET_APP } from "./duckData";
 export const SET_CURRENT_STEP = "SET_CURRENT_STEP";
-const SET_NUMBER_OF_STEPS = "SET_NUMBER_OF_STEPS";
 export const SET_METRICS_ORDER_IS_VALIDATED = "SET_METRICS_ORDER_IS_VALIDATED";
 export const SET_MAIN_CHOICE_IS_VALIDATED = "SET_MAIN_CHOICE_IS_VALIDATED";
 export const START_APP = "START_APP";
@@ -19,10 +19,6 @@ export const setCurrentStep = (payload) => ({
   payload,
 });
 
-export const setNumberOfSteps = (payload) => ({
-  type: SET_NUMBER_OF_STEPS,
-  payload,
-});
 export const setMetricsOrderIsValidated = (payload) => ({
   type: SET_METRICS_ORDER_IS_VALIDATED,
   payload,
@@ -42,7 +38,7 @@ export const startApp = (payload) => ({
  */
 const DEFAULT_STATE = {
   currentStep: 0,
-  numberOfSteps: 5,
+  numberOfSteps: STEP_CONCLUSION,
   metricsOrderIsValidated: false,
   mainChoiceIsValidated: false,
 };
@@ -53,7 +49,6 @@ function ui(state = DEFAULT_STATE, action) {
     case RESET_APP:
       return DEFAULT_STATE;
     case SET_CURRENT_STEP:
-    case SET_NUMBER_OF_STEPS:
       return setPropInState(action.type, payload, state);
     case SET_METRICS_ORDER_IS_VALIDATED:
       return {

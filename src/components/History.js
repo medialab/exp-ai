@@ -24,7 +24,6 @@ import {
   STEP_SECONDARY_CHOICE_1,
   STEP_SECONDARY_CHOICE_2,
   STEP_MODEL_CHOICE,
-  STEP_DATAIKU_FEEDBACK,
   STEP_CONCLUSION,
 } from "../constants";
 import downloadFile from "../helpers/download";
@@ -56,8 +55,6 @@ const serializeStep = (payload) => {
       return translate("tertiary_filter_view");
     case STEP_MODEL_CHOICE:
       return translate("model_choice_view");
-    case STEP_DATAIKU_FEEDBACK:
-      return translate("dataiku_feedback_view");
     case STEP_CONCLUSION:
       return translate("conclusion_view");
     default:

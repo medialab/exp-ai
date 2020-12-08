@@ -17,10 +17,8 @@ import metricsList from "../contents/metrics_list.fr.yml";
 import { STEP_CONCLUSION } from "../constants";
 
 function DataikuInputsContainer({
-  ui: { numberOfSteps, mainChoiceIsValidated },
   data: { dataikuResults },
   setCurrentStep,
-  setNumberOfSteps,
   setDataikuResults,
   nextStep = STEP_CONCLUSION,
 }) {
@@ -35,7 +33,6 @@ function DataikuInputsContainer({
   const handleSubmit = (e) => {
     e.preventDefault();
     setDataikuResults(data);
-    setNumberOfSteps(nextStep + 1);
     setCurrentStep(nextStep);
   };
   return (
@@ -73,10 +70,6 @@ function DataikuInputsContainer({
             Valider et passer aux conclusions
           </button>
         </form>
-        {/* <ContinueButton
-        disabled={!mainChoiceIsValidated || numberOfSteps <= nextStep}
-        onClick={() => setCurrentStep(nextStep)}
-      /> */}
       </div>
     </section>
   );

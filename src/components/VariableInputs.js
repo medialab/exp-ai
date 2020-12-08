@@ -2,12 +2,10 @@ import react, {
   useEffect,
   useState,
 } from "react"; /* eslint no-unused-vars : 0 */
-import cx from "classnames";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "react-tooltip";
 
-import variables from "../contents/variables_list.fr.yml";
 import InfoTip from "./InfoTip";
 
 const Range = Slider.createSliderWithTooltip(Slider.Range);
@@ -44,21 +42,14 @@ function VariableInputs({
   min,
   max,
   onRangeChange,
-  filteredVariables,
-  onFilteredVariablesChange,
   axis = "abscisses",
 }) {
-  const [privacyVisible, setPrivacyVisible] = useState(false);
   const handleMinChange = (val) => {
     onRangeChange([val, values[1]]);
   };
   const handleMaxChange = (val) => {
     onRangeChange([values[0], val]);
   };
-  const selected = filteredVariables.reduce(
-    (res, id) => ({ ...res, [id]: true }),
-    {}
-  );
   const SLIDER_MULTIPLIER = 10000;
   return (
     <div className="variable-inputs">
@@ -104,44 +95,6 @@ function VariableInputs({
         defaultValue={[min * SLIDER_MULTIPLIER, max * SLIDER_MULTIPLIER]}
         value={[values[0] * SLIDER_MULTIPLIER, values[1] * SLIDER_MULTIPLIER]}
       />
-
-      {metric.id === "Privacy" ? (
-        <div className="privacy-list-container">
-          <button
-            className={cx({ "is-active": privacyVisible })}
-            onClick={() => setPrivacyVisible(!privacyVisible)}
-          >
-            Choisir les variables relevant de la privacy
-          </button>
-          <ul className={cx("privacy-list", { "is-visible": privacyVisible })}>
-            {variables.map(({ id, name }) => (
-              <li
-                onClick={() => {
-                  let newVariables;
-                  if (selected[id]) {
-                    newVariables = filteredVariables.filter(
-                      (thatId) => id !== thatId
-                    );
-                  } else {
-                    newVariables = [...filteredVariables, id];
-                  }
-                  onFilteredVariablesChange(newVariables);
-                }}
-                key={id}
-              >
-                <input
-                  checked={selected[id] !== undefined}
-                  value={id}
-                  readOnly
-                  type="radio"
-                />
-                <span className="checkmark" />
-                <label>{name}</label>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
       <Tooltip id="variable-tip" />
     </div>
   );

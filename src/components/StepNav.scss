@@ -4,19 +4,23 @@
     list-style: none;
     padding: 0;
     .step-nav-item {
-      width: var(--gutter-small);
-      height: var(--gutter-small);
+      width: 2vh;
+      height: 2vh;
       background: var(--color-black);
-      margin-bottom: var(--gutter-small);
+      margin-bottom: 2vh;
       border-radius: 50%;
+      border: 1px solid var(--color-black);
       cursor: pointer;
       &:not(.active) {
         opacity: 0.5;
-        border: 1px solid var(--color-black);
         background: none;
         &:hover {
           opacity: 0.8;
         }
+      }
+      &.disabled {
+        opacity: 0.3;
+        pointer-events: none;
       }
     }
   }

@@ -18,7 +18,6 @@ import MetricsIntroContainer from "./MetricsIntroContainer";
 import MetricsOrderingContainer from "./MetricsOrderingContainer";
 import MainChoiceContainer from "./MainChoiceContainer";
 import SecondaryChoiceContainer from "./SecondaryChoiceContainer";
-import DataikuInputsContainer from "./DataikuInputsContainer";
 import ModelChoiceContainer from "./ModelChoiceContainer";
 import ConclusionContainer from "./ConclusionContainer";
 
@@ -40,9 +39,11 @@ import {
   STEP_DATAIKU_FEEDBACK,
   STEP_CONCLUSION,
 } from "../constants";
+import translate from "../helpers/translate";
 
 function GlobalContainer({
-  ui: { currentStep, numberOfSteps },
+  ui: { currentStep, metricsOrderIsValidated },
+  data: { filters, choosenModel },
   setCurrentStep,
   startApp,
   getData,
@@ -51,42 +52,43 @@ function GlobalContainer({
     startApp();
     getData();
   }, [startApp, getData]);
-  const renderStep = (stepIndex = 0) => {
-    switch (stepIndex) {
-      // header
-      case STEP_HEADER:
-        return <HeaderContainer />;
-      // intro 1 (dataiku outputs)
-      case STEP_DATAIKU_PRACTICE:
-        return <DataikuIntroContainer />;
-      // intro 2 (eu priniples)
-      case STEP_EU_LEGISLATION:
-        return <EuLegislationContainer />;
-      // intro 3 (variables presentation)
-      case STEP_METRICS_EXPLANATION_0:
-      case STEP_METRICS_EXPLANATION_1:
-      case STEP_METRICS_EXPLANATION_2:
-      case STEP_METRICS_EXPLANATION_3:
-      case STEP_METRICS_EXPLANATION_4:
-      case STEP_METRICS_EXPLANATION_5:
-        return <MetricsIntroContainer />;
-      // sort variables
-      case STEP_METRICS_SORTING:
-        return <MetricsOrderingContainer />;
-      // main choice
-      case STEP_MAIN_CHOICE:
-        console.log("render main choice");
-        return <MainChoiceContainer />;
-      // second choice
-      case STEP_SECONDARY_CHOICE_1:
-        return (
+
+  const steps = {
+    [STEP_HEADER]: {
+      renderStep: () => <HeaderContainer />,
+      title: translate("home"),
+    },
+    [STEP_DATAIKU_PRACTICE]: {
+      renderStep: () => <DataikuIntroContainer />,
+      title: translate("intro-dataiku"),
+    },
+    [STEP_EU_LEGISLATION]: {
+      renderStep: () => <EuLegislationContainer />,
+      title: translate("intro-eu"),
+    },
+    [STEP_METRICS_SORTING]: {
+      renderStep: () => <MetricsOrderingContainer />,
+      title: translate("metrics-sorting"),
+    },
+    [STEP_MAIN_CHOICE]: {
+      renderStep: () => <MainChoiceContainer />,
+      title: translate("main-choice"),
+      disabled: !metricsOrderIsValidated,
+    },
+    [STEP_SECONDARY_CHOICE_1]: {
+      renderStep: () =>
+        Object.keys(filters).length < 2 ? null : (
           <SecondaryChoiceContainer
             metricsExtent={[2, 3]}
             previousExtents={[[0, 1]]}
           />
-        );
-      case STEP_SECONDARY_CHOICE_2:
-        return (
+        ),
+      title: translate("secondary-choice"),
+      disabled: !metricsOrderIsValidated || Object.keys(filters).length < 2,
+    },
+    [STEP_SECONDARY_CHOICE_2]: {
+      renderStep: () =>
+        Object.keys(filters).length < 4 ? null : (
           <SecondaryChoiceContainer
             nextStep={STEP_MODEL_CHOICE}
             previousExtents={[
@@ -95,38 +97,54 @@ function GlobalContainer({
             ]}
             metricsExtent={[3, 4]}
           />
-        );
-      case STEP_MODEL_CHOICE:
-        return <ModelChoiceContainer />;
-      case STEP_DATAIKU_FEEDBACK:
-        return <DataikuInputsContainer />;
-      case STEP_CONCLUSION:
-        return <ConclusionContainer />;
-      default:
-        return <>Step {stepIndex}</>;
-    }
+        ),
+      title: translate("secondary-choice"),
+      disabled: !metricsOrderIsValidated || Object.keys(filters).length < 4,
+    },
+    [STEP_MODEL_CHOICE]: {
+      renderStep: () =>
+        Object.keys(filters).length < 5 ? null : <ModelChoiceContainer />,
+      title: translate("model-choice"),
+      disabled: !metricsOrderIsValidated || Object.keys(filters).length < 5,
+    },
+    [STEP_CONCLUSION]: {
+      renderStep: () => <ConclusionContainer />,
+      title: translate("conclusion"),
+      disabled: !metricsOrderIsValidated || !choosenModel,
+    },
   };
-  let steps = new Array(
-    numberOfSteps > currentStep + 1 ? numberOfSteps : currentStep + 1
-  );
-  for (let i = 0; i < steps.length; i++) {
-    steps[i] = i;
-  }
+  const metricsInfo = [
+    STEP_METRICS_EXPLANATION_0,
+    STEP_METRICS_EXPLANATION_1,
+    STEP_METRICS_EXPLANATION_2,
+    STEP_METRICS_EXPLANATION_3,
+    STEP_METRICS_EXPLANATION_4,
+    STEP_METRICS_EXPLANATION_5,
+  ];
+  metricsInfo.forEach((index) => {
+    steps[index] = {
+      renderStep: () => <MetricsIntroContainer />,
+      title: `${translate("intro-metrics")} (${index + 1})`,
+    };
+  });
   return (
     <div className="container">
-      {steps.map((s, index) => (
-        <StepContainer key={index} active={index === currentStep}>
-          {renderStep(index)}
-        </StepContainer>
-      ))}
+      {Object.entries(steps).map(([index, s]) => {
+        const { renderStep } = s;
+        return (
+          <StepContainer key={index} active={+index === currentStep}>
+            {renderStep()}
+          </StepContainer>
+        );
+      })}
       <StepNav
         {...{
           currentStep,
           setCurrentStep,
-          numberOfSteps,
+          steps,
         }}
       />
-      <Tooltip />
+      <Tooltip id="tooltip" />
     </div>
   );
 }

@@ -16,9 +16,8 @@ import BrushableScatterPlot from "../components/BrushableScatterPlot";
 import { STEP_SECONDARY_CHOICE_2 } from "../constants";
 
 function SecondChoiceContainer({
-  data: { metricsOrder, models, filters },
+  data: { metricsOrder, models, filters, privacyVariables = {} },
   setCurrentStep,
-  setNumberOfSteps,
   setMainChoiceIsValidated,
   addFilters,
   metricsExtent: [fromMetric, toMetric] = [2, 3],
@@ -33,12 +32,13 @@ function SecondChoiceContainer({
       [toMetric + ""]: filter2,
     });
     setMainChoiceIsValidated(true);
-    setNumberOfSteps(nextStep + 1);
     setCurrentStep(nextStep);
   };
   const handlePreviousStep = () => {
     setCurrentStep(currentStep - 1);
   };
+
+  if (!Object.keys(filters).length) return null;
 
   return (
     <section className="second-choice-screen">
@@ -58,7 +58,7 @@ function SecondChoiceContainer({
           {/* mini scatterplots for previous steps */}
           {previousExtents.map(([from, to], index) => {
             let theseVariables = [filters[from + ""], filters[to + ""]].find(
-              (f) => f.variables
+              (f) => f && f.variables
             );
             theseVariables = theseVariables
               ? theseVariables.variables
@@ -121,6 +121,7 @@ function SecondChoiceContainer({
             )}
             onSubmit={handleSubmit}
             onPreviousStep={handlePreviousStep}
+            privacyVariables={privacyVariables}
             values={
               filters[fromMetric + ""] && filters[toMetric + ""]
                 ? [filters[fromMetric + ""], filters[toMetric + ""]]

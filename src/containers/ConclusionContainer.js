@@ -18,15 +18,14 @@ import { STEP_METRICS_SORTING } from "../constants";
 import downloadFile from "../helpers/download";
 
 function ConclusionContainer({
-  data: { dataikuResults, choosenModel, filters },
+  data: { dataikuResults, choosenModel, filters, privacyVariables },
   history,
   resetApp,
   setCurrentStep,
 }) {
-  let privacyVariables = Object.entries(filters)
-    .map(([_key, filter]) => filter)
-    .find((f) => f.variables);
-  privacyVariables = privacyVariables && privacyVariables.variables;
+  if (!choosenModel) {
+    return null;
+  }
   const csv = `source;${metricsList
     .map(({ name }) => name)
     .join(";")};variables considérées comme privées
@@ -35,13 +34,15 @@ interface;${metricsList
     .map(({ id, name }) => {
       const value =
         id === "Privacy"
-          ? -choosenModel.variables.filter((vName) =>
-              privacyVariables.includes(vName)
-            ).length
+          ? -Object.keys(privacyVariables).filter((f) => privacyVariables[f])
+              .length
           : choosenModel[id];
+
       return value;
     })
-    .join(";")};${privacyVariables.join(", ")}`;
+    .join(";")};${Object.keys(privacyVariables)
+    .filter((f) => privacyVariables[f])
+    .join(", ")}`;
   return (
     <section className="single-choice-screen">
       <h1 className="step-title">{translate("conclusion_screen_title")}</h1>
@@ -70,9 +71,9 @@ interface;${metricsList
             <ul>
               {metricsList.map(({ id, name, short_description }) => {
                 const value =
-                  id === "Privacy"
-                    ? -choosenModel.variables.filter((vName) =>
-                        privacyVariables.includes(vName)
+                  id === "privacy"
+                    ? -Object.keys(privacyVariables).filter(
+                        (f) => privacyVariables[f]
                       ).length
                     : choosenModel[id];
                 return (

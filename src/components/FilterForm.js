@@ -1,4 +1,5 @@
 import react, {
+  useCallback,
   useEffect,
   useState,
 } from "react"; /* eslint no-unused-vars : 0 */
@@ -22,19 +23,17 @@ function FilterForm({
   onSubmit,
   onPreviousStep,
   filters = [],
+  privacyVariables,
   values,
 }) {
   let [metric1, metric2] = metrics;
 
-  const defaultFilteredVariables = variables
-    .filter(({ relates_to_privacy }) => relates_to_privacy)
+  const filteredVariables = variables
+    .filter(({ id }) => privacyVariables[id])
     .map(({ id }) => id);
 
   const [absoluteMin1, setAbsoluteMin1] = useState(0);
   const [absoluteMax2, setAbsoluteMax2] = useState(0);
-  const [filteredVariables, setFilteredVariables] = useState(
-    defaultFilteredVariables
-  );
 
   const [absoluteMin2, setAbsoluteMin2] = useState(0);
   const [absoluteMax1, setAbsoluteMax1] = useState(0);
@@ -47,26 +46,23 @@ function FilterForm({
   const [filteredModels, setFilteredModels] = useState(models);
 
   useEffect(() => {
+    if (!models.length) return null;
     if (values && values.length > 1) {
       setChoosenMin1(values[0].range[0]);
       setChoosenMax1(values[0].range[1]);
       setChoosenMin2(values[1].range[0]);
       setChoosenMax2(values[1].range[1]);
-      const hasVariables = values.find((v) => v.variables);
-      if (hasVariables) {
-        setFilteredVariables(hasVariables.variables);
-      }
     } else {
       setChoosenMin1(absoluteMin1);
       setChoosenMax1(absoluteMax1);
       setChoosenMin2(absoluteMin2);
       setChoosenMax2(absoluteMax2);
-      setFilteredVariables(defaultFilteredVariables);
     }
   }, [values]); /* eslint react-hooks/exhaustive-deps : 0 */
 
   useDebounce(
     () => {
+      if (!models.length) return null;
       const theseFilters = [
         ...filters,
         {
@@ -89,6 +85,7 @@ function FilterForm({
   );
 
   useEffect(() => {
+    if (!models.length) return null;
     metric1 = metrics[0];
     metric2 = metrics[1];
     let absMin1, absMax1, absMin2, absMax2;
@@ -126,7 +123,6 @@ function FilterForm({
       absMin2 = min(models, (d) => +d[metric2.id]);
       absMax2 = max(models, (d) => +d[metric2.id]);
     }
-
     setAbsoluteMin1(+absMin1.toFixed(DECIMALS));
     setAbsoluteMax1(+absMax1.toFixed(DECIMALS));
     setAbsoluteMin2(+absMin2.toFixed(DECIMALS));
@@ -138,15 +134,10 @@ function FilterForm({
       setChoosenMin2(+absMin2.toFixed(DECIMALS));
       setChoosenMax2(+absMax2.toFixed(DECIMALS));
     }
-
-    setFilteredVariables(
-      variables
-        .filter(({ relates_to_privacy }) => relates_to_privacy)
-        .map(({ id }) => id)
-    );
   }, [models, metrics]);
 
   useEffect(() => {
+    if (!models.length) return null;
     if (metric1.id === "Privacy") {
       const absMin1 = -max(
         models,
@@ -180,6 +171,8 @@ function FilterForm({
       setAbsoluteMax2(absMax2);
     }
   }, [filteredVariables]);
+
+  if (!models.length) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -255,9 +248,6 @@ function FilterForm({
               setChoosenMin1(thatMin);
               setChoosenMax1(thatMax);
             }}
-            onFilteredVariablesChange={(theseVars) => {
-              setFilteredVariables(theseVars);
-            }}
           />
           <VariableInputs
             metric={metric2}
@@ -269,9 +259,6 @@ function FilterForm({
             onRangeChange={([thatMin, thatMax]) => {
               setChoosenMin2(thatMin);
               setChoosenMax2(thatMax);
-            }}
-            onFilteredVariablesChange={(theseVars) => {
-              setFilteredVariables(theseVars);
             }}
           />
         </div>

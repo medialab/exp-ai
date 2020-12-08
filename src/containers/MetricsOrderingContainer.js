@@ -20,7 +20,6 @@ function MetricsOrderingContainer({
   data: { metricsOrder },
   setCurrentStep,
   setMetricsOrder,
-  setNumberOfSteps,
   setMetricsOrderIsValidated,
   currentStep,
 }) {
@@ -37,12 +36,10 @@ function MetricsOrderingContainer({
     );
 
     setMetricsOrder(items);
-    setNumberOfSteps(STEP_METRICS_SORTING + 1);
   };
 
   const handleValidateOrder = () => {
     setMetricsOrderIsValidated(true);
-    setNumberOfSteps(STEP_MAIN_CHOICE + 1);
     setCurrentStep(STEP_MAIN_CHOICE);
   };
   return (

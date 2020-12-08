@@ -6,24 +6,22 @@ import cx from "classnames";
 
 import "./StepNav.scss";
 
-function StepNav({ currentStep, numberOfSteps, setCurrentStep }) {
-  const [steps, setSteps] = useState([]);
-  useMemo(() => {
-    let newSteps = new Array(numberOfSteps);
-    for (let i = 0; i < newSteps.length; i++) {
-      newSteps[i] = i;
-    }
-    setSteps(newSteps);
-  }, [numberOfSteps]);
-
+function StepNav({ currentStep, setCurrentStep, steps }) {
   return (
     <nav className="step-nav">
       <ul className="step-nav-items-container">
-        {steps.map((_s, index) => (
+        {Object.entries(steps).map(([index, step]) => (
           <li
-            className={cx("step-nav-item", { active: index === currentStep })}
-            onClick={() => setCurrentStep(index)}
+            className={cx("step-nav-item", {
+              active: +index === currentStep,
+              disabled: step.disabled,
+            })}
+            onClick={() => setCurrentStep(+index)}
             key={index}
+            data-for="tooltip"
+            data-tip={step.title}
+            data-effect="solid"
+            data-place="left"
           />
         ))}
       </ul>

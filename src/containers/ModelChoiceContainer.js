@@ -16,16 +16,12 @@ import "./ModelChoiceContainer.scss";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 
-import { STEP_DATAIKU_FEEDBACK } from "../constants";
-
 function ModelChoiceContainer({
-  ui: { numberOfSteps, mainChoiceIsValidated },
-  data: { models, filters, choosenModel },
+  ui: { mainChoiceIsValidated, currentStep },
+  data: { models, filters, choosenModel, privacyVariables },
   setChoosenModel,
   setCurrentStep,
-  setNumberOfSteps,
   addFilters,
-  nextStep = STEP_DATAIKU_FEEDBACK,
 }) {
   const [highlightedNodeId, setHighlightedNodeId] = useState(undefined);
   const previousExtents = [
@@ -39,10 +35,7 @@ function ModelChoiceContainer({
     Object.entries(filters).map(([_key, filter]) => filter)
   );
 
-  let privacyVariables = Object.entries(filters)
-    .map(([_key, filter]) => filter)
-    .find((f) => f.variables);
-  privacyVariables = privacyVariables && privacyVariables.variables;
+  if (!Object.keys(filters).length) return null;
   return (
     <section className="single-choice-screen">
       <h1 className="step-title">{translate("model_choice_screen_title")}</h1>
@@ -55,7 +48,7 @@ function ModelChoiceContainer({
           <div className="">
             {previousExtents.map(([from, to], index) => {
               let theseVariables = [filters[from + ""], filters[to + ""]].find(
-                (f) => f.variables
+                (f) => f && f.variables
               );
               theseVariables = theseVariables
                 ? theseVariables.variables
@@ -143,8 +136,7 @@ function ModelChoiceContainer({
                     }}
                     onClick={() => {
                       setChoosenModel(model);
-                      setNumberOfSteps(STEP_DATAIKU_FEEDBACK + 1);
-                      setCurrentStep(STEP_DATAIKU_FEEDBACK);
+                      setCurrentStep(currentStep + 1);
                     }}
                     className={cx("model-row", {
                       "is-active": choosenModel
@@ -156,8 +148,8 @@ function ModelChoiceContainer({
                     {metricsList.map(({ name, id }) => (
                       <th key={id}>
                         {id === "Privacy" && privacyVariables
-                          ? -model.variables.filter((vName) =>
-                              privacyVariables.includes(vName)
+                          ? -model.variables.filter(
+                              (vName) => privacyVariables[vName]
                             ).length
                           : model[id]}
                       </th>

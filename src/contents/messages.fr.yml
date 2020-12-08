@@ -49,3 +49,12 @@ privacy: Privacy
 interpretability: Interprétabilité
 dataiku_results_label: Votre score issu de l'étape 1 réalisée avec Dataiku
 privacy_prompt: Définissez les variables qui relèvent de la privacy selon vous
+home: accueil
+intro-dataiku: Étape 1 - expérience avec Dataiku
+intro-eu: Principes de l'Union Européenne
+metrics-sorting: Classement des métriques
+main-choice: Arbitrage principal
+secondary-choice: Arbitrage secondaire
+model-choice: Choix du modèle
+conclusion: Conclusion
+intro-metrics: Introduction aux métriques
