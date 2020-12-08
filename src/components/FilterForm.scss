@@ -5,6 +5,44 @@
     padding: 0.3em;
   }
 
+  .count-container {
+    position: relative;
+    top: -7rem;
+  }
+
+  .axis-container {
+    > div {
+      max-width: 50%;
+    }
+    overflow: hidden;
+    &.axis-x {
+      text-align: right;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      .inputs-container {
+        justify-content: flex-end;
+      }
+    }
+
+    .variable-inputs {
+      .details-container {
+        transition: 0.5s ease all;
+        overflow: hidden;
+        // max-height: 0;
+      }
+      .rc-slider {
+        margin-top: 0.5rem;
+      }
+    }
+    // &.is-deployed,
+    // &:hover {
+    // .details-container{
+    //   max-height: 50vh;
+    // }
+    // }
+  }
+
   .variable-inputs {
     padding: var(--gutter-small);
     // border: 2px solid var(--color-black);
@@ -21,14 +59,21 @@
     input[type="text"] {
       border: none;
       font-family: inherit;
-      font-size: 1rem;
-      display: inline;
+      // font-size: 1rem;
+      // display: inline;
       border: 1px solid var(--color-black);
       box-sizing: border-box;
       &:focus {
         outline: none;
         border-width: 2px;
       }
+    }
+
+    .inputs-container {
+      display: flex;
+      flex-flow: row nowrap;
+      margin: 0.5rem 0;
+      margin-bottom: 0;
     }
 
     .rc-slider-handle {

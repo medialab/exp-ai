@@ -5,6 +5,8 @@ import react, {
 } from "react"; /* eslint no-unused-vars : 0 */
 import { min, max } from "d3-array";
 import Tooltip from "react-tooltip";
+import Dimensions from "react-dimensions";
+import cx from "classnames";
 import "./FilterForm.scss";
 
 import BrushableScatterPlot from "./BrushableScatterPlot";
@@ -26,6 +28,8 @@ function FilterForm({
   filters = [],
   privacyVariables,
   values,
+  containerWidth,
+  containerHeight,
 }) {
   let [metric1, metric2] = metrics;
 
@@ -43,6 +47,9 @@ function FilterForm({
 
   const [choosenMin2, setChoosenMin2] = useState(null);
   const [choosenMax1, setChoosenMax1] = useState(null);
+
+  const [xOptionsVisible, setXOptionsVisible] = useState(false);
+  const [yOptionsVisible, setYOptionsVisible] = useState(false);
 
   const [filteredModels, setFilteredModels] = useState(models);
 
@@ -208,6 +215,25 @@ function FilterForm({
     <form className="filter-form" onSubmit={handleSubmit}>
       <div className="columns-container">
         <div className="column is-main">
+          <div
+            className={cx("axis-container axis-y", {
+              "is-deployed": yOptionsVisible,
+            })}
+          >
+            <VariableInputs
+              metric={metric2}
+              values={[choosenMin2, choosenMax2]}
+              min={absoluteMin2}
+              max={absoluteMax2}
+              onLabelClick={() => setYOptionsVisible(!yOptionsVisible)}
+              filteredVariables={filteredVariables}
+              axis={"y"}
+              onRangeChange={([thatMin, thatMax]) => {
+                setChoosenMin2(thatMin);
+                setChoosenMax2(thatMax);
+              }}
+            />
+          </div>
           <BrushableScatterPlot
             data={models}
             xVariable={metric1.id}
@@ -218,10 +244,32 @@ function FilterForm({
               y: [choosenMin2, choosenMax2],
             }}
             onBrushChange={handleBrushChange}
-            width={900}
-            height={600}
+            width={containerWidth * 0.9}
+            height={400}
+            style={{
+              paddingLeft: containerWidth * 0.1,
+            }}
           />
-          <h4>
+          <div
+            className={cx("axis-container axis-x", {
+              "is-deployed": xOptionsVisible,
+            })}
+          >
+            <VariableInputs
+              metric={metric1}
+              values={[choosenMin1, choosenMax1]}
+              min={absoluteMin1}
+              max={absoluteMax1}
+              axis={"x"}
+              onLabelClick={() => setXOptionsVisible(!xOptionsVisible)}
+              filteredVariables={filteredVariables}
+              onRangeChange={([thatMin, thatMax]) => {
+                setChoosenMin1(thatMin);
+                setChoosenMax1(thatMax);
+              }}
+            />
+          </div>
+          {/*<h4>
             Vous filtrez dans{" "}
             <code>
               {metric1.name} <InfoTip tip={metric1.short_description} />
@@ -231,37 +279,26 @@ function FilterForm({
               {metric2.name} <InfoTip tip={metric2.short_description} />
             </code>{" "}
             sur les y
-          </h4>
-          <p>
-            <span className="count-indicator">{filteredModels.length}</span>{" "}
-            modèles sélectionnés
-          </p>
-        </div>
-        <div className="column is-aside">
-          <VariableInputs
-            metric={metric1}
-            values={[choosenMin1, choosenMax1]}
-            min={absoluteMin1}
-            max={absoluteMax1}
-            axis={"abscisses"}
-            filteredVariables={filteredVariables}
-            onRangeChange={([thatMin, thatMax]) => {
-              setChoosenMin1(thatMin);
-              setChoosenMax1(thatMax);
+          </h4>*/}
+          <div
+            style={{
+              // position: 'absolute',
+              // top: 0,
+              // right: 0,
+              // bottom: '1rem',
+              // paddingLeft: containerWidth * .15,
+              maxWidth: containerWidth * 0.4,
             }}
-          />
-          <VariableInputs
-            metric={metric2}
-            values={[choosenMin2, choosenMax2]}
-            min={absoluteMin2}
-            max={absoluteMax2}
-            filteredVariables={filteredVariables}
-            axis={"ordonnées"}
-            onRangeChange={([thatMin, thatMax]) => {
-              setChoosenMin2(thatMin);
-              setChoosenMax2(thatMax);
-            }}
-          />
+            className="count-container"
+          >
+            <p>
+              <span className="count-indicator">{filteredModels.length}</span>{" "}
+              modèles sélectionnés.
+            </p>
+            <p>
+              <i>Faire glisser la souris pour sélectionner des modèles.</i>
+            </p>
+          </div>
         </div>
       </div>
       <ContinueButton
@@ -278,4 +315,4 @@ function FilterForm({
   );
 }
 
-export default FilterForm;
+export default Dimensions()(FilterForm);

@@ -145,8 +145,8 @@ const MiniGraph = ({
         readOnly={readOnly}
         minified
         highlightedNodeId={actuallyHighlitedNodeId}
-        width={300}
-        height={300}
+        width={200}
+        height={200}
         onBrushChange={handleBrushChange}
       />
     </div>

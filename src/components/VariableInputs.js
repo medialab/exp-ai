@@ -43,6 +43,7 @@ function VariableInputs({
   max,
   onRangeChange,
   axis = "abscisses",
+  onLabelClick,
 }) {
   const handleMinChange = (val) => {
     onRangeChange([val, values[1]]);
@@ -53,48 +54,54 @@ function VariableInputs({
   const SLIDER_MULTIPLIER = 10000;
   return (
     <div className="variable-inputs">
-      <h5>
-        Choix pour{" "}
-        <code>
-          {metric.name}{" "}
-          <InfoTip data-for="variable-tip" tip={metric.short_description} />{" "}
-        </code>{" "}
-        (sur les {axis})
-      </h5>
-
-      <p>
-        Modèles entre{" "}
-        <Input
-          validate={(val) => !isNaN(val) && val < values[1]}
-          onChange={handleMinChange}
-          value={"" + values[0]}
-          type="text"
-        />{" "}
-        et{" "}
-        <Input
-          validate={(val) => !isNaN(val) && val > values[0]}
-          value={"" + values[1]}
-          onChange={handleMaxChange}
-          type="text"
-        />{" "}
-        (min: {min}, max: {max})
-      </p>
-
-      <Range
-        allowCross={false}
-        tipFormatter={(val) => val / SLIDER_MULTIPLIER}
-        onChange={([thatMin, thatMax]) => {
-          onRangeChange([
-            thatMin / SLIDER_MULTIPLIER,
-            thatMax / SLIDER_MULTIPLIER,
-          ]);
-        }}
-        step={metric.type === "integer" ? SLIDER_MULTIPLIER : undefined}
-        min={min * SLIDER_MULTIPLIER}
-        max={max * SLIDER_MULTIPLIER}
-        defaultValue={[min * SLIDER_MULTIPLIER, max * SLIDER_MULTIPLIER]}
-        value={[values[0] * SLIDER_MULTIPLIER, values[1] * SLIDER_MULTIPLIER]}
-      />
+      <div>
+        <h5>
+          <code onClick={onLabelClick}>
+            {axis}
+            {" : "}
+            {metric.name}{" "}
+            <InfoTip data-for="variable-tip" tip={metric.short_description} />{" "}
+          </code>{" "}
+        </h5>
+        <div className="details-container">
+          <div className="inputs-container">
+            <div>
+              <span>{"Min "}</span>
+              <Input
+                validate={(val) => !isNaN(val) && val < values[1]}
+                onChange={handleMinChange}
+                value={"" + values[0]}
+                type="text"
+              />
+            </div>
+            <div>
+              <span>{"Max "}</span>
+              <Input
+                validate={(val) => !isNaN(val) && val > values[0]}
+                value={"" + values[1]}
+                onChange={handleMaxChange}
+                type="text"
+              />
+            </div>
+            {/*(min: {min}, max: {max})*/}
+          </div>
+        </div>
+        <Range
+          allowCross={false}
+          tipFormatter={(val) => val / SLIDER_MULTIPLIER}
+          onChange={([thatMin, thatMax]) => {
+            onRangeChange([
+              thatMin / SLIDER_MULTIPLIER,
+              thatMax / SLIDER_MULTIPLIER,
+            ]);
+          }}
+          step={metric.type === "integer" ? SLIDER_MULTIPLIER : undefined}
+          min={min * SLIDER_MULTIPLIER}
+          max={max * SLIDER_MULTIPLIER}
+          defaultValue={[min * SLIDER_MULTIPLIER, max * SLIDER_MULTIPLIER]}
+          value={[values[0] * SLIDER_MULTIPLIER, values[1] * SLIDER_MULTIPLIER]}
+        />
+      </div>
       <Tooltip id="variable-tip" />
     </div>
   );

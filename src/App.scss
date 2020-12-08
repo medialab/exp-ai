@@ -180,8 +180,8 @@ button {
       box-sizing: border-box;
     }
     &.is-aside {
-      max-width: 400px;
-      min-width: 400px;
+      max-width: 300px;
+      min-width: 300px;
       margin-right: var(--gutter-medium);
     }
     &:not(:first-of-type) {

@@ -31,6 +31,8 @@ function BrushableScatterPlot({
   readOnly = false,
   minified = false,
   highlightedNodeId,
+
+  ...props
 }) {
   const [[xMin, xMax], setXRange] = useState([xMinOriginal, xMaxOriginal]);
   const [[yMin, yMax], setYRange] = useState([yMinOriginal, yMaxOriginal]);
@@ -106,7 +108,7 @@ function BrushableScatterPlot({
   };
 
   return (
-    <div className="brushable-scatterplot-container">
+    <div className="brushable-scatterplot-container" {...props}>
       <svg
         width={width}
         height={height}

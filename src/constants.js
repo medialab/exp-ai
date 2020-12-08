@@ -15,4 +15,7 @@ export const STEP_SECONDARY_CHOICE_1 = 11;
 export const STEP_SECONDARY_CHOICE_2 = 12;
 export const STEP_MODEL_CHOICE = 13;
 export const STEP_CONCLUSION = 14;
-export const DECIMALS = 16;
+/**
+ * Number of decimals after comma for indicators brushes
+ */
+export const DECIMALS = 2;
