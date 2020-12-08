@@ -1,4 +1,7 @@
-import react, { useRef } from "react"; /* eslint no-unused-vars : 0 */
+import react, {
+  useRef,
+  useEffect,
+} from "react"; /* eslint no-unused-vars : 0 */
 import { Transition } from "react-transition-group";
 import cx from "classnames";
 
@@ -25,6 +28,16 @@ const duration = 300;
 
 function StepContainer({ children, active, style = {}, ...otherProps }) {
   const nodeRef = useRef(null);
+  useEffect(() => {
+    if (active) {
+      setTimeout(() => {
+        document.querySelector("html").scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }, 500);
+    }
+  }, [active]);
   return (
     <Transition nodeRef={nodeRef} in={active} timeout={duration}>
       {(state) => (
