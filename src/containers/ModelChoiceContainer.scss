@@ -3,21 +3,51 @@
     margin: 0;
   }
   .model-choice-table {
+    th:not(:first-of-type) {
+      max-width: 2rem;
+      min-width: 2rem;
+      min-height: 2rem;
+      max-height: 2rem;
+    }
     thead th {
-      background: var(--color-black);
-      color: white;
+      // background: var(--color-black);
+      // color: white;
       vertical-align: top;
       padding: var(--gutter-small);
+
+      &:not(:first-of-type) {
+        height: 15rem;
+        white-space: nowrap;
+        font-size: 0.7em;
+        > div {
+          transform: translate(0, 14rem) rotate(315deg);
+          width: 30px;
+          > span {
+            padding: 5px 10px;
+          }
+        }
+      }
     }
     tbody {
       font-weight: 400;
       .model-row {
         cursor: pointer;
+        min-height: 2rem;
+        opacity: 0.5;
         &:nth-child(even) {
           background: lightgrey;
         }
         &.is-active {
-          background: brown;
+          opacity: 1;
+          // background: brown;
+        }
+        th {
+          background: lightgrey;
+          height: 2rem;
+          opacity: 0.5;
+          &:hover {
+            opacity: 1;
+          }
         }
       }
     }

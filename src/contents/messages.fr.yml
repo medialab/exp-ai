@@ -62,3 +62,4 @@ intro-metrics: Introduction aux métriques
 show-descriptions: montrer les descriptions des métriques
 move_up: remonter
 move_down: descendre
+select_model: sélectionner

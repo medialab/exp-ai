@@ -6,20 +6,22 @@ import cx from "classnames";
 
 import translate from "../helpers/translate";
 import { filterModels } from "../helpers/filters";
+import { sortModelsByDistance } from "../helpers/sorters";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
-import ContinueButton from "../components/ContinueButton";
-import BrushableScatterPlot from "../components/BrushableScatterPlot";
 
 import "./ModelChoiceContainer.scss";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import MiniGraph from "../components/MiniGraph";
+import ReactTooltip from "react-tooltip";
+import { extent } from "d3-array";
+import { scaleLinear } from "d3-scale";
 
 function ModelChoiceContainer({
-  ui: { mainChoiceIsValidated, currentStep },
-  data: { models, filters, choosenModel, privacyVariables },
+  ui: { currentStep },
+  data: { models, filters, choosenModel, privacyVariables, metricsOrder },
   setChoosenModel,
   setCurrentStep,
   addFilters,
@@ -31,12 +33,37 @@ function ModelChoiceContainer({
     [3, 4],
   ];
 
-  const visibleModels = filterModels(
+  let visibleModels = filterModels(
     models,
     Object.entries(filters).map(([_key, filter]) => filter)
   );
+  const colorScales = metricsList.reduce((res, { id }) => {
+    const range = extent(visibleModels, (d) => +d[id]);
+    const scale = scaleLinear().domain(range).range(["red", "green"]);
+    return {
+      ...res,
+      [id]: scale,
+    };
+  }, {});
+  const normalScales = metricsList.reduce((res, { id }) => {
+    const range = extent(visibleModels, (d) => +d[id]);
+    const scale = scaleLinear().domain(range).range([0, 1]);
+    return {
+      ...res,
+      [id]: scale,
+    };
+  }, {});
+  visibleModels = visibleModels.sort((a, b) =>
+    sortModelsByDistance(
+      a,
+      b,
+      metricsOrder.map(({ id }) => id),
+      normalScales
+    )
+  );
 
   if (!Object.keys(filters).length) return null;
+
   return (
     <section className="single-choice-screen">
       <h1 className="step-title">{translate("model_choice_screen_title")}</h1>
@@ -78,10 +105,14 @@ function ModelChoiceContainer({
           <table className="model-choice-table">
             <thead>
               <tr>
-                {metricsList.map(({ name, id }) => (
-                  <th key={id}>{name}</th>
+                <th></th>
+                {metricsOrder.map(({ name, id }) => (
+                  <th key={id}>
+                    <div>
+                      <span>{name}</span>
+                    </div>
+                  </th>
                 ))}
-                <th>Variables</th>
               </tr>
             </thead>
             <tbody
@@ -107,16 +138,43 @@ function ModelChoiceContainer({
                         : model.id === highlightedNodeId,
                     })}
                   >
-                    {metricsList.map(({ name, id }) => (
-                      <th key={id}>
-                        {id === "Privacy" && privacyVariables
-                          ? -model.variables.filter(
-                              (vName) => privacyVariables[vName]
-                            ).length
-                          : model[id]}
-                      </th>
-                    ))}
-                    <th>{model.variables.join(", ")}</th>
+                    <th>
+                      <button>{translate("select_model")}</button>
+                    </th>
+                    {metricsOrder.map(({ name, id }) => {
+                      let tip = name + " : " + model[id];
+                      if (id === "privacy") {
+                        tip =
+                          name +
+                          " : " +
+                          -model.variables.filter(
+                            (vName) => privacyVariables[vName]
+                          ).length;
+                      } else if (id === "interpretability") {
+                        tip =
+                          name +
+                          " : " +
+                          model[id] +
+                          "<br/> variables utilisées : " +
+                          model.variables.join(", ");
+                      }
+                      return (
+                        <th
+                          key={id}
+                          data-for="table-tooltip"
+                          data-tip={tip}
+                          data-html={true}
+                          style={{
+                            background: colorScales[id](+model[id]),
+                          }}
+                        >
+                          {id === "interpretability"
+                            ? model.variables.length
+                            : ""}
+                        </th>
+                      );
+                    })}
+                    <ReactTooltip id="table-tooltip" />
                   </tr>
                 );
               })}
