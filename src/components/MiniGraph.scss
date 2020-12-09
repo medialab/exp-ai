@@ -2,8 +2,16 @@
   .mini-graph-title {
     display: flex;
     flex-flow: row nowrap;
+    margin-bottom: 0;
     > span:last-of-type {
       flex: 1;
+    }
+
+    .number-indicator {
+      cursor: pointer;
+      &:hover {
+        background: grey;
+      }
     }
   }
 
@@ -13,11 +21,15 @@
 
   .values-container {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     .value-container {
       display: flex;
       flex-flow: column nowrap;
       flex: 1;
+      width: 100%;
+      &:not(:last-of-type) {
+        padding-bottom: 0.5rem;
+      }
     }
     .separator {
       padding: 0 0.5rem;
@@ -29,7 +41,7 @@
   }
 
   .brushable-scatterplot {
-    margin-left: 1.5rem;
+    margin-left: -1rem;
   }
 
   .rc-slider-handle {

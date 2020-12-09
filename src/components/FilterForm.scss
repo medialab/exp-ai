@@ -74,6 +74,9 @@
       flex-flow: row nowrap;
       margin: 0.5rem 0;
       margin-bottom: 0;
+      div:not(:last-of-type) {
+        margin-right: 0.5rem;
+      }
     }
 
     .rc-slider-handle {

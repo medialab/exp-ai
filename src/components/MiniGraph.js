@@ -16,6 +16,9 @@ const MiniGraph = ({
   models,
   from,
   to,
+  onNav,
+  fromName,
+  toName,
   variables,
   choosenModel,
   highlightedNodeId,
@@ -85,7 +88,9 @@ const MiniGraph = ({
     <div className="mini-graph-container">
       <h5 className="mini-graph-title">
         <div>
-          <span className="number-indicator">{index + 1}</span>
+          <span onClick={onNav} className="number-indicator">
+            {index + 1}
+          </span>
         </div>
         <div className="values-container">
           <span className="value-container">
@@ -94,7 +99,7 @@ const MiniGraph = ({
                 background: metricsColorMap[xVariable],
               }}
             >
-              {filters[from + ""].variable}
+              {fromName}
             </code>
             <Range
               allowCross={false}
@@ -118,14 +123,13 @@ const MiniGraph = ({
               }}
             />
           </span>
-          <span className="separator">{" vs "}</span>
           <span className="value-container">
             <code
               style={{
                 background: metricsColorMap[yVariable],
               }}
             >
-              {filters[to + ""].variable}
+              {toName}
             </code>
             <Range
               allowCross={false}

@@ -11,9 +11,12 @@ import * as dataDuck from "../state/duckData";
 import MetricsCrossingIndicator from "../components/MetricsCrossingIndicator";
 
 import FilterForm from "../components/FilterForm";
-import BrushableScatterPlot from "../components/BrushableScatterPlot";
 
-import { STEP_SECONDARY_CHOICE_2 } from "../constants";
+import {
+  STEP_MAIN_CHOICE,
+  STEP_SECONDARY_CHOICE_1,
+  STEP_SECONDARY_CHOICE_2,
+} from "../constants";
 import MiniGraph from "../components/MiniGraph";
 
 function SecondChoiceContainer({
@@ -64,6 +67,22 @@ function SecondChoiceContainer({
             theseVariables = theseVariables
               ? theseVariables.variables
               : undefined;
+            const handleNav = () => {
+              let target;
+              switch (index) {
+                case 0:
+                  target = STEP_MAIN_CHOICE;
+                  break;
+                case 1:
+                  target = STEP_SECONDARY_CHOICE_1;
+                  break;
+                case 2:
+                default:
+                  target = STEP_SECONDARY_CHOICE_2;
+                  break;
+              }
+              setCurrentStep(target);
+            };
             return (
               <MiniGraph
                 key={index}
@@ -71,6 +90,13 @@ function SecondChoiceContainer({
                   index,
                   filters,
                   models,
+                  fromName: metricsOrder.find(
+                    ({ id }) => id === filters[from + ""].variable
+                  ).name,
+                  toName: metricsOrder.find(
+                    ({ id }) => id === filters[to + ""].variable
+                  ).name,
+                  onNav: handleNav,
                   from,
                   to,
                   variables: theseVariables,
@@ -78,50 +104,6 @@ function SecondChoiceContainer({
                   filterModels,
                 }}
               />
-              /*
-              <div key={index} className="mini-graph-container">
-                <h5>
-                  <code>{filters[from + ""].variable}</code> vs{" "}
-                  <code>{filters[to + ""].variable}</code>
-                </h5>
-                <BrushableScatterPlot
-                  data={
-                    from === 0
-                      ? models
-                      : filterModels(
-                          models,
-                          Object.entries(filters)
-                            .filter(([key]) => +key < from)
-                            .map(([_key, filter]) => filter)
-                        )
-                  }
-                  xVariable={filters[from + ""].variable}
-                  yVariable={filters[to + ""].variable}
-                  filteredVariables={theseVariables}
-                  brush={{
-                    x: filters[from + ""].range,
-                    y: filters[to + ""].range,
-                  }}
-                  minified
-                  width={200}
-                  height={200}
-                  onBrushChange={({
-                    x: [thatXMin, thatXMax],
-                    y: [thatYMin, thatYMax],
-                  }) => {
-                    addFilters({
-                      [from + ""]: {
-                        ...filters[from + ""],
-                        range: [thatXMin, thatXMax],
-                      },
-                      [to + ""]: {
-                        ...filters[to + ""],
-                        range: [thatYMin, thatYMax],
-                      },
-                    });
-                  }}
-                />
-              </div>*/
             );
           })}
         </aside>
