@@ -9,6 +9,7 @@ import translate from "../helpers/translate";
 
 import * as uiDuck from "../state/duckUi";
 import ContinueButton from "../components/ContinueButton";
+import schema from "../assets/schema_trustworthy_ai.png";
 
 import intro from "!!raw-loader!../contents/principles_eu.md";
 import { STEP_METRICS_EXPLANATION } from "../constants";
@@ -18,8 +19,18 @@ function EuLegislationContainer({ setCurrentStep, currentStep }) {
     <section className="step-2 contents-wrapper">
       <div className="contents-container">
         <h1 className="step-title">{translate("step_2_title")}</h1>
-        <div className="contents">
-          <Md source={intro} />
+        <div className="columns-container">
+          <div className="column">
+            <div className="contents">
+              <Md source={intro} />
+            </div>
+          </div>
+          <div className="column">
+            <img
+              src={schema}
+              alt="schema en provenance du rapport européen trustworthy ai"
+            />
+          </div>
         </div>
       </div>
 

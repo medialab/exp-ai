@@ -75,7 +75,6 @@ button {
   height: 100%;
 }
 .contents-container {
-  max-width: 1000px;
   padding-bottom: 5rem;
 }
 
@@ -122,6 +121,8 @@ button {
   }
   ol li {
     margin-bottom: var(--gutter-small);
+    display: flex;
+    flex-flow: row nowrap;
   }
   ol li::before {
     content: counter(li);
@@ -188,6 +189,9 @@ button {
     }
     &:not(:first-of-type) {
       margin-left: var(--gutter-medium);
+    }
+    img {
+      max-width: 100%;
     }
   }
 }
