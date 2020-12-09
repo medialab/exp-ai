@@ -11,6 +11,7 @@ import * as dataDuck from "../state/duckData";
 import * as historyDuck from "../state/duckHistory";
 
 import History from "../components/History";
+import InfoTip from "../components/InfoTip";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import variablesLists from "../contents/variables_list.fr.yml";
@@ -78,7 +79,7 @@ interface;${metricsList
             <th>Avec les métriques</th>
           </thead> */}
           <tbody>
-            {metricsOrder.map(({ name, id }) => {
+            {metricsOrder.map(({ name, id, short_description }) => {
               const color = metricsColorMap[id];
               const dataikuResult = dataikuResults[id];
               let expResult =
@@ -93,21 +94,37 @@ interface;${metricsList
               return (
                 <tr key={id}>
                   <th>
-                    <span style={{ background: color }}>{name}</span>
+                    <span
+                      className="tag metric-name"
+                      style={{ background: color }}
+                    >
+                      <span>
+                        {name}
+                        <InfoTip
+                          tip={short_description}
+                          data-place="right"
+                          data-effect="solid"
+                        />
+                      </span>
+                    </span>
                   </th>
 
                   <th>
-                    <span
-                      style={{
-                        background: "grey",
-                      }}
-                    >
-                      {dataikuResult}
-                    </span>
+                    {dataikuResult ? (
+                      <span
+                        className="tag"
+                        style={{
+                          background: "grey",
+                        }}
+                      >
+                        {dataikuResult}
+                      </span>
+                    ) : null}
                   </th>
                   <th>→</th>
                   <th>
                     <span
+                      className="tag"
                       style={{
                         background: !isImproving ? "red" : "green",
                       }}

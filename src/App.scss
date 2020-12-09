@@ -390,6 +390,7 @@ code {
   margin: 1rem 0 2rem 0;
   width: 100%;
   border-collapse: collapse;
+
   td {
     border: none;
   }
@@ -404,12 +405,22 @@ code {
   th {
     text-align: left;
     padding: 1rem;
-    span {
+    .tag {
       min-width: 3rem;
       display: inline-block;
       text-align: center;
       padding: 0.2rem;
       color: white;
+      &.metric-name {
+        > span {
+          display: flex;
+        }
+      }
+    }
+    .info-tip {
+      margin-left: 0.3rem;
+      border-color: white;
+      top: 0.1rem;
     }
 
     &:last-of-type {
