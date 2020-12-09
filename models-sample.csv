@@ -1,4 +1,4 @@
-nom_modele,Performance,fairness_accuracy,fairness_disparate_impact,Interpretability,Privacy
+nom_modele,performance,fairness_accuracy,fairness_disparate_impact,interpretability,privacy
 age credit_history foreign_worker housing installment_as_income_perc other_debtors personal._status present_emp_since property telephone,0.662678571428571,-0.0016152234418488967,0.449656750572082,-10.0,-7.0
 account_check_status credit_history credits_this_bank foreign_worker other_installment_plans present_emp_since property sex telephone,0.717142857142857,0.04403816679066361,0.827573392790784,-9.0,-5.0
 account_check_status age credit_amount credit_history foreign_worker other_debtors present_emp_since savings sex,0.74,0.015328052562095192,0.745859213250518,-9.0,-4.0
