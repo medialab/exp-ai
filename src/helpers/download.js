@@ -23,6 +23,5 @@ export default function downloadFile(
       break;
   }
   const blob = new Blob([text], { type });
-  console.log(text);
   FileSaver.saveAs(blob, `${fileName}.${extension}`);
 }

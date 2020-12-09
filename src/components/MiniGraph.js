@@ -63,9 +63,6 @@ const MiniGraph = ({
 
   const handleRangeChange = (axis, range) => {
     const key = axis === "x" ? from + "" : to + "";
-    if (axis === "x") {
-      console.log("on change", { range });
-    }
     addFilters({
       [key]: {
         ...filters[key],

@@ -97,7 +97,7 @@ const actionsSerialization = {
           ([_key, filter]) =>
             `${filter.variable} (entre ${filter.range[0]} et ${filter.range[1]})`
         )
-        .join(" " + translate("et") + " "),
+        .join(" " + translate("and") + " "),
   },
   SET_DATAIKU_RESULTS: {
     payload: () => ({}),

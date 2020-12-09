@@ -10,11 +10,11 @@ sort_screen_title: Classer les indicateurs
 sort_screen_prompt: Veuillez classer les indicateurs dans l'ordre qui vous semble être celui du plus important au moins important.
 sort_screen_prompt_details: Vous pouvez faire glisser les cartes dans l'ordre désiré.
 main_choice_screen_title: Sélectionner des modèles dans les deux dimensions les plus importantes
-main_choice_screen_intro: Veuillez sélectionnez des modèles à partir des deux indicateurs que vous avez définis comme les plus importants.
+main_choice_screen_intro: Veuillez sélectionner des modèles à partir des deux indicateurs que vous avez définis comme les plus importants.
 second_choice_screen_title: Sélectionner des modèles dans les autres dimensions
-second_choice_screen_intro: Veuillez sélectionnez des modèles à partir des filtrages précédents.
+second_choice_screen_intro: Veuillez sélectionner des modèles à partir des filtrages précédents.
 model_choice_screen_title: Choisir un modèle
-model_choice_screen_intro: Veuillez sélectionnez le modèle qui correspond à vos préférences.
+model_choice_screen_intro: Parmi les modèles qui correspondent aux arbitrages réalisés précédemment (rappelés ci-dessous), veuillez sélectionner le modèle qui correspond le mieux à une prise de décision éthique. Chaque ligne correspond à un modèle dont les caractéristiques sont rappelées sur chaque colonne.
 dataiku_input_screen_title: Avant de voir vos résultats, entrez les métriques de votre première expérience
 dataiku_input_screen_intro: Veuillez renseigner les informations pour les métriques fournies.
 conclusion_screen_title: Conclusion
@@ -68,3 +68,5 @@ dataiku_results_label_for_privacy: Nombre de variables privées utilisées avec 
 dataiku_results_label_for_disparate_impact: Votre indicateur de disparate imact avec dataiku
 dataiku_results_label_for_errors_distribution: Votre indicateur de distribution des erreurs avec dataiku
 dataiku_results_label_for_interpretability: Nombre de variables utilisées avec dataiku
+similarity: Similarité
+sort_by: Trier les modèles sélectionnés par

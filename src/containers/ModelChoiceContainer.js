@@ -15,6 +15,7 @@ import "./ModelChoiceContainer.scss";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import MiniGraph from "../components/MiniGraph";
+import ContinueButton from "../components/ContinueButton";
 import ReactTooltip from "react-tooltip";
 import { extent } from "d3-array";
 import { scaleLinear } from "d3-scale";
@@ -26,6 +27,8 @@ function ModelChoiceContainer({
   setCurrentStep,
   addFilters,
 }) {
+  const [selectedNodeId, setSelectedNodeId] = useState(undefined);
+  const [sortMode, setSortMode] = useState("similarity");
   const [highlightedNodeId, setHighlightedNodeId] = useState(undefined);
   const previousExtents = [
     [0, 1],
@@ -53,14 +56,28 @@ function ModelChoiceContainer({
       [id]: scale,
     };
   }, {});
-  visibleModels = visibleModels.sort((a, b) =>
-    sortModelsByDistance(
-      a,
-      b,
-      metricsOrder.map(({ id }) => id),
-      normalScales
-    )
-  );
+
+  let sortItems;
+  if (sortMode === "similarity") {
+    sortItems = (a, b) =>
+      sortModelsByDistance(
+        a,
+        b,
+        metricsOrder.map(({ id }) => id),
+        normalScales
+      );
+  } else {
+    sortItems = (a, b) => {
+      if (+a[sortMode] > +b[sortMode]) {
+        return -1;
+      } else if (+a[sortMode] < +b[sortMode]) {
+        return 1;
+      }
+      return 0;
+    };
+  }
+
+  visibleModels = visibleModels.sort(sortItems);
 
   if (!Object.keys(filters).length) return null;
 
@@ -98,7 +115,7 @@ function ModelChoiceContainer({
                     ).name,
                     variables: theseVariables,
                     choosenModel,
-                    highlightedNodeId,
+                    highlightedNodeId: highlightedNodeId || selectedNodeId,
                     addFilters,
                     filterModels,
                   }}
@@ -108,6 +125,20 @@ function ModelChoiceContainer({
           </div>
         </aside>
         <main className="column is-main">
+          <div>
+            <span>{translate("sort_by")}</span>
+            <select
+              value={sortMode}
+              onChange={(e) => setSortMode(e.target.value)}
+            >
+              <option value="similarity">{translate("similarity")}</option>
+              {metricsOrder.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
           <table className="model-choice-table">
             <thead>
               <tr>
@@ -134,18 +165,27 @@ function ModelChoiceContainer({
                       setHighlightedNodeId(model.id);
                     }}
                     onClick={() => {
-                      setChoosenModel(model);
-                      setCurrentStep(currentStep + 1);
+                      if (model.id === selectedNodeId) {
+                        setChoosenModel(model);
+                        setCurrentStep(currentStep + 1);
+                      } else {
+                        setSelectedNodeId(model.id);
+                      }
                     }}
                     className={cx("model-row", {
                       "is-active": choosenModel
                         ? model.id === highlightedNodeId ||
                           model.id === choosenModel.id
                         : model.id === highlightedNodeId,
+                      "is-selected": model.id === selectedNodeId,
                     })}
                   >
                     <th>
-                      <button>{translate("select_model")}</button>
+                      <button>
+                        {model.id === selectedNodeId
+                          ? translate("validate")
+                          : translate("select_model")}
+                      </button>
                     </th>
                     {metricsOrder.map(({ name, id }) => {
                       let tip = name + " : " + model[id];
@@ -176,7 +216,7 @@ function ModelChoiceContainer({
                         >
                           {id === "interpretability"
                             ? model.variables.length
-                            : ""}
+                            : (model[id] ? +model[id] : 0).toFixed(2)}
                         </th>
                       );
                     })}
@@ -187,6 +227,18 @@ function ModelChoiceContainer({
             </tbody>
           </table>
         </main>
+        <ContinueButton
+          disabled={!selectedNodeId}
+          onSubmit={() => {
+            if (selectedNodeId) {
+              setChoosenModel(models.find(({ id }) => id === selectedNodeId));
+              setCurrentStep(currentStep + 1);
+            }
+          }}
+          onSetCurrentStep={setCurrentStep}
+          currentStep={currentStep}
+          backwardEnabled
+        />
       </div>
     </section>
   );

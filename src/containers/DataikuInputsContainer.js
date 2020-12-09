@@ -48,7 +48,6 @@ function DataikuInputsContainer({
           <ul>
             {metricsList.map(({ id, name }) => {
               const handleChange = (e) => {
-                console.log(id, e.target.value);
                 setData({
                   ...data,
                   [id]: e.target.value,
