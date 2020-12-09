@@ -383,3 +383,38 @@ code {
     border-color: white;
   }
 }
+
+.results-table {
+  margin: 1rem 0 2rem 0;
+  width: 100%;
+  border-collapse: collapse;
+  td {
+    border: none;
+  }
+  tr {
+    height: 2.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    &:nth-child(even) {
+      background: lightgrey;
+    }
+    border-image-width: 0;
+  }
+  th {
+    text-align: left;
+    padding: 1rem;
+    span {
+      min-width: 3rem;
+      display: inline-block;
+      text-align: center;
+      padding: 0.2rem;
+      color: white;
+    }
+
+    &:last-of-type {
+      padding-left: 2rem;
+    }
+    &:first-of-type {
+      min-width: 20vw;
+    }
+  }
+}

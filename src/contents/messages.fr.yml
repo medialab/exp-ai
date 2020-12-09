@@ -18,8 +18,8 @@ model_choice_screen_intro: Veuillez sélectionnez le modèle qui correspond à v
 dataiku_input_screen_title: Avant de voir vos résultats, entrez les métriques de votre première expérience
 dataiku_input_screen_intro: Veuillez renseigner les informations pour les métriques fournies.
 conclusion_screen_title: Conclusion
-conclusion_results_title: Vos résultats
-conclusion_history_title: Votre historique
+conclusion_results_title: Votre évolution entre les étapes 1 et 2
+conclusion_history_title: Votre cheminement
 restart: Recommencer l'expérience
 navigated_to: A navigué sur
 add_filters: A ajouté des filtres pour les indicateurs
@@ -59,7 +59,7 @@ secondary-choice: Arbitrage secondaire
 model-choice: Choix du modèle
 conclusion: Conclusion
 intro-metrics: Introduction aux métriques
-show-descriptions: montrer les descriptions des métriques
+show-descriptions: remontrer les descriptions des métriques
 move_up: remonter
 move_down: descendre
 select_model: sélectionner

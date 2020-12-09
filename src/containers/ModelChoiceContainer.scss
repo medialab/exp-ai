@@ -2,7 +2,13 @@
   h2 {
     margin: 0;
   }
+  .columns-container,
+  .column.is-main {
+    overflow: visible;
+  }
   .model-choice-table {
+    margin-left: 7rem;
+    margin-top: -9rem;
     th:not(:first-of-type) {
       max-width: 2rem;
       min-width: 2rem;

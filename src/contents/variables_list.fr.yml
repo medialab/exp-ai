@@ -15,11 +15,11 @@
   description:
   relates_to_privacy: false
 - id: installment_as_income_perc
-  name: installment_as_income_perc
+  name: taux de versement du revenu disponible en pourcentage
   description:
   relates_to_privacy: false
 - id: other_debtors
-  name: other_debtors
+  name: autres débiteurs
   description:
   relates_to_privacy: false
 - id: personal._status
