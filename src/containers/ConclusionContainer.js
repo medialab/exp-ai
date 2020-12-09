@@ -142,49 +142,6 @@ interface;${metricsList
             })}
           </tbody>
         </table>
-        {/* <div className="results-container">
-          <div className="result-container">
-            
-            <h3>{translate("first_model_dataiku")}</h3>
-            <ul>
-              {metricsList.map(({ id, name, short_description }) => {
-                return (
-                  <li key={id}>
-                    <span className="label-container">
-                      <code>
-                        {name} <InfoTip tip={short_description} />{" "}
-                      </code>
-                    </span>{" "}
-                    <span>{dataikuResults[id]}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className="result-container">
-            <h3>{translate("second_model_choosen")}</h3>
-            <ul>
-              {metricsList.map(({ id, name, short_description }) => {
-                const value =
-                  id === "privacy"
-                    ? -Object.keys(privacyVariables).filter(
-                        (f) => privacyVariables[f]
-                      ).length
-                    : choosenModel[id];
-                return (
-                  <li key={id}>
-                    <span className="label-container">
-                      <code>
-                        {name} <InfoTip tip={short_description} />{" "}
-                      </code>
-                    </span>{" "}
-                    <span>{value}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div> */}
         <div>
           <button onClick={() => downloadFile(csv, "csv", "modeles_expe")}>
             {translate("download")}

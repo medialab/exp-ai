@@ -64,15 +64,31 @@ const serializeStep = (payload) => {
 
 const actionsSerialization = {
   START_APP: {
+    payload: () => ({}),
     description: (payload) => translate("started_the_app"),
   },
   SET_METRICS_ORDER: {
+    payload: (payload) => ({
+      new_order: payload.map(({ id }) => id).join(", "),
+    }),
     description: (payload) =>
       translate("changed_metrics_order_to") +
       " " +
       payload.map((i, index) => index + 1 + "/ " + i.name).join(", "),
   },
   ADD_FILTERS: {
+    payload: (payload) => {
+      const [
+        [_key1, { variable: variable1, range: range1 }],
+        [_key2, { variable: variable2, range: range2 }],
+      ] = Object.entries(payload);
+      return {
+        filter1_type: variable1,
+        filter1_value: range1.join(", "),
+        filter2_type: variable2,
+        filter2_value: range2.join(", "),
+      };
+    },
     description: (payload) =>
       translate("add_filters") +
       " " +
@@ -81,16 +97,21 @@ const actionsSerialization = {
           ([_key, filter]) =>
             `${filter.variable} (entre ${filter.range[0]} et ${filter.range[1]})`
         )
-        .join(" " + translate("and") + " "),
+        .join(" " + translate("et") + " "),
   },
   SET_DATAIKU_RESULTS: {
+    payload: () => ({}),
     description: () => translate("set_dataiku_results"),
   },
   SET_CHOOSEN_MODEL: {
+    payload: (payload) => ({
+      choosen_model: payload.variables.join("/"),
+    }),
     description: (payload) =>
       translate("set_choosen_model") + " : " + payload.variables.join("/"),
   },
   SET_CURRENT_STEP: {
+    payload: (payload) => ({ step: serializeStep(payload) }),
     description: (payload) =>
       translate("navigated_to") + " " + serializeStep(payload),
   },
@@ -103,16 +124,30 @@ function History({ history = [] }) {
     }
     return "nope";
   };
-  const csv = `heure;action
+  const renderPayload = (action) => {
+    if (actionsSerialization[action.type]) {
+      return actionsSerialization[action.type].payload(action.payload);
+    }
+    return "nope";
+  };
+
+  const csv = `id;heure;resume;type;new_order;filter1_type;filter1_value;filter2_type;filter2_value;choosen_model;step
 ${history
-  .map(
-    ({ action, date }, index) =>
-      `${new Date(date).toLocaleTimeString()};${renderAction(
-        action,
-        date,
-        index
-      )}`
-  )
+  .map(({ action, date }, index) => {
+    const resume = renderAction(action, date, index);
+    const {
+      new_order = "",
+      filter1_type = "",
+      filter1_value = "",
+      filter2_type = "",
+      filter2_value = "",
+      choosen_model = "",
+      step = "",
+    } = renderPayload(action);
+    return `id;${new Date(date).toLocaleTimeString()};${resume};${
+      action.type
+    };${new_order};${filter1_type};${filter1_value};${filter2_type};${filter2_value};${choosen_model};${step}`;
+  })
   .join("\n")}`;
   return (
     <div className="history">
