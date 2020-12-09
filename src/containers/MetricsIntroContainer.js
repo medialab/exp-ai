@@ -49,6 +49,7 @@ function MetricsIntroContainer({
       inputType: "input",
       relatedMetricsId: "performance",
       color: metricsColorMap["performance"],
+      id: "performance",
     },
     [STEP_METRICS_EXPLANATION_2]: {
       content: disparateImpact,
@@ -56,6 +57,7 @@ function MetricsIntroContainer({
       inputType: "input",
       relatedMetricsId: "fairness_disparate_impact",
       color: metricsColorMap["fairness_disparate_impact"],
+      id: "disparate_impact",
     },
     [STEP_METRICS_EXPLANATION_3]: {
       content: errorsDistribution,
@@ -63,6 +65,7 @@ function MetricsIntroContainer({
       inputType: "input",
       relatedMetricsId: "fairness_accuracy",
       color: metricsColorMap["fairness_accuracy"],
+      id: "errors_distribution",
     },
     [STEP_METRICS_EXPLANATION_4]: {
       content: privacy,
@@ -70,6 +73,7 @@ function MetricsIntroContainer({
       inputType: "privacy",
       relatedMetricsId: "privacy",
       color: metricsColorMap["privacy"],
+      id: "privacy",
     },
     [STEP_METRICS_EXPLANATION_5]: {
       content: interpretability,
@@ -77,6 +81,7 @@ function MetricsIntroContainer({
       inputType: "input",
       relatedMetricsId: "interpretability",
       color: metricsColorMap["interpretability"],
+      id: "interpretability",
     },
   };
   const handleSubmit = (e) => {
@@ -143,7 +148,11 @@ function MetricsIntroContainer({
                 </>
               ) : null}
               <form className="form results-form" onSubmit={handleSubmit}>
-                <h2>{translate("dataiku_results_label")}</h2>
+                <h2>
+                  {translate(
+                    "dataiku_results_label_for_" + viewsModel[currentStep].id
+                  )}
+                </h2>
                 <input
                   placeholder={`entrez vous résultats pour la métrique ${viewsModel[currentStep].title}`}
                   value={

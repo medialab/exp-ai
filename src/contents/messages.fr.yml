@@ -24,7 +24,7 @@ restart: Recommencer l'expérience
 navigated_to: A navigué sur
 add_filters: A ajouté des filtres pour les indicateurs
 app_header_view: l'accueil
-dataiku_practice_view: la vue dédiée à la phase d'expérimentation avec Heroku
+dataiku_practice_view: la vue dédiée à la phase d'expérimentation avec dataiku
 eu_legislation_view: la vue dédiée à la legislation européenne
 metrics_explanation_view: la vue dédiée à l'explication des indicateurs
 metrics_sorting_view: la vue dédiée à l'ordonnancement des indicateurs
@@ -32,7 +32,7 @@ main_filter_view: la vue dédiée au filtre principal
 secondary_filter_view: la vue dédiée au filtre secondaire
 tertiary_filter_view: la vue dédiée au filtre tertiaire
 model_choice_view: la vue dédiée au choix du modèle
-dataiku_feedback_view: la vue dédiée à entrer les informations heroku
+dataiku_feedback_view: la vue dédiée à entrer les informations dataiku
 conclusion_view: la vue de conclusion
 set_choosen_model: A choisi son modèle
 set_dataiku_results: A entré les résultats obtenus via dataiku 
@@ -63,3 +63,8 @@ show-descriptions: remontrer les descriptions des métriques
 move_up: remonter
 move_down: descendre
 select_model: sélectionner
+dataiku_results_label_for_performance: Votre indicateur de performance avec dataiku
+dataiku_results_label_for_privacy: Nombre de variables privées utilisées avec dataiku
+dataiku_results_label_for_disparate_impact: Votre indicateur de disparate imact avec dataiku
+dataiku_results_label_for_errors_distribution: Votre indicateur de distribution des erreurs avec dataiku
+dataiku_results_label_for_interpretability: Nombre de variables utilisées avec dataiku
