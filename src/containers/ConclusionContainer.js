@@ -110,23 +110,28 @@ interface;${metricsList
                   </th>
 
                   <th>
-                    {dataikuResult ? (
-                      <span
-                        className="tag"
-                        style={{
-                          background: "grey",
-                        }}
-                      >
-                        {dataikuResult}
-                      </span>
-                    ) : null}
+                    <span
+                      className="tag"
+                      style={{
+                        background: "grey",
+                      }}
+                    >
+                      {dataikuResult !== undefined
+                        ? dataikuResult
+                        : translate("no_value")}
+                    </span>
                   </th>
                   <th>→</th>
                   <th>
                     <span
                       className="tag"
                       style={{
-                        background: !isImproving ? "red" : "green",
+                        background:
+                          dataikuResult !== undefined
+                            ? !isImproving
+                              ? "red"
+                              : "green"
+                            : "grey",
                       }}
                     >
                       {expResult}

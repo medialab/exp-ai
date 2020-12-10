@@ -188,22 +188,23 @@ function ModelChoiceContainer({
                       </button>
                     </th>
                     {metricsOrder.map(({ name, id }) => {
-                      let tip = name + " : " + model[id];
+                      let val = (+model[id]).toFixed(2);
                       if (id === "privacy") {
+                        val = -model.variables.filter(
+                          (vName) => privacyVariables[vName]
+                        ).length;
+                      }
+                      let tip = name + " : " + val;
+                      if (id === "interpretability") {
+                        val = parseInt(val);
                         tip =
                           name +
                           " : " +
-                          -model.variables.filter(
-                            (vName) => privacyVariables[vName]
-                          ).length;
-                      } else if (id === "interpretability") {
-                        tip =
-                          name +
-                          " : " +
-                          model[id] +
+                          val +
                           "<br/> variables utilisées : " +
                           model.variables.join(", ");
                       }
+
                       return (
                         <th
                           key={id}
@@ -214,9 +215,7 @@ function ModelChoiceContainer({
                             background: colorScales[id](+model[id]),
                           }}
                         >
-                          {id === "interpretability"
-                            ? model.variables.length
-                            : (model[id] ? +model[id] : 0).toFixed(2)}
+                          {val}
                         </th>
                       );
                     })}

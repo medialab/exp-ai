@@ -70,3 +70,4 @@ dataiku_results_label_for_errors_distribution: Votre indicateur de distribution 
 dataiku_results_label_for_interpretability: Nombre de variables utilisées avec dataiku
 similarity: Similarité
 sort_by: Trier les modèles sélectionnés par
+no_value: pas de valeur
