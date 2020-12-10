@@ -12,7 +12,8 @@
 
   .axis-container {
     > div {
-      max-width: 50%;
+      max-width: 70%;
+      padding-right: 2rem;
     }
     overflow: hidden;
     &.axis-x {

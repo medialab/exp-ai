@@ -183,6 +183,7 @@ button {
     &.is-main {
       flex: 3;
       box-sizing: border-box;
+      max-width: calc(100vw - 300px - 10rem);
     }
     &.is-aside {
       max-width: 300px;
@@ -194,6 +195,28 @@ button {
     }
     img {
       max-width: 100%;
+    }
+  }
+  @media screen and (max-width: "800px") {
+    flex-direction: column;
+    .column {
+      &.is-aside {
+        max-width: 100%;
+
+        .mini-graphs-wrapper {
+          display: flex;
+          flex-flow: row wrap;
+          .mini-graph-container:not(:last-of-type) {
+            margin-right: 2rem;
+          }
+        }
+      }
+      &.is-main {
+        max-width: 100%;
+        .count-container {
+          top: -5rem;
+        }
+      }
     }
   }
 }

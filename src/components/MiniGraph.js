@@ -96,7 +96,7 @@ const MiniGraph = ({
                 background: metricsColorMap[xVariable],
               }}
             >
-              {fromName}
+              x: {fromName}
             </code>
             <Range
               allowCross={false}
@@ -126,7 +126,7 @@ const MiniGraph = ({
                 background: metricsColorMap[yVariable],
               }}
             >
-              {toName}
+              y: {toName}
             </code>
             <Range
               allowCross={false}
