@@ -77,7 +77,18 @@ const actionsSerialization = {
       payload.map((i, index) => index + 1 + "/ " + i.name).join(", "),
   },
   ADD_FILTERS: {
-    payload: (payload) => {
+    payload: (payload = {}) => {
+      if (Object.entries(payload).length === 0) {
+        return 0;
+      } else if (Object.entries(payload).length === 1) {
+        const [
+          [_key1, { variable: variable1, range: range1 }],
+        ] = Object.entries(payload);
+        return {
+          filter1_type: variable1,
+          filter1_value: range1.join(", "),
+        };
+      }
       const [
         [_key1, { variable: variable1, range: range1 }],
         [_key2, { variable: variable2, range: range2 }],
