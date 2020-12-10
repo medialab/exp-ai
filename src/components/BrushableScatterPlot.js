@@ -89,8 +89,7 @@ function BrushableScatterPlot({
 
   const handleMouseUp = () => {
     if (readOnly) return;
-    setIsBrushing(false);
-    if (xMin !== xMax && yMin !== yMax) {
+    if (isBrushing && xMin !== xMax && yMin !== yMax) {
       onBrushChange({
         x: [
           +xMin.toFixed ? +xMin.toFixed(DECIMALS) : +xMin,
@@ -105,6 +104,7 @@ function BrushableScatterPlot({
       setXRange([xMinOriginal, xMaxOriginal]);
       setYRange([yMinOriginal, yMaxOriginal]);
     }
+    setIsBrushing(false);
   };
 
   return (
