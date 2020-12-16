@@ -95,7 +95,7 @@ interface;${metricsList
               expResult = +expResult;
               expResult = expResult.toFixed ? expResult.toFixed(2) : expResult;
               expResult = +expResult;
-              dataikuResult = +(dataikuResult || 0);
+              dataikuResult = +dataikuResult;
               let isImproving;
               if (expResult > dataikuResult) {
                 isImproving = "1";
