@@ -53,6 +53,10 @@ function FilterForm({
 
   const [filteredModels, setFilteredModels] = useState(models);
 
+  const [hasChoosen, setHasChoosen] = useState(
+    values && values.length > 1 ? true : false
+  );
+
   useEffect(() => {
     if (!models.length) return null;
     if (values && values.length > 1) {
@@ -71,6 +75,7 @@ function FilterForm({
   useDebounce(
     () => {
       if (!models.length) return null;
+
       const theseFilters = [
         ...filters,
         {
@@ -210,6 +215,7 @@ function FilterForm({
     setChoosenMax1(+thatXMax.toFixed(DECIMALS));
     setChoosenMin2(+thatYMin.toFixed(DECIMALS));
     setChoosenMax2(+thatYMax.toFixed(DECIMALS));
+    setHasChoosen(true);
   };
   return (
     <form className="filter-form" onSubmit={handleSubmit}>
@@ -231,6 +237,7 @@ function FilterForm({
               onRangeChange={([thatMin, thatMax]) => {
                 setChoosenMin2(thatMin);
                 setChoosenMax2(thatMax);
+                setHasChoosen(true);
               }}
             />
           </div>
@@ -266,6 +273,7 @@ function FilterForm({
               onRangeChange={([thatMin, thatMax]) => {
                 setChoosenMin1(thatMin);
                 setChoosenMax1(thatMax);
+                setHasChoosen(true);
               }}
             />
           </div>
@@ -302,7 +310,7 @@ function FilterForm({
         </div>
       </div>
       <ContinueButton
-        disabled={!filteredModels.length}
+        disabled={!filteredModels.length || !hasChoosen}
         onSubmit={handleValidate}
         submitMessage={translate("validate")}
         onPreviousStep={onPreviousStep}
