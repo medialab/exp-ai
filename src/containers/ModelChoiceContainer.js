@@ -1,4 +1,7 @@
-import react, { useState } from "react"; /* eslint no-unused-vars : 0 */
+import react, {
+  useState,
+  useEffect,
+} from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -6,7 +9,7 @@ import cx from "classnames";
 
 import translate from "../helpers/translate";
 import { filterModels } from "../helpers/filters";
-import { sortModelsByDistance } from "../helpers/sorters";
+import { useDebounce } from "../helpers/hooks";
 
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
@@ -20,66 +23,71 @@ import ReactTooltip from "react-tooltip";
 import { extent } from "d3-array";
 import { scaleLinear } from "d3-scale";
 
+import worker from "workerize-loader!../worker"; // eslint-disable-line import/no-webpack-loader-syntax
+
+const workerInstance = worker();
+
+const DISPLAY_FILTER_STEP = 30;
+
 function ModelChoiceContainer({
   ui: { currentStep },
   data: { models, filters, choosenModel, privacyVariables, metricsOrder },
   setChoosenModel,
+  step,
   setCurrentStep,
   addFilters,
 }) {
   const [selectedNodeId, setSelectedNodeId] = useState(undefined);
   const [sortMode, setSortMode] = useState("similarity");
   const [highlightedNodeId, setHighlightedNodeId] = useState(undefined);
+  const [visibleModels, setVisibleModels] = useState(undefined);
+  const [displayFilter, setDisplayFilter] = useState(DISPLAY_FILTER_STEP);
   const previousExtents = [
     [0, 1],
     [2, 3],
     [3, 4],
   ];
 
-  let visibleModels = filterModels(
-    models,
-    Object.entries(filters).map(([_key, filter]) => filter)
-  );
-  const colorScales = metricsList.reduce((res, { id }) => {
-    const range = extent(visibleModels, (d) => +d[id]);
-    const scale = scaleLinear().domain(range).range(["red", "green"]);
-    return {
-      ...res,
-      [id]: scale,
-    };
-  }, {});
-  const normalScales = metricsList.reduce((res, { id }) => {
-    const range = extent(visibleModels, (d) => +d[id]);
-    const scale = scaleLinear().domain(range).range([0, 1]);
-    return {
-      ...res,
-      [id]: scale,
-    };
-  }, {});
-
-  let sortItems;
-  if (sortMode === "similarity") {
-    sortItems = (a, b) =>
-      sortModelsByDistance(
-        a,
-        b,
-        metricsOrder.map(({ id }) => id),
-        normalScales
-      );
-  } else {
-    sortItems = (a, b) => {
-      if (+a[sortMode] > +b[sortMode]) {
-        return -1;
-      } else if (+a[sortMode] < +b[sortMode]) {
-        return 1;
+  useEffect(() => {
+    workerInstance.addEventListener("message", (message) => {
+      if (message.data.type === "RPC" && message.data.result) {
+        setDisplayFilter(DISPLAY_FILTER_STEP);
+        setVisibleModels(message.data.result);
       }
-      return 0;
-    };
-  }
+    });
+  }, []);
 
-  visibleModels = visibleModels.sort(sortItems);
+  useEffect(() => {
+    setVisibleModels(undefined);
+    if (currentStep === step) {
+      setTimeout(() => {
+        workerInstance.getVisibleModels({
+          models,
+          filters,
+          sortMode,
+          metricsOrder,
+        });
+      });
+    }
+  }, [filters, sortMode, metricsOrder, currentStep, step, models]);
 
   if (!Object.keys(filters).length) return null;
+
+  let colorScales;
+  if (visibleModels) {
+    colorScales = metricsList.reduce((res, { id }) => {
+      const range = extent(visibleModels, (d) => +d[id]);
+      const scale = scaleLinear().domain(range).range(["red", "green"]);
+      return {
+        ...res,
+        [id]: scale,
+      };
+    }, {});
+  }
+
+  const handleViewMore = () => {
+    setDisplayFilter(displayFilter + DISPLAY_FILTER_STEP);
+  };
 
   return (
     <section className="single-choice-screen">
@@ -139,92 +147,109 @@ function ModelChoiceContainer({
               ))}
             </select>
           </div>
-          <table className="model-choice-table">
-            <thead>
-              <tr>
-                <th></th>
-                {metricsOrder.map(({ name, id }) => (
-                  <th key={id}>
-                    <div>
-                      <span>{name}</span>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody
-              onMouseLeave={() => {
-                setHighlightedNodeId(undefined);
-              }}
-            >
-              {visibleModels.map((model) => {
-                return (
-                  <tr
-                    key={model.id}
-                    onMouseOver={() => {
-                      setHighlightedNodeId(model.id);
-                    }}
-                    onClick={() => {
-                      if (model.id === selectedNodeId) {
-                        setChoosenModel(model);
-                        setCurrentStep(currentStep + 1);
-                      } else {
-                        setSelectedNodeId(model.id);
-                      }
-                    }}
-                    className={cx("model-row", {
-                      "is-active": choosenModel
-                        ? model.id === highlightedNodeId ||
-                          model.id === choosenModel.id
-                        : model.id === highlightedNodeId,
-                      "is-selected": model.id === selectedNodeId,
-                    })}
-                  >
-                    <th>
-                      <button>
-                        {model.id === selectedNodeId
-                          ? translate("validate")
-                          : translate("select_model")}
-                      </button>
+          {visibleModels ? (
+            <table className="model-choice-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  {metricsOrder.map(({ name, id }) => (
+                    <th key={id}>
+                      <div>
+                        <span>{name}</span>
+                      </div>
                     </th>
-                    {metricsOrder.map(({ name, id }) => {
-                      let val = (+model[id]).toFixed(2);
-                      if (id === "privacy") {
-                        val = -model.variables.filter(
-                          (vName) => privacyVariables[vName]
-                        ).length;
-                      }
-                      let tip = name + " : " + val;
-                      if (id === "interpretability") {
-                        val = parseInt(val);
-                        tip =
-                          name +
-                          " : " +
-                          val +
-                          "<br/> variables utilisées : " +
-                          model.variables.join(", ");
-                      }
+                  ))}
+                </tr>
+              </thead>
+              <tbody
+                onMouseLeave={() => {
+                  setHighlightedNodeId(undefined);
+                }}
+              >
+                {visibleModels.slice(0, displayFilter).map((model) => {
+                  return (
+                    <tr
+                      key={model.id}
+                      onMouseOver={() => {
+                        setHighlightedNodeId(model.id);
+                      }}
+                      onClick={() => {
+                        if (model.id === selectedNodeId) {
+                          setChoosenModel(model);
+                          setCurrentStep(currentStep + 1);
+                        } else {
+                          setSelectedNodeId(model.id);
+                        }
+                      }}
+                      className={cx("model-row", {
+                        "is-active": choosenModel
+                          ? model.id === highlightedNodeId ||
+                            model.id === choosenModel.id
+                          : model.id === highlightedNodeId,
+                        "is-selected": model.id === selectedNodeId,
+                      })}
+                    >
+                      <th>
+                        <button>
+                          {model.id === selectedNodeId
+                            ? translate("validate")
+                            : translate("select_model")}
+                        </button>
+                      </th>
+                      {metricsOrder.map(({ name, id }) => {
+                        let val = (+model[id]).toFixed(2);
+                        if (id === "privacy") {
+                          val = -model.variables.filter(
+                            (vName) => privacyVariables[vName]
+                          ).length;
+                        }
+                        let tip = name + " : " + val;
+                        if (id === "interpretability") {
+                          val = parseInt(val);
+                          tip =
+                            name +
+                            " : " +
+                            val +
+                            "<br/> variables utilisées : " +
+                            model.variables.join(", ");
+                        }
 
-                      return (
-                        <th
-                          key={id}
-                          data-for="table-tooltip"
-                          data-tip={tip}
-                          data-html={true}
-                          style={{
-                            background: colorScales[id](+model[id]),
-                          }}
-                        >
-                          {val}
-                        </th>
-                      );
-                    })}
-                    <ReactTooltip id="table-tooltip" />
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        return (
+                          <th
+                            key={id}
+                            data-for="table-tooltip"
+                            data-tip={tip}
+                            data-html={true}
+                            style={{
+                              background: colorScales[id](+model[id]),
+                            }}
+                          >
+                            {val}
+                          </th>
+                        );
+                      })}
+                      <ReactTooltip id="table-tooltip" />
+                    </tr>
+                  );
+                })}
+                {displayFilter < visibleModels.length ? (
+                  <div className="view-more-container">
+                    <button className="view-more-btn" onClick={handleViewMore}>
+                      {translate("show_more_models")} (
+                      {visibleModels.length - displayFilter}{" "}
+                      {translate("not_displayed")})
+                    </button>
+                  </div>
+                ) : null}
+              </tbody>
+            </table>
+          ) : (
+            <div
+              className={`loading ${currentStep === step ? "is-active" : ""}`}
+            >
+              <div>{translate("loading")}</div>
+            </div>
+          )}
         </main>
         <ContinueButton
           disabled={!selectedNodeId}

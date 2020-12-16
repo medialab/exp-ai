@@ -103,7 +103,9 @@ function GlobalContainer({
     },
     [STEP_MODEL_CHOICE]: {
       renderStep: () =>
-        Object.keys(filters).length < 5 ? null : <ModelChoiceContainer />,
+        Object.keys(filters).length < 5 ? null : (
+          <ModelChoiceContainer step={STEP_MODEL_CHOICE} />
+        ),
       title: translate("model-choice"),
       disabled: !metricsOrderIsValidated || Object.keys(filters).length < 5,
     },

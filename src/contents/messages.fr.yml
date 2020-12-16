@@ -71,3 +71,6 @@ dataiku_results_label_for_interpretability: Nombre de variables utilisées avec 
 similarity: Similarité
 sort_by: Trier les modèles sélectionnés par
 no_value: pas de valeur
+loading: Chargement
+show_more_models: montrer plus de modèles
+not_displayed: non affichés
