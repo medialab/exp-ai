@@ -65,7 +65,7 @@ move_down: descendre
 select_model: sélectionner
 dataiku_results_label_for_performance: Votre indicateur de performance avec dataiku
 dataiku_results_label_for_privacy: Nombre de variables privées utilisées avec dataiku
-dataiku_results_label_for_disparate_impact: Votre indicateur de disparate imact avec dataiku
+dataiku_results_label_for_disparate_impact: Votre indicateur de disparate impact avec dataiku
 dataiku_results_label_for_errors_distribution: Votre indicateur de distribution des erreurs avec dataiku
 dataiku_results_label_for_interpretability: Nombre de variables utilisées avec dataiku
 similarity: Similarité

@@ -81,7 +81,11 @@ interface;${metricsList
           <tbody>
             {metricsOrder.map(({ name, id, short_description }) => {
               const color = metricsColorMap[id];
-              const dataikuResult = dataikuResults[id];
+              let dataikuResult = dataikuResults[id];
+              // reverse for special cases
+              if (["privacy", "interpretability"].includes(id)) {
+                dataikuResult = -dataikuResult;
+              }
               let expResult =
                 id === "privacy"
                   ? -Object.keys(privacyVariables).filter(
@@ -90,7 +94,30 @@ interface;${metricsList
                   : choosenModel[id];
               expResult = +expResult;
               expResult = expResult.toFixed ? expResult.toFixed(2) : expResult;
-              const isImproving = +expResult > +(dataikuResult || 0);
+              expResult = +expResult;
+              dataikuResult = +(dataikuResult || 0);
+              let isImproving;
+              if (expResult > dataikuResult) {
+                isImproving = "1";
+              } else if (expResult < dataikuResult) {
+                isImproving = "-1";
+              } else {
+                isImproving = "0";
+              }
+              // special case
+              if (["fairness_accuracy"].includes(id)) {
+                isImproving = -+isImproving + "";
+              }
+              const colors = {
+                1: "green",
+                "-1": "red",
+                0: "grey",
+              };
+              const messages = {
+                1: "Vous avez amélioré cet indicateur",
+                "-1": "Vous avez dégradé cet indicateur",
+                0: "Cet indicateur est resté identique",
+              };
               return (
                 <tr key={id}>
                   <th>
@@ -116,7 +143,7 @@ interface;${metricsList
                         background: "grey",
                       }}
                     >
-                      {dataikuResult !== undefined
+                      {dataikuResult !== undefined && !isNaN(dataikuResult)
                         ? dataikuResult
                         : translate("no_value")}
                     </span>
@@ -126,22 +153,13 @@ interface;${metricsList
                     <span
                       className="tag"
                       style={{
-                        background:
-                          dataikuResult !== undefined
-                            ? !isImproving
-                              ? "red"
-                              : "green"
-                            : "grey",
+                        background: colors[isImproving],
                       }}
                     >
                       {expResult}
                     </span>
                   </th>
-                  <th>
-                    {isImproving
-                      ? "Vous avez amélioré cet indicateur"
-                      : "Vous avez dégradé cet indicateur"}
-                  </th>
+                  <th>{messages[isImproving]}</th>
                 </tr>
               );
             })}

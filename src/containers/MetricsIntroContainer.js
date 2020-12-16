@@ -12,6 +12,7 @@ import { metricsColorMap } from "../helpers/misc";
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
 import ContinueButton from "../components/ContinueButton";
+import DebouncedInput from "../components/DebouncedInput";
 
 import variables from "../contents/variables_list.fr.yml";
 
@@ -153,7 +154,7 @@ function MetricsIntroContainer({
                     "dataiku_results_label_for_" + viewsModel[currentStep].id
                   )}
                 </h2>
-                <input
+                <DebouncedInput
                   placeholder={`entrez vous résultats pour la métrique ${viewsModel[currentStep].title}`}
                   value={
                     dataikuResults[viewsModel[currentStep].relatedMetricsId] ||
