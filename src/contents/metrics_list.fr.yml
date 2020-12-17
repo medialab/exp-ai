@@ -14,7 +14,7 @@
   id: privacy
   color: '#8D5F5B'
   type: integer
-  short_description: Selon les conventions des droits de l’hommes, chaque individu a le droit de disposer de ses données personnelles. Selon la RGPD, il faut donc veiller à ce que ces données privées soient récoltées de manière parcimonieuse (principe de minimisation), pour des finalités bien déterminées (principe de finalité), limiter les failles de sécurité, les fuites possibles, etc, Nous prendrons l’opposé du nombre de variables personnelles comme proxy de la privacy. Les 11 variables personnelles sont present_emp_since, sex, personal.\_status, present_res_since ,property, age, housing, job, people_under_maintenance, telephone, foreign_worker. Le nombre de variables privées est également un proxy de la vulnérabilité aux failles de sécurité par attaques (sécurité).
+  short_description: Selon les conventions des droits de l’hommes, chaque individu a le droit de disposer de ses données personnelles. Selon la RGPD, il faut donc veiller à ce que ces données privées soient récoltées de manière parcimonieuse (principe de minimisation), pour des finalités bien déterminées (principe de finalité), limiter les failles de sécurité, les fuites possibles, etc. Nous prendrons l’opposé du nombre de variables personnelles comme proxy de la privacy. Le nombre de variables privées est également un proxy de la vulnérabilité aux failles de sécurité par attaques (sécurité).
 - name: Interprétabilité
   id: interpretability
   color: '#ECC0A5'
