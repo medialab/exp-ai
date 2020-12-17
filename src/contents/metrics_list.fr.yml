@@ -9,7 +9,7 @@
 - name: Distribution des erreurs
   id: fairness_accuracy
   color: '#3EBDC6'
-  short_description: Une autre manière complémentaire de s’intéresser aux discriminations algorithmiques est de de s’intéresser à la distribution des erreurs entre hommes et femmes. L’erreur dans l’allocation du droit au crédit peut pénaliser les individus dans leur capacité d’agir (acheter une maison, voiture, etc). Il est donc primordial que celle-ci soit distribué de la même manière entre les hommes et les femmes. L’indicateur de la précision mesure le taux de prédictions corrects (c’est-à-dire vrais positifs + vrais négatifs). Une manière de mesurer la différence entre ces taux est de faire la soustraction entre la précision chez les hommes et la précision entre les femmes.
+  short_description: il s'agit de la différence entre le taux de prédictions correctes (vrais positifs + vrais négatifs) chez les hommes avec celui des femmes. Cet indicateur mesure donc la différence du taux d'erreur entre les hommes et les femmes. Un indicateur proche de 0 signifie que les hommes et les femmes ont le même taux d'erreur. L’erreur dans l’allocation du droit au crédit peut pénaliser les individus dans leur capacité d’agir (acheter une maison, voiture, etc). Il est donc primordial que celle-ci soit distribué de la même manière entre les hommes et les femmes. 
 - name: Privacy
   id: privacy
   color: '#8D5F5B'
