@@ -1,11 +1,11 @@
 - name: Performance
   id: performance
   color: '#0096D1'
-  short_description: L'AUC mesure la performance de l'algorithme. Comme traditionnellement dans l’industrie du Machine Learning, on supposera que le data scientist banquier est d’abord incité sur le critère de la performance de son algorithme car l’AUC est proportionnel au gain financier procuré par l’algorithme.
+  short_description: L'AUC est un nombre entre 0 et 1 mesurant la performance de l'algorithme. Un algorithme performant possède un AUC proche de 1. Comme traditionnellement dans l’industrie du Machine Learning, on supposera que le data scientist banquier est d’abord incité sur le critère de la performance de son algorithme car l’AUC est proportionnel au gain financier procuré par l’algorithme.
 - name: Disparate impact
   id: fairness_disparate_impact
   color: '#984F0E'
-  short_description: il s’agit d’un ratio entre le pourcentage d’acceptation chez les femmes et le pourcentage d’acceptation chez les hommes. Lorsque ce ratio est égal à 1, on considérera qu’il n’y pas d’effet disparate entre les hommes et les femmes. Attention, un effet disparate très différent de 1 ne signifie pas qu’il y a différence de traitement. Un effet disparate dit simplement que l’on constate deux effets différents entre les hommes et les femmes sans s’intéresser aux causes de cet effet (le traitement). La différence de traitement peut se tester avec des analyses toute chose égale par ailleurs (testing de CV par exemple).
+  short_description: il s’agit du ratio du pourcentage d’acceptation du crédit chez les femmes sur le pourcentage d’acceptation chez les hommes. Lorsque ce ratio est égal à 1, on considérera qu’il n’y pas d’effet disparate entre les hommes et les femmes. La règle des 80% est utilisée par le droit américain pour détecter des effets discriminants : si le ratio du disparate impact est en-dessous de 80% alors on dira qu'il y a effet disparate entre hommes et femmes.
 - name: Distribution des erreurs
   id: fairness_accuracy
   color: '#3EBDC6'
