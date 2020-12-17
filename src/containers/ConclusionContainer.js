@@ -159,7 +159,11 @@ interface;${metricsList
                       {expResult}
                     </span>
                   </th>
-                  <th>{messages[isImproving]}</th>
+                  <th>
+                    {dataikuResult !== undefined && !isNaN(dataikuResult)
+                      ? messages[isImproving]
+                      : "pas de valeur à comparer"}
+                  </th>
                 </tr>
               );
             })}
