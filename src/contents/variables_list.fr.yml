@@ -47,7 +47,7 @@
   description:
   relates_to_privacy: false
 - id: other_installment_plans
-  name: autres plans d'installation
+  name: autres projets d'investissements en cours
   description:
   relates_to_privacy: false
 - id: sex
