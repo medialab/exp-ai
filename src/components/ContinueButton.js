@@ -13,14 +13,18 @@ function ContinueButton({
   relativePosition,
   ...props
 }) {
-  const onNext = () => {
+  const onNext = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (typeof onSubmit === "function") {
       onSubmit();
     } else {
       onSetCurrentStep(currentStep + 1);
     }
   };
-  const onPrevious = () => {
+  const onPrevious = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (typeof onPreviousStep === "function") {
       onPreviousStep();
     } else {
@@ -39,14 +43,17 @@ function ContinueButton({
         onClick={onNext}
         className="continue-button next"
         {...props}
+        type="button"
       >
         {submitMessage || translate("next_step")}
       </button>
+
       {backwardEnabled ? (
         <button
           disabled={disabled}
           onClick={onPrevious}
           className="continue-button previous"
+          type="button"
         >
           {translate("previous_step")}
         </button>

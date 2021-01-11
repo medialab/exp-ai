@@ -189,6 +189,7 @@ function FilterForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    e.stopPropagation();
   };
 
   const handleValidate = (e) => {
@@ -309,13 +310,13 @@ function FilterForm({
           </div>
         </div>
       </div>
+
       <ContinueButton
         disabled={!filteredModels.length || !hasChoosen}
         onSubmit={handleValidate}
         submitMessage={translate("validate")}
         onPreviousStep={onPreviousStep}
         backwardEnabled
-        type={"submit"}
       />
 
       <Tooltip id="tip" />
