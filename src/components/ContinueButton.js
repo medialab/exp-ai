@@ -50,7 +50,6 @@ function ContinueButton({
 
       {backwardEnabled ? (
         <button
-          disabled={disabled}
           onClick={onPrevious}
           className="continue-button previous"
           type="button"
