@@ -1,59 +1,59 @@
 - id: age
   name: age
   description:
-  relates_to_privacy: true
+  relates_to_privacy: false
 - id: credit_history
-  name: historique de crédit
+  name: historique de remboursement des crédits passés dans la même banque
   description:
   relates_to_privacy: false
 - id: foreign_worker
   name: travailleur étranger
   description:
-  relates_to_privacy: true
+  relates_to_privacy: false
 - id: housing
   name: logement
   description:
   relates_to_privacy: false
 - id: installment_as_income_perc
-  name: taux de versement du revenu disponible en pourcentage
+  name: part de la mensualité de remboursement sur le salaire mensuel
   description:
   relates_to_privacy: false
 - id: other_debtors
-  name: autres débiteurs
+  name: présence de dettes dans d'autres banques
   description:
   relates_to_privacy: false
 - id: personal._status
-  name: statut personnel
+  name: célibataire / marié
   description:
-  relates_to_privacy: true
+  relates_to_privacy: false
 - id: present_emp_since
   name: emploi actuel depuis
   description:
   relates_to_privacy: false
 - id: property
-  name: propriétaire
+  name: patrimoine
   description:
   relates_to_privacy: false
 - id: telephone
   name: téléphone
   description:
-  relates_to_privacy: true
+  relates_to_privacy: false
 - id: account_check_status
-  name: statut du compte
+  name: montant dans le compte courant
   description:
   relates_to_privacy: false
 - id: credits_this_bank
-  name: crédits précédents dans cette banque
+  name: nombre de crédits précédents souscrits dans cette même banque
   description:
   relates_to_privacy: false
 - id: other_installment_plans
-  name: autres plans d'installation
+  name: autres projets d'investissements en cours
   description:
   relates_to_privacy: false
 - id: sex
   name: sexe
   description:
-  relates_to_privacy: true
+  relates_to_privacy: false
 - id: credit_amount
   name: montant du crédit
   description:
