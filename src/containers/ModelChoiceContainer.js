@@ -76,8 +76,15 @@ function ModelChoiceContainer({
   let colorScales;
   if (visibleModels) {
     colorScales = metricsList.reduce((res, { id }) => {
-      const range = extent(visibleModels, (d) => +d[id]);
-      const scale = scaleLinear().domain(range).range(["red", "green"]);
+      // relative scaling
+      // const range = extent(visibleModels, (d) => +d[id]);
+      // absolute scaling
+      let range = extent(models, (d) => +d[id]);
+      let mapping = ["red", "green"];
+      if (["disparate_impact"].includes(id)) {
+        range = extent(models, (d) => Math.abs(1 - +d[id]));
+      }
+      const scale = scaleLinear().domain(range).range(mapping);
       return {
         ...res,
         [id]: scale,
@@ -221,7 +228,10 @@ function ModelChoiceContainer({
                             data-tip={tip}
                             data-html={true}
                             style={{
-                              background: colorScales[id](+model[id]),
+                              background:
+                                id === "disparate_impact"
+                                  ? colorScales[id](Math.abs(1 - +model[id]))
+                                  : colorScales[id](+model[id]),
                             }}
                           >
                             {val}
