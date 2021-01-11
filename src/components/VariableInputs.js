@@ -92,6 +92,7 @@ function VariableInputs({
             {/*(min: {min}, max: {max})*/}
           </div>
         </div>
+        {/*
         <Range
           allowCross={false}
           tipFormatter={(val) => val / SLIDER_MULTIPLIER}
@@ -107,6 +108,7 @@ function VariableInputs({
           defaultValue={[min * SLIDER_MULTIPLIER, max * SLIDER_MULTIPLIER]}
           value={[values[0] * SLIDER_MULTIPLIER, values[1] * SLIDER_MULTIPLIER]}
         />
+        */}
       </div>
       <Tooltip id="variable-tip" />
     </div>
