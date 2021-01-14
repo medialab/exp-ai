@@ -226,6 +226,8 @@ function BrushableScatterPlot({
           {hoveredElement && !readOnly && !minified && (
             <ul>
               {metrics.map(({ id, name }) => {
+                let val = hoveredElement[id];
+                val = parseFloat(val).toFixed(DECIMALS);
                 return (
                   <li
                     key={id}
@@ -238,7 +240,7 @@ function BrushableScatterPlot({
                       ? -hoveredElement.variables.filter((vName) =>
                           filteredVariables.includes(vName)
                         ).length
-                      : hoveredElement[id]}
+                      : val}
                   </li>
                 );
               })}
