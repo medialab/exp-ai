@@ -14,6 +14,8 @@ import { useDebounce } from "../helpers/hooks";
 import * as uiDuck from "../state/duckUi";
 import * as dataDuck from "../state/duckData";
 
+import { DECIMALS } from "../constants";
+
 import "./ModelChoiceContainer.scss";
 
 import metricsList from "../contents/metrics_list.fr.yml";
@@ -77,9 +79,11 @@ function ModelChoiceContainer({
   if (visibleModels) {
     colorScales = metricsList.reduce((res, { id }) => {
       // relative scaling
-      // const range = extent(visibleModels, (d) => +d[id]);
+      const range = extent(visibleModels, (d) =>
+        parseFloat(d[id]).toFixed(DECIMALS)
+      );
       // absolute scaling
-      let range = extent(models, (d) => +d[id]);
+      // let range = extent(models, (d) => +d[id]);
       let mapping = ["red", "green"];
       if (["disparate_impact"].includes(id)) {
         range = extent(models, (d) => Math.abs(1 - +d[id]));
@@ -230,8 +234,17 @@ function ModelChoiceContainer({
                             style={{
                               background:
                                 id === "disparate_impact"
-                                  ? colorScales[id](Math.abs(1 - +model[id]))
-                                  : colorScales[id](+model[id]),
+                                  ? colorScales[id](
+                                      Math.abs(
+                                        1 -
+                                          parseFloat(model[id]).toFixed(
+                                            DECIMALS
+                                          )
+                                      )
+                                    )
+                                  : colorScales[id](
+                                      parseFloat(model[id]).toFixed(DECIMALS)
+                                    ),
                             }}
                           >
                             {val}
