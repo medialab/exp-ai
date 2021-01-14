@@ -90,7 +90,7 @@ function MetricsIntroContainer({
   };
   const handleDataikuInputChange = (e) => {
     if (viewsModel[currentStep]) {
-      const value = e.target.value;
+      const value = e.target.value.replace(",", ".");
       setDataikuResults({
         ...dataikuResults,
         [viewsModel[currentStep].relatedMetricsId]: value,

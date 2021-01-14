@@ -14,7 +14,7 @@ const Range = Slider.createSliderWithTooltip(Slider.Range);
 function Input({ onChange, validate, value, ...props }) {
   const [localValue, setLocalValue] = useState(value);
   const handleChange = (e) => {
-    setLocalValue(e.target.value);
+    setLocalValue(e.target.value.replace(",", "."));
   };
   const handleBlur = () => {
     if (validate(localValue)) {

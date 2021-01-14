@@ -50,7 +50,7 @@ function DataikuInputsContainer({
               const handleChange = (e) => {
                 setData({
                   ...data,
-                  [id]: e.target.value,
+                  [id]: e.target.value.replace(",", "."),
                 });
               };
               return (
