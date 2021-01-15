@@ -3,7 +3,7 @@ step: étape
 next_step: continuer
 previous_step: retour
 validate: valider
-step_1_title: "Étape 1 : expérimentation avec dataiku"
+step_1_title: "Étape 1 : sans l'interface"
 step_2_title: "Étape 2 : la législation européenne"
 step_3_title: "Étape 3 : mesurer l'éthique ?"
 sort_screen_title: Classer les indicateurs
@@ -48,10 +48,10 @@ disparate_impact : Disparate impact sur le genre
 errors_distribution: Distribution des erreurs entre hommes et femmes
 privacy: Privacy
 interpretability: Interprétabilité
-dataiku_results_label: Votre score issu de l'étape 1 réalisée avec Dataiku
+dataiku_results_label: Votre score issu de l'étape 1 sans l'interface
 privacy_prompt: Définissez les variables qui relèvent de la privacy selon vous
 home: accueil
-intro-dataiku: Étape 1 - expérience avec Dataiku
+intro-dataiku: Étape 1 - expérience sans l'interface
 intro-eu: Principes de l'Union Européenne
 metrics-sorting: Classement des métriques
 main-choice: Arbitrage principal
@@ -63,11 +63,11 @@ show-descriptions: remontrer les descriptions des métriques
 move_up: remonter
 move_down: descendre
 select_model: sélectionner
-dataiku_results_label_for_performance: Votre indicateur de performance avec dataiku
-dataiku_results_label_for_privacy: Nombre de variables privées utilisées avec dataiku
-dataiku_results_label_for_disparate_impact: Votre indicateur de disparate impact avec dataiku
-dataiku_results_label_for_errors_distribution: Votre indicateur de distribution des erreurs avec dataiku
-dataiku_results_label_for_interpretability: Nombre de variables utilisées avec dataiku
+dataiku_results_label_for_performance: Votre indicateur de performance sans l'interface
+dataiku_results_label_for_privacy: Nombre de variables privées utilisées sans l'interface
+dataiku_results_label_for_disparate_impact: Votre indicateur de disparate impact sans l'interface
+dataiku_results_label_for_errors_distribution: Votre indicateur de distribution des erreurs sans l'interface
+dataiku_results_label_for_interpretability: Nombre de variables utilisées sans l'interface
 similarity: Similarité
 sort_by: Trier les modèles sélectionnés par
 no_value: pas de valeur
