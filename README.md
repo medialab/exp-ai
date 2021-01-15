@@ -1,3 +1,33 @@
+# How to publish changes
+
+The deployment to github pages is done through the npm command `deploy` of the package.
+
+Prerequisites : having node and git installed
+
+Open a terminal and run the following lines :
+
+```
+git clone https://github.com/medialab/exp-ai
+cd exp-ai
+npm install
+npm run deploy
+```
+
+If you modify data (e.g. contents) through the web interface and want to publish it, you can just update your local copy on the repo and redeploy :
+
+```
+git pull
+npm run deploy
+```
+
+Or if you work locally, you can commit your changes and then redeploy :
+
+```
+git add .
+git commit -m "change contents"
+git push origin main
+npm run deploy
+```
 
 # Global tech spec
 
