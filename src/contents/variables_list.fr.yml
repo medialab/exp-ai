@@ -75,7 +75,7 @@
   description:
   relates_to_privacy: false
 - id: duration_in_month
-  name: durée en mois
+  name: durée en mois du crédit
   description:
   relates_to_privacy: false
 - id: purpose
