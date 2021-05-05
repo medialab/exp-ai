@@ -12,9 +12,9 @@ import "./GlobalContainer.scss";
 import StepContainer from "../components/StepContainer";
 
 import HeaderContainer from "./HeaderContainer";
-import DataikuIntroContainer from "./DataikuIntroContainer";
-import EuLegislationContainer from "./EuLegislationContainer";
-import MetricsIntroContainer from "./MetricsIntroContainer";
+// import DataikuIntroContainer from "./DataikuIntroContainer";
+// import EuLegislationContainer from "./EuLegislationContainer";
+// import MetricsIntroContainer from "./MetricsIntroContainer";
 import MetricsOrderingContainer from "./MetricsOrderingContainer";
 import MainChoiceContainer from "./MainChoiceContainer";
 import SecondaryChoiceContainer from "./SecondaryChoiceContainer";
@@ -24,7 +24,7 @@ import ConclusionContainer from "./ConclusionContainer";
 import {
   STEP_HEADER,
   STEP_DATAIKU_PRACTICE,
-  STEP_EU_LEGISLATION,
+  // STEP_EU_LEGISLATION,
   STEP_METRICS_EXPLANATION_0,
   STEP_METRICS_EXPLANATION_1,
   STEP_METRICS_EXPLANATION_2,
@@ -36,13 +36,13 @@ import {
   STEP_SECONDARY_CHOICE_1,
   STEP_SECONDARY_CHOICE_2,
   STEP_MODEL_CHOICE,
-  STEP_DATAIKU_FEEDBACK,
+  // STEP_DATAIKU_FEEDBACK,
   STEP_CONCLUSION,
 } from "../constants";
 import translate from "../helpers/translate";
 
 function GlobalContainer({
-  ui: { currentStep, metricsOrderIsValidated },
+  ui: { currentStep, metricsOrderIsValidated, iterationNumber },
   data: { filters, choosenModel },
   setCurrentStep,
   startApp,
@@ -58,14 +58,14 @@ function GlobalContainer({
       renderStep: () => <HeaderContainer />,
       title: translate("home"),
     },
-    [STEP_DATAIKU_PRACTICE]: {
-      renderStep: () => <DataikuIntroContainer />,
-      title: translate("intro-dataiku"),
-    },
-    [STEP_EU_LEGISLATION]: {
-      renderStep: () => <EuLegislationContainer />,
-      title: translate("intro-eu"),
-    },
+    // [STEP_DATAIKU_PRACTICE]: {
+    //   renderStep: () => <DataikuIntroContainer />,
+    //   title: translate("intro-dataiku"),
+    // },
+    // [STEP_EU_LEGISLATION]: {
+    //   renderStep: () => <EuLegislationContainer />,
+    //   title: translate("intro-eu"),
+    // },
     [STEP_METRICS_SORTING]: {
       renderStep: () => <MetricsOrderingContainer />,
       title: translate("metrics-sorting"),
@@ -79,7 +79,7 @@ function GlobalContainer({
       renderStep: () =>
         Object.keys(filters).length < 2 ? null : (
           <SecondaryChoiceContainer
-            metricsExtent={[2, 3]}
+            metricsExtent={[1, 2]}
             previousExtents={[[0, 1]]}
           />
         ),
@@ -87,27 +87,26 @@ function GlobalContainer({
       disabled: !metricsOrderIsValidated || Object.keys(filters).length < 2,
     },
     [STEP_SECONDARY_CHOICE_2]: {
-      renderStep: () =>
-        Object.keys(filters).length < 4 ? null : (
-          <SecondaryChoiceContainer
-            nextStep={STEP_MODEL_CHOICE}
-            previousExtents={[
-              [0, 1],
-              [2, 3],
-            ]}
-            metricsExtent={[3, 4]}
-          />
-        ),
+      renderStep: () => (
+        /* Object.keys(filters).length < 4 ? null :*/ <SecondaryChoiceContainer
+          nextStep={STEP_MODEL_CHOICE}
+          previousExtents={[
+            [0, 1],
+            [1, 2],
+          ]}
+          metricsExtent={[2, 3]}
+        />
+      ),
       title: translate("secondary-choice") + " 2",
-      disabled: !metricsOrderIsValidated || Object.keys(filters).length < 4,
+      disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 4*/,
     },
     [STEP_MODEL_CHOICE]: {
       renderStep: () =>
-        Object.keys(filters).length < 5 ? null : (
+        Object.keys(filters).length < 2 ? null : (
           <ModelChoiceContainer step={STEP_MODEL_CHOICE} />
         ),
       title: translate("model-choice"),
-      disabled: !metricsOrderIsValidated || Object.keys(filters).length < 5,
+      disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 5*/,
     },
     [STEP_CONCLUSION]: {
       renderStep: () => <ConclusionContainer />,
@@ -115,20 +114,22 @@ function GlobalContainer({
       disabled: !metricsOrderIsValidated || !choosenModel,
     },
   };
-  const metricsInfo = [
-    STEP_METRICS_EXPLANATION_0,
-    STEP_METRICS_EXPLANATION_1,
-    STEP_METRICS_EXPLANATION_2,
-    STEP_METRICS_EXPLANATION_3,
-    STEP_METRICS_EXPLANATION_4,
-    STEP_METRICS_EXPLANATION_5,
-  ];
-  metricsInfo.forEach((index) => {
-    steps[index] = {
-      renderStep: () => <MetricsIntroContainer />,
-      title: `${translate("intro-metrics")} (${index + 1})`,
-    };
-  });
+  console.log({ currentStep, steps });
+
+  // const metricsInfo = [
+  //   // STEP_METRICS_EXPLANATION_0,
+  //   // STEP_METRICS_EXPLANATION_1,
+  //   // STEP_METRICS_EXPLANATION_2,
+  //   // STEP_METRICS_EXPLANATION_3,
+  //   // STEP_METRICS_EXPLANATION_4,
+  //   // STEP_METRICS_EXPLANATION_5,
+  // ];
+  // metricsInfo.forEach((index) => {
+  //   steps[index] = {
+  //     renderStep: () => <MetricsIntroContainer />,
+  //     title: `${translate("intro-metrics")} (${index + 1})`,
+  //   };
+  // });
   return (
     <div className="container">
       {Object.entries(steps).map(([index, s]) => {

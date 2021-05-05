@@ -14,6 +14,7 @@ import { STEP_SECONDARY_CHOICE_1 } from "../constants";
 
 function MainChoiceContainer({
   data: { metricsOrder, models, filters, privacyVariables },
+  ui: { iterationNumber },
   setCurrentStep,
   setMainChoiceIsValidated,
   addFilters,

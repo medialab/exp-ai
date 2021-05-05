@@ -21,10 +21,11 @@ import MiniGraph from "../components/MiniGraph";
 
 function SecondChoiceContainer({
   data: { metricsOrder, models, filters, privacyVariables = {} },
+  ui: { iterationNumber },
   setCurrentStep,
   setMainChoiceIsValidated,
   addFilters,
-  metricsExtent: [fromMetric, toMetric] = [2, 3],
+  metricsExtent: [fromMetric, toMetric] = [1, 2],
   previousExtents = [],
   nextStep = STEP_SECONDARY_CHOICE_2,
   currentStep,
@@ -36,13 +37,17 @@ function SecondChoiceContainer({
       [toMetric + ""]: filter2,
     });
     setMainChoiceIsValidated(true);
-    setCurrentStep(nextStep);
+    if (iterationNumber === 0) setCurrentStep(nextStep + 1);
+    else {
+      setCurrentStep(nextStep);
+    }
   };
   const handlePreviousStep = () => {
     setCurrentStep(currentStep - 1);
   };
 
   if (!Object.keys(filters).length) return null;
+  console.log("metrics", filters[fromMetric + ""]);
 
   return (
     <section className="second-choice-screen">
@@ -53,60 +58,70 @@ function SecondChoiceContainer({
             {translate("second_choice_screen_intro")}
           </p>
           <MetricsCrossingIndicator
-            metrics={metricsOrder.map((m, i) => ({
-              ...m,
-              active: i >= fromMetric && i <= toMetric,
-            }))}
+            metrics={metricsOrder
+              .filter((m) => m.iteration <= iterationNumber)
+              .map((m, i) => ({
+                ...m,
+                active: i >= fromMetric && i <= toMetric,
+              }))}
           />
           <h4>Vos arbitrages précédents :</h4>
           {/* mini scatterplots for previous steps */}
           <div className="mini-graphs-wrapper">
-            {previousExtents.map(([from, to], index) => {
-              let theseVariables = [filters[from + ""], filters[to + ""]].find(
-                (f) => f && f.variables
-              );
-              theseVariables = theseVariables
-                ? theseVariables.variables
-                : undefined;
-              const handleNav = () => {
-                let target;
-                switch (index) {
-                  case 0:
-                    target = STEP_MAIN_CHOICE;
-                    break;
-                  case 1:
-                    target = STEP_SECONDARY_CHOICE_1;
-                    break;
-                  case 2:
-                  default:
-                    target = STEP_SECONDARY_CHOICE_2;
-                    break;
-                }
-                setCurrentStep(target);
-              };
-              return (
-                <MiniGraph
-                  key={index}
-                  {...{
-                    index,
-                    filters,
-                    models,
-                    fromName: metricsOrder.find(
-                      ({ id }) => id === filters[from + ""].variable
-                    ).name,
-                    toName: metricsOrder.find(
-                      ({ id }) => id === filters[to + ""].variable
-                    ).name,
-                    onNav: handleNav,
-                    from,
-                    to,
-                    variables: theseVariables,
-                    addFilters,
-                    filterModels,
-                  }}
-                />
-              );
-            })}
+            {previousExtents
+              .filter(
+                ([from, to]) =>
+                  filters[from + ""] !== undefined &&
+                  filters[to + ""] !== undefined
+              )
+              .map(([from, to], index) => {
+                console.log({ from, to });
+                let theseVariables = [
+                  filters[from + ""],
+                  filters[to + ""],
+                ].find((f) => f && f.variables);
+                theseVariables = theseVariables
+                  ? theseVariables.variables
+                  : undefined;
+                const handleNav = () => {
+                  let target;
+                  switch (index) {
+                    case 0:
+                      target = STEP_MAIN_CHOICE;
+                      break;
+                    case 1:
+                      target = STEP_SECONDARY_CHOICE_1;
+                      break;
+                    case 2:
+                    default:
+                      target = STEP_SECONDARY_CHOICE_2;
+                      break;
+                  }
+                  setCurrentStep(target);
+                };
+                return (
+                  <MiniGraph
+                    key={index}
+                    {...{
+                      index,
+                      filters,
+                      models,
+                      fromName: metricsOrder.find(
+                        ({ id }) => id === filters[from + ""].variable
+                      ).name,
+                      toName: metricsOrder.find(
+                        ({ id }) => id === filters[to + ""].variable
+                      ).name,
+                      onNav: handleNav,
+                      from,
+                      to,
+                      variables: theseVariables,
+                      addFilters,
+                      filterModels,
+                    }}
+                  />
+                );
+              })}
           </div>
         </aside>
         <main className="column is-main">

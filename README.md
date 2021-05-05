@@ -2,7 +2,7 @@
 
 The deployment to github pages is done through the npm command `deploy` of the npm package of this project.
 
-## Prerequisites 
+## Prerequisites
 
 Having node and git installed.
 
@@ -10,7 +10,7 @@ Having node and git installed.
 
 Open a terminal and run the following lines :
 
-```
+```bash
 git clone https://github.com/medialab/exp-ai
 cd exp-ai
 npm install
@@ -19,14 +19,14 @@ npm run deploy
 
 If you modify data (e.g. contents) through the web interface and want to publish your changes on github pages, you can just update your local copy on the repository and redeploy :
 
-```
+```bash
 git pull
 npm run deploy
 ```
 
 Or if you work locally, you can commit your changes and then redeploy :
 
-```
+```bash
 git add .
 git commit -m "change contents"
 git push origin main

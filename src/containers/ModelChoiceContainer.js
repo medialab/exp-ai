@@ -79,7 +79,7 @@ function ModelChoiceContainer({
   if (visibleModels) {
     colorScales = metricsList.reduce((res, { id }) => {
       // relative scaling
-      const range = extent(visibleModels, (d) =>
+      let range = extent(visibleModels, (d) =>
         parseFloat(d[id]).toFixed(DECIMALS)
       );
       // absolute scaling
@@ -110,37 +110,44 @@ function ModelChoiceContainer({
           </p>
           {/* mini scatterplots for previous steps */}
           <div className="">
-            {previousExtents.map(([from, to], index) => {
-              let theseVariables = [filters[from + ""], filters[to + ""]].find(
-                (f) => f && f.variables
-              );
-              theseVariables = theseVariables
-                ? theseVariables.variables
-                : undefined;
-              return (
-                <MiniGraph
-                  key={index}
-                  {...{
-                    index,
-                    filters,
-                    models,
-                    from,
-                    to,
-                    fromName: metricsOrder.find(
-                      ({ id }) => id === filters[from + ""].variable
-                    ).name,
-                    toName: metricsOrder.find(
-                      ({ id }) => id === filters[to + ""].variable
-                    ).name,
-                    variables: theseVariables,
-                    choosenModel,
-                    highlightedNodeId: highlightedNodeId || selectedNodeId,
-                    addFilters,
-                    filterModels,
-                  }}
-                />
-              );
-            })}
+            {previousExtents
+              .filter(
+                ([from, to]) =>
+                  filters[from + ""] !== undefined &&
+                  filters[to + ""] !== undefined
+              )
+              .map(([from, to], index) => {
+                let theseVariables = [
+                  filters[from + ""],
+                  filters[to + ""],
+                ].find((f) => f && f.variables);
+                theseVariables = theseVariables
+                  ? theseVariables.variables
+                  : undefined;
+                return (
+                  <MiniGraph
+                    key={index}
+                    {...{
+                      index,
+                      filters,
+                      models,
+                      from,
+                      to,
+                      fromName: metricsOrder.find(
+                        ({ id }) => id === filters[from + ""].variable
+                      ).name,
+                      toName: metricsOrder.find(
+                        ({ id }) => id === filters[to + ""].variable
+                      ).name,
+                      variables: theseVariables,
+                      choosenModel,
+                      highlightedNodeId: highlightedNodeId || selectedNodeId,
+                      addFilters,
+                      filterModels,
+                    }}
+                  />
+                );
+              })}
           </div>
         </aside>
         <main className="column is-main">

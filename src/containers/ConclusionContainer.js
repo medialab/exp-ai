@@ -12,12 +12,15 @@ import * as historyDuck from "../state/duckHistory";
 
 import History from "../components/History";
 import InfoTip from "../components/InfoTip";
+import DebouncedInput from "../components/DebouncedInput";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import variablesLists from "../contents/variables_list.fr.yml";
 import { STEP_METRICS_SORTING } from "../constants";
 import downloadFile from "../helpers/download";
 import { metricsColorMap } from "../helpers/misc";
+
+import metrics from "../contents/metrics_list.fr.yml";
 
 function ConclusionContainer({
   data: {
@@ -27,13 +30,25 @@ function ConclusionContainer({
     privacyVariables,
     metricsOrder,
   },
+  ui: { iterationNumber },
   history,
   resetApp,
   setCurrentStep,
+  setIterationNumber,
+  setMetricsOrder,
+  setDataikuResults,
 }) {
   if (!choosenModel) {
     return null;
   }
+
+  const handleNewIteration = () => {
+    setMetricsOrder([
+      ...metrics.filter((m) => m.iteration <= iterationNumber + 1),
+    ]);
+    setIterationNumber(iterationNumber + 1);
+    setCurrentStep(STEP_METRICS_SORTING);
+  };
   const csv = `source;${metricsList
     .map(({ name }) => name)
     .join(";")};variables considérées comme privées
@@ -118,6 +133,14 @@ interface;${metricsList
                 "-1": "Vous avez dégradé cet indicateur",
                 0: "Cet indicateur est resté identique",
               };
+
+              const handleDataikuInputChange = (e) => {
+                const value = e.target.value.replace(",", ".");
+                setDataikuResults({
+                  ...dataikuResults,
+                  [id]: value,
+                });
+              };
               return (
                 <tr key={id}>
                   <th>
@@ -143,9 +166,16 @@ interface;${metricsList
                         background: "grey",
                       }}
                     >
-                      {dataikuResult !== undefined && !isNaN(dataikuResult)
+                      {/* {dataikuResult !== undefined && !isNaN(dataikuResult)
                         ? dataikuResult
-                        : translate("no_value")}
+                        : translate("no_value")} */}
+                      <form>
+                        <DebouncedInput
+                          placeholder={`entrez vous résultats pour la métrique ${id}`}
+                          value={dataikuResults[id] || ""}
+                          onChange={handleDataikuInputChange}
+                        />
+                      </form>
                     </span>
                   </th>
                   <th>→</th>
@@ -180,7 +210,7 @@ interface;${metricsList
         <History history={history} />
       </div>
 
-      <div>
+      {/* <div>
         <button
           onClick={() => {
             resetApp();
@@ -188,6 +218,15 @@ interface;${metricsList
           }}
         >
           {translate("restart")}
+        </button>
+      </div> */}
+      <div>
+        <button
+          onClick={() => {
+            handleNewIteration();
+          }}
+        >
+          {translate("new_iteration")}
         </button>
       </div>
       <Tooltip />

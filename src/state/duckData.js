@@ -68,7 +68,7 @@ const defaultPrivacyVariables = variables.reduce(
 
 const DEFAULT_STATE = {
   models: [],
-  metricsOrder: [...metrics],
+  metricsOrder: [...metrics.filter((m) => m.iteration === 0)],
   filters: {},
   choosenModel: undefined,
   dataikuResults: {},

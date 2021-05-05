@@ -11,7 +11,8 @@ import * as uiDuck from "../state/duckUi";
 import intro from "!!raw-loader!../contents/global_intro.md";
 
 import ContinueButton from "../components/ContinueButton";
-import { STEP_DATAIKU_PRACTICE } from "../constants";
+// import { STEP_DATAIKU_PRACTICE } from "../constants";
+import { STEP_METRICS_SORTING } from "../constants";
 
 function HeaderContainer({ setCurrentStep }) {
   return (
@@ -22,7 +23,7 @@ function HeaderContainer({ setCurrentStep }) {
           <Md source={intro} />
         </div>
       </div>
-      <ContinueButton onClick={() => setCurrentStep(STEP_DATAIKU_PRACTICE)} />
+      <ContinueButton onClick={() => setCurrentStep(STEP_METRICS_SORTING)} />
     </header>
   );
 }

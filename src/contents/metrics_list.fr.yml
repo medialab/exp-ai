@@ -2,21 +2,25 @@
   id: performance
   color: '#0096D1'
   short_description: L'AUC est un nombre entre 0 et 1 mesurant la performance de l'algorithme. Un algorithme performant possède un AUC proche de 1. Comme traditionnellement dans l’industrie du Machine Learning, on supposera que le data scientist banquier est d’abord incité sur le critère de la performance de son algorithme car l’AUC est proportionnel au gain financier procuré par l’algorithme.
+  iteration: 0
 - name: Disparate impact
   id: fairness_disparate_impact
   color: '#984F0E'
   short_description: "il s’agit du ratio du pourcentage d’acceptation du crédit chez les femmes sur le pourcentage d’acceptation chez les hommes. Lorsque ce ratio est égal à 1, on considérera qu’il n’y pas d’effet disparate entre les hommes et les femmes. La règle des 80% est utilisée par le droit américain pour détecter des effets discriminants : si le ratio du disparate impact est en-dessous de 80% alors on dira qu'il y a effet disparate entre hommes et femmes."
-- name: Distribution des erreurs
-  id: fairness_accuracy
-  color: '#3EBDC6'
-  short_description: il s'agit de la différence entre le taux de prédictions correctes (vrais positifs + vrais négatifs) chez les hommes avec celui des femmes. Cet indicateur mesure donc la différence du taux d'erreur entre les hommes et les femmes. Un indicateur proche de 0 signifie que les hommes et les femmes ont le même taux d'erreur. L’erreur dans l’allocation du droit au crédit peut pénaliser les individus dans leur capacité d’agir (acheter une maison, voiture, etc). Il est donc primordial que celle-ci soit distribué de la même manière entre les hommes et les femmes. 
-- name: Privacy
-  id: privacy
-  color: '#8D5F5B'
-  type: integer
-  short_description: Selon les conventions des droits de l’hommes, chaque individu a le droit de disposer de ses données personnelles. Selon la RGPD, il faut donc veiller à ce que ces données privées soient récoltées de manière parcimonieuse (principe de minimisation), pour des finalités bien déterminées (principe de finalité), limiter les failles de sécurité, les fuites possibles, etc. Nous prendrons l’opposé du nombre de variables personnelles comme proxy de la privacy. Le nombre de variables privées est également un proxy de la vulnérabilité aux failles de sécurité par attaques (sécurité).
+  iteration: 0
+# - name: Distribution des erreurs
+#   id: fairness_accuracy
+#   color: '#3EBDC6'
+#   short_description: il s'agit de la différence entre le taux de prédictions correctes (vrais positifs + vrais négatifs) chez les hommes avec celui des femmes. Cet indicateur mesure donc la différence du taux d'erreur entre les hommes et les femmes. Un indicateur proche de 0 signifie que les hommes et les femmes ont le même taux d'erreur. L’erreur dans l’allocation du droit au crédit peut pénaliser les individus dans leur capacité d’agir (acheter une maison, voiture, etc). Il est donc primordial que celle-ci soit distribué de la même manière entre les hommes et les femmes. 
 - name: Interprétabilité
   id: interpretability
   color: '#ECC0A5'
   type: integer
   short_description: Selon la législation (RGPD), les demandeurs ont le droit d'exiger une explication des décisions. On considèrera que l’opposé du nombre total de variables dans le modèle comme un proxy de l’interprétabilité des algorithmes. En effet, des explications avec 20 variables seront beaucoup plus difficiles à fournir qu’une explication avec 5 variables.
+  iteration: 0
+- name: Privacy
+  id: privacy
+  color: '#8D5F5B'
+  type: integer
+  short_description: Selon les conventions des droits de l’hommes, chaque individu a le droit de disposer de ses données personnelles. Selon la RGPD, il faut donc veiller à ce que ces données privées soient récoltées de manière parcimonieuse (principe de minimisation), pour des finalités bien déterminées (principe de finalité), limiter les failles de sécurité, les fuites possibles, etc. Nous prendrons l’opposé du nombre de variables personnelles comme proxy de la privacy. Le nombre de variables privées est également un proxy de la vulnérabilité aux failles de sécurité par attaques (sécurité).
+  iteration: 1

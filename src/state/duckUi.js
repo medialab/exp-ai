@@ -7,6 +7,7 @@ import { STEP_CONCLUSION } from "../constants";
  */
 import { SET_METRICS_ORDER, RESET_APP } from "./duckData";
 export const SET_CURRENT_STEP = "SET_CURRENT_STEP";
+export const SET_ITERATION_NUMBER = "SET_ITERATION_NUMBER";
 export const SET_METRICS_ORDER_IS_VALIDATED = "SET_METRICS_ORDER_IS_VALIDATED";
 export const SET_MAIN_CHOICE_IS_VALIDATED = "SET_MAIN_CHOICE_IS_VALIDATED";
 export const START_APP = "START_APP";
@@ -27,6 +28,10 @@ export const setMainChoiceIsValidated = (payload) => ({
   type: SET_MAIN_CHOICE_IS_VALIDATED,
   payload,
 });
+export const setIterationNumber = (payload) => ({
+  type: SET_ITERATION_NUMBER,
+  payload,
+});
 
 export const startApp = (payload) => ({
   type: START_APP,
@@ -41,6 +46,7 @@ const DEFAULT_STATE = {
   numberOfSteps: STEP_CONCLUSION,
   metricsOrderIsValidated: false,
   mainChoiceIsValidated: false,
+  iterationNumber: 0,
 };
 
 function ui(state = DEFAULT_STATE, action) {
@@ -49,6 +55,7 @@ function ui(state = DEFAULT_STATE, action) {
     case RESET_APP:
       return DEFAULT_STATE;
     case SET_CURRENT_STEP:
+    case SET_ITERATION_NUMBER:
       return setPropInState(action.type, payload, state);
     case SET_METRICS_ORDER_IS_VALIDATED:
       return {
@@ -82,10 +89,12 @@ const currentStep = (state) => state.currentStep;
 const numberOfSteps = (state) => state.numberOfSteps;
 const metricsOrderIsValidated = (state) => state.metricsOrderIsValidated;
 const mainChoiceIsValidated = (state) => state.mainChoiceIsValidated;
+const iterationNumber = (state) => state.iterationNumber;
 
 export const selector = createStructuredSelector({
   currentStep,
   numberOfSteps,
   metricsOrderIsValidated,
   mainChoiceIsValidated,
+  iterationNumber,
 });

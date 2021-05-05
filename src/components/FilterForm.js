@@ -75,6 +75,9 @@ function FilterForm({
   useDebounce(
     () => {
       if (!models.length) return null;
+      if (!metric1 || !metric2) {
+        return null;
+      }
 
       const theseFilters = [
         ...filters,
@@ -101,6 +104,9 @@ function FilterForm({
     if (!models.length) return null;
     metric1 = metrics[0];
     metric2 = metrics[1];
+    if (!metric1 || !metric2) {
+      return null;
+    }
     let absMin1, absMax1, absMin2, absMax2;
     if (metric1.id === "Privacy") {
       absMin1 = -max(
@@ -151,6 +157,9 @@ function FilterForm({
 
   useEffect(() => {
     if (!models.length) return null;
+    if (!metric1 || !metric2) {
+      return null;
+    }
     if (metric1.id === "Privacy") {
       const absMin1 = -max(
         models,
@@ -185,6 +194,10 @@ function FilterForm({
     }
   }, [filteredVariables]);
 
+  if (!metric1 || !metric2) {
+    return null;
+  }
+
   if (!models.length) return null;
 
   const handleSubmit = (e) => {
@@ -218,6 +231,7 @@ function FilterForm({
     setChoosenMax2(+thatYMax.toFixed(DECIMALS));
     setHasChoosen(true);
   };
+
   return (
     <form className="filter-form" onSubmit={handleSubmit}>
       <div className="columns-container">

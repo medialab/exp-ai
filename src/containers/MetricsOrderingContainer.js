@@ -21,7 +21,7 @@ import ReactTooltip from "react-tooltip";
 
 // import metrics from "../contents/metrics_list.fr.yml";
 function MetricsOrderingContainer({
-  ui: { metricsOrderIsValidated },
+  ui: { metricsOrderIsValidated, iterationNumber },
   data: { metricsOrder },
   setCurrentStep,
   setMetricsOrder,
