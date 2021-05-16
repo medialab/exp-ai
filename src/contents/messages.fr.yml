@@ -59,7 +59,7 @@ secondary-choice: Arbitrage secondaire
 model-choice: Choix du modèle
 conclusion: Conclusion
 intro-metrics: Introduction aux métriques
-show-descriptions: remontrer les descriptions des métriques
+show-descriptions: montrer les descriptions des métriques
 move_up: remonter
 move_down: descendre
 select_model: sélectionner

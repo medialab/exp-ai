@@ -35,6 +35,7 @@ import {
   STEP_MAIN_CHOICE,
   STEP_SECONDARY_CHOICE_1,
   STEP_SECONDARY_CHOICE_2,
+  STEP_SECONDARY_CHOICE_3,
   STEP_MODEL_CHOICE,
   // STEP_DATAIKU_FEEDBACK,
   STEP_CONCLUSION,
@@ -79,6 +80,11 @@ function GlobalContainer({
       renderStep: () =>
         Object.keys(filters).length < 2 ? null : (
           <SecondaryChoiceContainer
+            nextStep={
+              iterationNumber === 0
+                ? STEP_MODEL_CHOICE
+                : STEP_SECONDARY_CHOICE_2
+            }
             metricsExtent={[1, 2]}
             previousExtents={[[0, 1]]}
           />
@@ -88,8 +94,9 @@ function GlobalContainer({
     },
     [STEP_SECONDARY_CHOICE_2]: {
       renderStep: () => (
-        /* Object.keys(filters).length < 4 ? null :*/ <SecondaryChoiceContainer
-          nextStep={STEP_MODEL_CHOICE}
+        /* Object.keys(filters).length < 4 ? null :*/
+        <SecondaryChoiceContainer
+          nextStep={STEP_SECONDARY_CHOICE_3}
           previousExtents={[
             [0, 1],
             [1, 2],
@@ -100,10 +107,32 @@ function GlobalContainer({
       title: translate("secondary-choice") + " 2",
       disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 4*/,
     },
+    [STEP_SECONDARY_CHOICE_3]: {
+      renderStep: () => (
+        /* Object.keys(filters).length < 4 ? null :*/ <SecondaryChoiceContainer
+          nextStep={STEP_MODEL_CHOICE}
+          previousExtents={[
+            [0, 1],
+            [1, 2],
+            [2, 3],
+          ]}
+          metricsExtent={[3, 4]}
+        />
+      ),
+      title: translate("secondary-choice") + " 3",
+      disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 4*/,
+    },
     [STEP_MODEL_CHOICE]: {
       renderStep: () =>
         Object.keys(filters).length < 2 ? null : (
-          <ModelChoiceContainer step={STEP_MODEL_CHOICE} />
+          <ModelChoiceContainer
+            step={STEP_MODEL_CHOICE}
+            previousStep={
+              iterationNumber === 0
+                ? STEP_SECONDARY_CHOICE_1
+                : STEP_SECONDARY_CHOICE_3
+            }
+          />
         ),
       title: translate("model-choice"),
       disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 5*/,

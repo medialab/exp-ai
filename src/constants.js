@@ -32,8 +32,9 @@ export const STEP_METRICS_SORTING = 1;
 export const STEP_MAIN_CHOICE = 2;
 export const STEP_SECONDARY_CHOICE_1 = 3;
 export const STEP_SECONDARY_CHOICE_2 = 4;
-export const STEP_MODEL_CHOICE = 5;
-export const STEP_CONCLUSION = 6;
+export const STEP_SECONDARY_CHOICE_3 = 5;
+export const STEP_MODEL_CHOICE = 6;
+export const STEP_CONCLUSION = 7;
 /**
  * Number of decimals after comma for indicators brushes
  */

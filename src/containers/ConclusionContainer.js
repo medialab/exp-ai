@@ -43,6 +43,7 @@ function ConclusionContainer({
   }
 
   const handleNewIteration = () => {
+    resetApp();
     setMetricsOrder([
       ...metrics.filter((m) => m.iteration <= iterationNumber + 1),
     ]);

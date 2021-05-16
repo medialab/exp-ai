@@ -37,8 +37,9 @@ function SecondChoiceContainer({
       [toMetric + ""]: filter2,
     });
     setMainChoiceIsValidated(true);
-    if (iterationNumber === 0) setCurrentStep(nextStep + 1);
-    else {
+    if (iterationNumber === 0) {
+      setCurrentStep(nextStep);
+    } else {
       setCurrentStep(nextStep);
     }
   };

@@ -37,6 +37,7 @@ function ModelChoiceContainer({
   setChoosenModel,
   step,
   setCurrentStep,
+  previousStep,
   addFilters,
 }) {
   const [selectedNodeId, setSelectedNodeId] = useState(undefined);
@@ -46,6 +47,7 @@ function ModelChoiceContainer({
   const [displayFilter, setDisplayFilter] = useState(DISPLAY_FILTER_STEP);
   const previousExtents = [
     [0, 1],
+    [1, 2],
     [2, 3],
     [3, 4],
   ];
@@ -291,6 +293,7 @@ function ModelChoiceContainer({
           }}
           onSetCurrentStep={setCurrentStep}
           currentStep={currentStep}
+          onPreviousStep={() => setCurrentStep(previousStep)}
           backwardEnabled
         />
       </div>
