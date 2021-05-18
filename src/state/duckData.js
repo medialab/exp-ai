@@ -16,6 +16,7 @@ export const SET_PRIVACY_VARIABLES = "SET_PRIVACY_VARIABLES";
 export const ADD_FILTERS = "ADD_FILTERS";
 export const SET_CHOOSEN_MODEL = "SET_CHOOSEN_MODEL";
 export const SET_DATAIKU_RESULTS = "SET_DATAIKU_RESULTS";
+export const SET_PREVIOUS_MODEL = "SET_PREVIOUS_MODEL";
 export const RESET_APP = "RESET_APP";
 
 /**
@@ -55,6 +56,11 @@ export const setDataikuResults = (payload) => ({
   payload,
 });
 
+export const setPreviousModel = (payload) => ({
+  type: SET_PREVIOUS_MODEL,
+  payload,
+});
+
 /**
  * REDUCER
  */
@@ -73,6 +79,7 @@ const DEFAULT_STATE = {
   choosenModel: undefined,
   dataikuResults: {},
   privacyVariables: defaultPrivacyVariables,
+  previousModel: undefined,
 };
 
 function data(state = DEFAULT_STATE, action) {
@@ -94,6 +101,7 @@ function data(state = DEFAULT_STATE, action) {
       return state;
     case SET_PRIVACY_VARIABLES:
     case SET_METRICS_ORDER:
+    case SET_PREVIOUS_MODEL:
       return setPropInState(action.type, payload, state);
     case ADD_FILTERS:
       return {
@@ -130,6 +138,7 @@ const filters = (state) => state.filters;
 const choosenModel = (state) => state.choosenModel;
 const dataikuResults = (state) => state.dataikuResults;
 const privacyVariables = (state) => state.privacyVariables;
+const previousModel = (state) => state.previousModel;
 
 export const selector = createStructuredSelector({
   models,
@@ -138,4 +147,5 @@ export const selector = createStructuredSelector({
   choosenModel,
   dataikuResults,
   privacyVariables,
+  previousModel,
 });

@@ -29,6 +29,7 @@ function ConclusionContainer({
     filters,
     privacyVariables,
     metricsOrder,
+    previousModel,
   },
   ui: { iterationNumber },
   history,
@@ -37,6 +38,7 @@ function ConclusionContainer({
   setIterationNumber,
   setMetricsOrder,
   setDataikuResults,
+  setPreviousModel,
 }) {
   if (!choosenModel) {
     return null;
@@ -48,6 +50,7 @@ function ConclusionContainer({
       ...metrics.filter((m) => m.iteration <= iterationNumber + 1),
     ]);
     setIterationNumber(iterationNumber + 1);
+    setPreviousModel(choosenModel);
     setCurrentStep(STEP_METRICS_SORTING);
   };
   const csv = `source;${metricsList
@@ -97,7 +100,11 @@ interface;${metricsList
           <tbody>
             {metricsOrder.map(({ name, id, short_description }) => {
               const color = metricsColorMap[id];
-              let dataikuResult = dataikuResults[id];
+              const metricsToCompare = previousModel || dataikuResults;
+              const previousValue = +metricsToCompare[id];
+              // original value >
+              // let dataikuResult = dataikuResults[id];
+              let dataikuResult = metricsToCompare[id];
               // reverse for special cases
               if (["privacy", "interpretability"].includes(id)) {
                 dataikuResult = -dataikuResult;
@@ -111,11 +118,30 @@ interface;${metricsList
               expResult = +expResult;
               expResult = expResult.toFixed ? expResult.toFixed(2) : expResult;
               expResult = +expResult;
-              dataikuResult = +dataikuResult;
+              // dataikuResult = +dataikuResult;
               let isImproving;
-              if (expResult > dataikuResult) {
+              if (id.includes(["disparate"])) {
+                if (previousValue > 1) {
+                  if (previousValue < expResult) {
+                    isImproving = "-1";
+                  } else {
+                    if (expResult > 1) {
+                      isImproving = "1";
+                    } else {
+                      isImproving = "-1";
+                    }
+                  }
+                } else {
+                  if (previousValue > expResult) {
+                    isImproving = "-1";
+                  } else {
+                    isImproving = "1";
+                  }
+                }
+              }
+              if (expResult > previousValue) {
                 isImproving = "1";
-              } else if (expResult < dataikuResult) {
+              } else if (expResult < previousValue) {
                 isImproving = "-1";
               } else {
                 isImproving = "0";
@@ -171,11 +197,15 @@ interface;${metricsList
                         ? dataikuResult
                         : translate("no_value")} */}
                       <form>
-                        <DebouncedInput
-                          placeholder={`entrez vous résultats pour la métrique ${id}`}
-                          value={dataikuResults[id] || ""}
-                          onChange={handleDataikuInputChange}
-                        />
+                        {previousModel ? (
+                          <span>{previousModel[id]}</span>
+                        ) : (
+                          <DebouncedInput
+                            placeholder={`entrez vous résultats pour la métrique ${id}`}
+                            value={metricsToCompare[id] || ""}
+                            onChange={handleDataikuInputChange}
+                          />
+                        )}
                       </form>
                     </span>
                   </th>
