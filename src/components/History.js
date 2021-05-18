@@ -114,6 +114,14 @@ const actionsSerialization = {
     payload: () => ({}),
     description: () => translate("set_dataiku_results"),
   },
+  SET_ITERATION_NUMBER: {
+    // payload: (payload) => ({
+    //   iterationNumber: payload.iterationNumber
+    // }),
+    payload: (payload) => payload,
+    description: (iterationNumber) =>
+      translate("set_iteration_number") + (+iterationNumber + 1),
+  },
   SET_CHOOSEN_MODEL: {
     payload: (payload) => ({
       choosen_model: payload.variables.join("/"),
@@ -163,16 +171,21 @@ ${history
   return (
     <div className="history">
       <ul className="history-details">
-        {history.map(({ action, date }, index) => {
-          return (
-            <li className="history-item" key={index}>
-              <div className="date-container">
-                <code>{new Date(date).toLocaleTimeString()}</code>
-              </div>
-              <div>{renderAction(action, date, index)}</div>
-            </li>
-          );
-        })}
+        {history
+          .filter(
+            ({ action }) =>
+              !["START_APP", "SET_CURRENT_STEP"].includes(action.type)
+          )
+          .map(({ action, date }, index) => {
+            return (
+              <li className="history-item" key={index}>
+                <div className="date-container">
+                  <code>{new Date(date).toLocaleTimeString()}</code>
+                </div>
+                <div>{renderAction(action, date, index)}</div>
+              </li>
+            );
+          })}
       </ul>
       <div>
         <button onClick={() => downloadFile(csv, "csv", "history")}>

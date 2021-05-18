@@ -11,7 +11,7 @@ import {
   SET_DATAIKU_RESULTS,
   SET_CHOOSEN_MODEL,
 } from "./duckData";
-import { SET_CURRENT_STEP, START_APP } from "./duckUi";
+import { SET_CURRENT_STEP, START_APP, SET_ITERATION_NUMBER } from "./duckUi";
 
 /**
  * ACTION FUNCTIONS
@@ -34,6 +34,7 @@ function data(state = DEFAULT_STATE, action) {
     case SET_CHOOSEN_MODEL:
     case SET_CURRENT_STEP:
     case START_APP:
+    case SET_ITERATION_NUMBER:
       return {
         ...state,
         history: [

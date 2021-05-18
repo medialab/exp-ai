@@ -48,7 +48,6 @@ function SecondChoiceContainer({
   };
 
   if (!Object.keys(filters).length) return null;
-  console.log("metrics", filters[fromMetric + ""]);
 
   return (
     <section className="second-choice-screen">
@@ -76,7 +75,7 @@ function SecondChoiceContainer({
                   filters[to + ""] !== undefined
               )
               .map(([from, to], index) => {
-                console.log({ from, to });
+                // console.log({ from, to });
                 let theseVariables = [
                   filters[from + ""],
                   filters[to + ""],
