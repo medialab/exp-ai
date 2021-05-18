@@ -174,7 +174,11 @@ ${history
         {history
           .filter(
             ({ action }) =>
-              !["START_APP", "SET_CURRENT_STEP"].includes(action.type)
+              ![
+                "START_APP",
+                "SET_CURRENT_STEP",
+                "SET_DATAIKU_RESULTS",
+              ].includes(action.type)
           )
           .map(({ action, date }, index) => {
             return (
