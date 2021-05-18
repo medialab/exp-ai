@@ -3,7 +3,7 @@
   color: '#0096D1'
   short_description: L'AUC est un nombre entre 0 et 1 mesurant la performance de l'algorithme. Un algorithme performant possède un AUC proche de 1. Comme traditionnellement dans l’industrie du Machine Learning, on supposera que le data scientist banquier est d’abord incité sur le critère de la performance de son algorithme car l’AUC est proportionnel au gain financier procuré par l’algorithme.
   iteration: 0
-- name: Disparate impact
+- name: Disparate impact (femmes/hommes)
   id: fairness_disparate_impact
   color: '#984F0E'
   short_description: "il s’agit du ratio du pourcentage d’acceptation du crédit chez les femmes sur le pourcentage d’acceptation chez les hommes. Lorsque ce ratio est égal à 1, on considérera qu’il n’y pas d’effet disparate entre les hommes et les femmes. La règle des 80% est utilisée par le droit américain pour détecter des effets discriminants : si le ratio du disparate impact est en-dessous de 80% alors on dira qu'il y a effet disparate entre hommes et femmes."
