@@ -45,11 +45,11 @@ function ConclusionContainer({
   }
 
   const handleNewIteration = () => {
-    resetApp();
+    // resetApp();
+    setIterationNumber(iterationNumber + 1);
     setMetricsOrder([
       ...metrics.filter((m) => m.iteration <= iterationNumber + 1),
     ]);
-    setIterationNumber(iterationNumber + 1);
     setPreviousModel(choosenModel);
     setCurrentStep(STEP_METRICS_SORTING);
   };

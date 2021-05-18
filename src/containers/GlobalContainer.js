@@ -143,7 +143,7 @@ function GlobalContainer({
       disabled: !metricsOrderIsValidated || !choosenModel,
     },
   };
-  console.log({ currentStep, steps });
+  // console.log({ currentStep, steps });
 
   // const metricsInfo = [
   //   // STEP_METRICS_EXPLANATION_0,
