@@ -251,15 +251,30 @@ interface;${metricsList
           {translate("restart")}
         </button>
       </div> */}
-      <div>
-        <button
-          onClick={() => {
-            handleNewIteration();
-          }}
-        >
-          {translate("new_iteration")}
-        </button>
-      </div>
+      {iterationNumber <= 1 ? (
+        <div>
+          <button
+            onClick={() => {
+              handleNewIteration();
+            }}
+          >
+            {translate("new_iteration")}
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button
+            onClick={() => {
+              resetApp();
+              setIterationNumber(0);
+              setCurrentStep(STEP_METRICS_SORTING);
+            }}
+          >
+            {translate("restart")}
+          </button>
+        </div>
+      )}
+
       <Tooltip />
     </section>
   );
