@@ -27,5 +27,5 @@
 - name: Disparate impact (travailleur étranger)
   id: disparate_impact_foreign
   color: '#8D5F5B'
-  short_description: "il s’agit du ratio du pourcentage d’acceptation du crédit chez les travailleurs étrangers sur le pourcentage d’acceptation chez les hommes. Lorsque ce ratio est égal à 1, on considérera qu’il n’y pas d’effet disparate entre les hommes et les femmes. La règle des 80% est utilisée par le droit américain pour détecter des effets discriminants : si le ratio du disparate impact est en-dessous de 80% alors on dira qu'il y a effet disparate entre hommes et femmes."
+  short_description: "il s’agit du ratio du pourcentage d’acceptation du crédit chez les travailleurs étrangers sur le pourcentage d’acceptation chez les travailleurs non-étrangers. Lorsque ce ratio est égal à 1, on considérera qu’il n’y pas d’effet disparate entre les hommes et les femmes. La règle des 80% est utilisée par le droit américain pour détecter des effets discriminants : si le ratio du disparate impact est en-dessous de 80% alors on dira qu'il y a effet disparate entre hommes et femmes."
   iteration: 1
