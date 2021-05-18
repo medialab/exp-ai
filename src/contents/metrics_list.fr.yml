@@ -18,12 +18,12 @@
   type: integer
   short_description: Selon la législation (RGPD), les demandeurs ont le droit d'exiger une explication des décisions. On considèrera que l’opposé du nombre total de variables dans le modèle comme un proxy de l’interprétabilité des algorithmes. En effet, des explications avec 20 variables seront beaucoup plus difficiles à fournir qu’une explication avec 5 variables.
   iteration: 0
-- name: Privacy
-  id: privacy
-  color: '#8D5F5B'
-  type: integer
-  short_description: Selon les conventions des droits de l’hommes, chaque individu a le droit de disposer de ses données personnelles. Selon la RGPD, il faut donc veiller à ce que ces données privées soient récoltées de manière parcimonieuse (principe de minimisation), pour des finalités bien déterminées (principe de finalité), limiter les failles de sécurité, les fuites possibles, etc. Nous prendrons l’opposé du nombre de variables personnelles comme proxy de la privacy. Le nombre de variables privées est également un proxy de la vulnérabilité aux failles de sécurité par attaques (sécurité).
-  iteration: 1
+# - name: Privacy
+#   id: privacy
+#   color: '#8D5F5B'
+#   type: integer
+#   short_description: Selon les conventions des droits de l’hommes, chaque individu a le droit de disposer de ses données personnelles. Selon la RGPD, il faut donc veiller à ce que ces données privées soient récoltées de manière parcimonieuse (principe de minimisation), pour des finalités bien déterminées (principe de finalité), limiter les failles de sécurité, les fuites possibles, etc. Nous prendrons l’opposé du nombre de variables personnelles comme proxy de la privacy. Le nombre de variables privées est également un proxy de la vulnérabilité aux failles de sécurité par attaques (sécurité).
+#   iteration: 1
 - name: Disparate impact (travailleur étranger)
   id: disparate_impact_foreign
   color: '#8D5F5B'

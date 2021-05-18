@@ -96,7 +96,7 @@ function GlobalContainer({
       renderStep: () => (
         /* Object.keys(filters).length < 4 ? null :*/
         <SecondaryChoiceContainer
-          nextStep={STEP_SECONDARY_CHOICE_3}
+          nextStep={STEP_MODEL_CHOICE}
           previousExtents={[
             [0, 1],
             [1, 2],
@@ -107,21 +107,21 @@ function GlobalContainer({
       title: translate("secondary-choice") + " 2",
       disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 4*/,
     },
-    [STEP_SECONDARY_CHOICE_3]: {
-      renderStep: () => (
-        /* Object.keys(filters).length < 4 ? null :*/ <SecondaryChoiceContainer
-          nextStep={STEP_MODEL_CHOICE}
-          previousExtents={[
-            [0, 1],
-            [1, 2],
-            [2, 3],
-          ]}
-          metricsExtent={[3, 4]}
-        />
-      ),
-      title: translate("secondary-choice") + " 3",
-      disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 4*/,
-    },
+    // [STEP_SECONDARY_CHOICE_3]: {
+    //   renderStep: () => (
+    //     /* Object.keys(filters).length < 4 ? null :*/ <SecondaryChoiceContainer
+    //       nextStep={STEP_MODEL_CHOICE}
+    //       previousExtents={[
+    //         [0, 1],
+    //         [1, 2],
+    //         [2, 3],
+    //       ]}
+    //       metricsExtent={[3, 4]}
+    //     />
+    //   ),
+    //   title: translate("secondary-choice") + " 3",
+    //   disabled: !metricsOrderIsValidated /*|| Object.keys(filters).length < 4*/,
+    // },
     [STEP_MODEL_CHOICE]: {
       renderStep: () =>
         Object.keys(filters).length < 2 ? null : (
@@ -130,7 +130,7 @@ function GlobalContainer({
             previousStep={
               iterationNumber === 0
                 ? STEP_SECONDARY_CHOICE_1
-                : STEP_SECONDARY_CHOICE_3
+                : STEP_SECONDARY_CHOICE_2
             }
           />
         ),
