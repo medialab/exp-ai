@@ -88,7 +88,11 @@ interface;${metricsList
             )}
           .
         </p>
-        <h2>{translate("conclusion_results_title")}</h2>
+        <h2>
+          {iterationNumber === 0
+            ? translate("conclusion_results_title")
+            : translate("conclusion_results_title_bis")}
+        </h2>
         <table className="results-table">
           {/* <thead>
             <th></th>
@@ -101,7 +105,13 @@ interface;${metricsList
             {metricsOrder.map(({ name, id, short_description }) => {
               const color = metricsColorMap[id];
               const metricsToCompare = previousModel || dataikuResults;
-              const previousValue = +metricsToCompare[id];
+              let previousValue = +metricsToCompare[id];
+              previousValue =
+                previousValue !== undefined && previousValue.toFixed
+                  ? previousValue.toFixed(2)
+                  : previousValue;
+              previousValue = +previousValue;
+              console.log("previous value", previousValue);
               // original value >
               // let dataikuResult = dataikuResults[id];
               let dataikuResult = metricsToCompare[id];
@@ -197,10 +207,12 @@ interface;${metricsList
                         ? dataikuResult
                         : translate("no_value")} */}
                       <form>
-                        {previousModel ? (
-                          <span>{previousModel[id]}</span>
+                        {previousModel !== undefined && previousModel[id] ? (
+                          <span>{previousValue}</span>
                         ) : (
-                          <DebouncedInput
+                          /*previousModel ? (
+                          <span>{previousModel[id]}</span>
+                        )*/ <DebouncedInput
                             placeholder={`entrez vous résultats pour la métrique ${id}`}
                             value={metricsToCompare[id] || ""}
                             onChange={handleDataikuInputChange}

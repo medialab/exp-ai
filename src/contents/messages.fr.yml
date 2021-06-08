@@ -18,7 +18,8 @@ model_choice_screen_intro: Parmi les modèles qui correspondent aux arbitrages r
 dataiku_input_screen_title: Avant de voir vos résultats, entrez les métriques de votre première expérience
 dataiku_input_screen_intro: Veuillez renseigner les informations pour les métriques fournies.
 conclusion_screen_title: Conclusion
-conclusion_results_title: Votre évolution entre les étapes 1 et 2
+conclusion_results_title: Votre évolution depuis l'étape dataiku
+conclusion_results_title_bis: Votre évolution par rapport à l'itération précédente
 conclusion_history_title: Votre cheminement
 restart: Recommencer l'expérience
 navigated_to: A navigué sur
