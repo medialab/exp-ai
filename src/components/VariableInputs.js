@@ -23,17 +23,23 @@ function Input({ onChange, validate, value, ...props }) {
       setLocalValue(value);
     }
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleBlur();
+  };
 
   useEffect(() => {
     setLocalValue(value);
   }, [value]);
   return (
-    <input
-      {...props}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={localValue}
-    />
+    <form className="input-container" onSubmit={handleSubmit}>
+      <input
+        {...props}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={localValue}
+      />
+    </form>
   );
 }
 

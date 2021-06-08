@@ -200,11 +200,6 @@ function FilterForm({
 
   if (!models.length) return null;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
   const handleValidate = (e) => {
     onSubmit([
       {
@@ -233,7 +228,7 @@ function FilterForm({
   };
 
   return (
-    <form className="filter-form" onSubmit={handleSubmit}>
+    <div className="filter-form">
       <div className="columns-container">
         <div className="column is-main">
           <div
@@ -334,7 +329,7 @@ function FilterForm({
       />
 
       <Tooltip id="tip" />
-    </form>
+    </div>
   );
 }
 
