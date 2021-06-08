@@ -19,8 +19,6 @@
       max-height: 2rem;
     }
     thead th {
-      // background: var(--color-black);
-      // color: white;
       vertical-align: top;
       padding: var(--gutter-small);
       pointer-events: none;
@@ -29,9 +27,13 @@
         height: 15rem;
         white-space: nowrap;
         font-size: 0.7em;
+        position: relative;
         > span {
-          transform: translate(0, 14rem) rotate(315deg);
-          width: 30px;
+          position: absolute;
+          bottom: 1rem;
+          left: 1rem;
+          transform: rotate(315deg);
+          width: 3rem;
           > span {
             padding: 5px 10px;
           }
