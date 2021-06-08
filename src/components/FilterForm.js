@@ -30,6 +30,7 @@ function FilterForm({
   values,
   containerWidth,
   containerHeight,
+  onChange,
 }) {
   let [metric1, metric2] = metrics;
 
@@ -201,7 +202,7 @@ function FilterForm({
   if (!models.length) return null;
 
   const handleValidate = (e) => {
-    onSubmit([
+    const values = [
       {
         variable: metric1.id,
         type: "range",
@@ -214,7 +215,8 @@ function FilterForm({
         range: [choosenMin2, choosenMax2],
         variables: metric2.id === "Privacy" ? filteredVariables : undefined,
       },
-    ]);
+    ];
+    onSubmit(values);
   };
   const handleBrushChange = ({
     x: [thatXMin, thatXMax],
@@ -225,6 +227,24 @@ function FilterForm({
     setChoosenMin2(+thatYMin.toFixed(DECIMALS));
     setChoosenMax2(+thatYMax.toFixed(DECIMALS));
     setHasChoosen(true);
+
+    if (typeof onChange === "function") {
+      const values = [
+        {
+          variable: metric1.id,
+          type: "range",
+          range: [+thatXMin.toFixed(DECIMALS), +thatXMax.toFixed(DECIMALS)],
+          variables: metric1.id === "Privacy" ? filteredVariables : undefined,
+        },
+        {
+          variable: metric2.id,
+          type: "range",
+          range: [+thatYMin.toFixed(DECIMALS), +thatYMax.toFixed(DECIMALS)],
+          variables: metric2.id === "Privacy" ? filteredVariables : undefined,
+        },
+      ];
+      onChange(values);
+    }
   };
 
   return (
@@ -248,6 +268,29 @@ function FilterForm({
                 setChoosenMin2(thatMin);
                 setChoosenMax2(thatMax);
                 setHasChoosen(true);
+                if (typeof onChange === "function") {
+                  const values = [
+                    {
+                      variable: metric1.id,
+                      type: "range",
+                      range: [choosenMin1, choosenMax1],
+                      variables:
+                        metric1.id === "Privacy"
+                          ? filteredVariables
+                          : undefined,
+                    },
+                    {
+                      variable: metric2.id,
+                      type: "range",
+                      range: [+thatMin, +thatMax],
+                      variables:
+                        metric2.id === "Privacy"
+                          ? filteredVariables
+                          : undefined,
+                    },
+                  ];
+                  onChange(values);
+                }
               }}
             />
           </div>
@@ -284,6 +327,29 @@ function FilterForm({
                 setChoosenMin1(thatMin);
                 setChoosenMax1(thatMax);
                 setHasChoosen(true);
+                if (typeof onChange === "function") {
+                  const values = [
+                    {
+                      variable: metric1.id,
+                      type: "range",
+                      range: [+thatMin, +thatMax],
+                      variables:
+                        metric1.id === "Privacy"
+                          ? filteredVariables
+                          : undefined,
+                    },
+                    {
+                      variable: metric2.id,
+                      type: "range",
+                      range: [choosenMin2, choosenMax2],
+                      variables:
+                        metric2.id === "Privacy"
+                          ? filteredVariables
+                          : undefined,
+                    },
+                  ];
+                  onChange(values);
+                }
               }}
             />
           </div>

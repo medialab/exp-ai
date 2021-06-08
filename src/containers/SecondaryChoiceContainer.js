@@ -1,4 +1,7 @@
-import react from "react"; /* eslint no-unused-vars : 0 */
+import React, {
+  useState,
+  useEffect,
+} from "react"; /* eslint no-unused-vars : 0 */
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -30,12 +33,31 @@ function SecondChoiceContainer({
   nextStep = STEP_SECONDARY_CHOICE_2,
   currentStep,
 }) {
+  const [tempFilters, setTempFilters] = useState(filters);
+  useEffect(() => {
+    setTempFilters(filters);
+  }, [filters]);
+
   const handleSubmit = (theseFilters) => {
     const [filter1, filter2] = theseFilters;
-    addFilters({
-      [fromMetric + ""]: filter1,
-      [toMetric + ""]: filter2,
-    });
+    // changing just the changed elements
+    const toUpdate = Object.entries(tempFilters).reduce((res, [id, filter]) => {
+      const { range } = filter;
+      if (
+        !filters[id] ||
+        (filters[id] &&
+          filters[id].range[0] !== filter.range[0] &&
+          filters[id].range[1] !== filter.range[1])
+      ) {
+        return {
+          ...res,
+          [id]: filter,
+        };
+      }
+      return res;
+    }, {});
+
+    addFilters(toUpdate);
     setMainChoiceIsValidated(true);
     if (iterationNumber === 0) {
       setCurrentStep(nextStep);
@@ -48,6 +70,14 @@ function SecondChoiceContainer({
   };
 
   if (!Object.keys(filters).length) return null;
+
+  const handleMainChange = ([filter1, filter2]) => {
+    setTempFilters({
+      ...tempFilters,
+      [fromMetric + ""]: filter1,
+      [toMetric + ""]: filter2,
+    });
+  };
 
   return (
     <section className="second-choice-screen">
@@ -71,14 +101,14 @@ function SecondChoiceContainer({
             {previousExtents
               .filter(
                 ([from, to]) =>
-                  filters[from + ""] !== undefined &&
-                  filters[to + ""] !== undefined
+                  tempFilters[from + ""] !== undefined &&
+                  tempFilters[to + ""] !== undefined
               )
               .map(([from, to], index) => {
                 // console.log({ from, to });
                 let theseVariables = [
-                  filters[from + ""],
-                  filters[to + ""],
+                  tempFilters[from + ""],
+                  tempFilters[to + ""],
                 ].find((f) => f && f.variables);
                 theseVariables = theseVariables
                   ? theseVariables.variables
@@ -104,7 +134,7 @@ function SecondChoiceContainer({
                     key={index}
                     {...{
                       index,
-                      filters,
+                      filters: tempFilters,
                       models,
                       fromName: metricsOrder.find(
                         ({ id }) => id === filters[from + ""].variable
@@ -116,7 +146,8 @@ function SecondChoiceContainer({
                       from,
                       to,
                       variables: theseVariables,
-                      addFilters,
+                      addFilters: (f) =>
+                        setTempFilters({ ...tempFilters, ...f }),
                       filterModels,
                     }}
                   />
@@ -129,16 +160,17 @@ function SecondChoiceContainer({
             metrics={metricsOrder.slice(fromMetric, toMetric + 1)}
             models={filterModels(
               models,
-              Object.entries(filters)
+              Object.entries(tempFilters)
                 .filter(([key]) => +key < fromMetric)
                 .map(([_key, filter]) => filter)
             )}
             onSubmit={handleSubmit}
             onPreviousStep={handlePreviousStep}
             privacyVariables={privacyVariables}
+            onChange={handleMainChange}
             values={
-              filters[fromMetric + ""] && filters[toMetric + ""]
-                ? [filters[fromMetric + ""], filters[toMetric + ""]]
+              tempFilters[fromMetric + ""] && tempFilters[toMetric + ""]
+                ? [tempFilters[fromMetric + ""], tempFilters[toMetric + ""]]
                 : undefined
             }
           />
