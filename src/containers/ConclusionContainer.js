@@ -111,7 +111,6 @@ interface;${metricsList
                   ? previousValue.toFixed(2)
                   : previousValue;
               previousValue = +previousValue;
-              console.log("previous value", previousValue);
               // original value >
               // let dataikuResult = dataikuResults[id];
               let dataikuResult = metricsToCompare[id];
