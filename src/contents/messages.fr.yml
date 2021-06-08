@@ -35,7 +35,7 @@ tertiary_filter_view: la vue dédiée au filtre tertiaire
 model_choice_view: la vue dédiée au choix du modèle
 dataiku_feedback_view: la vue dédiée à entrer les informations dataiku
 conclusion_view: la vue de conclusion
-set_choosen_model: A choisi son modèle
+set_choosen_model: 'A choisi un modèle prenant en compte les variables :'
 set_dataiku_results: A entré les résultats obtenus via dataiku 
 changed_metrics_order_to: A changé l'ordre des indicateurs pour 
 started_the_app: A commencé l'expérimentation

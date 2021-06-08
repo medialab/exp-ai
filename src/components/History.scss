@@ -2,16 +2,121 @@
   .history-details {
     list-style: none;
     padding: 0;
+    position: relative;
+    &:before {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      top: 2rem;
+      height: calc(100% - 5rem);
+      border-left: 2px solid lightgrey;
+      z-index: -1;
+    }
   }
   .history-item {
     padding: var(--gutter-small);
-    margin-bottom: var(--gutter-small);
-    border: 2px solid var(--color-black);
+    padding-left: 0;
+    // margin-bottom: var(--gutter-small);
+    // border: 2px solid var(--color-black);
     display: flex;
     flex-flow: row nowrap;
-    .date-container {
-      width: 5rem;
+    .action-symbol-container {
+      max-width: 2rem;
+      max-height: 2rem;
+      min-width: 2rem;
+      min-height: 2rem;
       margin-right: var(--gutter-small);
+      background: lightgrey;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .action-symbol {
+        color: white;
+      }
+    }
+  }
+  .step-description-container {
+    padding-top: 0.5rem;
+    width: 100%;
+  }
+
+  .step-description {
+    display: flex;
+    flex-flow: row nowrap;
+
+    > div:first-of-type {
+      flex: 1;
+      min-width: 30%;
+      max-width: 30%;
+    }
+    &.metrics-ordering {
+      ol {
+        list-style: none;
+        padding: 0;
+        margin-left: 1rem;
+        li {
+          font-size: 0.8rem;
+          margin-bottom: 0.2rem;
+          padding: 0.3rem;
+          color: white;
+        }
+      }
+    }
+
+    &.model-choice {
+      .variables-detail {
+        list-style: none;
+        padding: 0;
+        li {
+          display: inline-block;
+          background: darkgrey;
+          color: white;
+          padding: 0.2rem 0.3rem;
+          margin-left: 0.1rem;
+          margin-bottom: 0.3rem;
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    &.filters {
+      .graphs-container {
+        display: flex;
+        flex-flow: row wrap;
+      }
+      .mini-graph-container {
+        margin-bottom: 0;
+        position: relative;
+        .mini-graph-title {
+          margin: 0;
+          margin-bottom: 1.5rem;
+          .values-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            padding-bottom: 1rem;
+            .value-container {
+              display: inline;
+              position: absolute;
+              width: unset;
+              font-size: 0.7rem;
+              code {
+                padding: 0;
+              }
+              &:first-of-type {
+                right: 0;
+                bottom: 0;
+                text-align: right;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

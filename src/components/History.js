@@ -28,7 +28,34 @@ import {
 } from "../constants";
 import downloadFile from "../helpers/download";
 
+import metricsList from "../contents/metrics_list.fr.yml";
+import variablesList from "../contents/variables_list.fr.yml";
+
 import "./History.scss";
+import FileSaver from "file-saver";
+import MiniGraph from "./MiniGraph";
+
+const metricsColorMap = metricsList.reduce(
+  (res, metric) => ({
+    ...res,
+    [metric.id]: metric.color,
+  }),
+  {}
+);
+const metricsNameMap = metricsList.reduce(
+  (res, metric) => ({
+    ...res,
+    [metric.id]: metric.name,
+  }),
+  {}
+);
+const variablesNamesMap = variablesList.reduce(
+  (res, variable) => ({
+    ...res,
+    [variable.id]: variable.name,
+  }),
+  {}
+);
 
 const serializeStep = (payload) => {
   switch (payload) {
@@ -68,15 +95,30 @@ const actionsSerialization = {
     description: (payload) => translate("started_the_app"),
   },
   SET_METRICS_ORDER: {
+    symbol: "↑↓",
     payload: (payload) => ({
       new_order: payload.map(({ id }) => id).join(", "),
     }),
-    description: (payload) =>
-      translate("changed_metrics_order_to") +
-      " " +
-      payload.map((i, index) => index + 1 + "/ " + i.name).join(", "),
+    description: (payload) => (
+      <div className="step-description metrics-ordering">
+        <div>{translate("changed_metrics_order_to")}</div>
+        <ol>
+          {payload.map((i, index) => {
+            return (
+              <li style={{ background: metricsColorMap[i.id] }} key={index}>
+                {index + 1}. {i.name}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    ),
+    // translate("changed_metrics_order_to") +
+    // " " +
+    // payload.map((i, index) => index + 1 + "/ " + i.name).join(", "),
   },
   ADD_FILTERS: {
+    symbol: "▽",
     payload: (payload = {}) => {
       if (Object.entries(payload).length === 0) {
         return 0;
@@ -100,15 +142,69 @@ const actionsSerialization = {
         filter2_value: range2.join(", "),
       };
     },
-    description: (payload) =>
-      translate("add_filters") +
-      " " +
-      Object.entries(payload)
-        .map(
-          ([_key, filter]) =>
-            `${filter.variable} (entre ${filter.range[0]} et ${filter.range[1]})`
-        )
-        .join(" " + translate("and") + " "),
+    description: (payload, models) => {
+      const filters = Object.entries(payload).map((t) => t[1]);
+      let couples = [];
+      for (let i = 0; i < filters.length; i++) {
+        for (let j = i + 1; j < filters.length; j++) {
+          couples.push([filters[j], filters[i]]);
+        }
+      }
+      return (
+        <div className="step-description filters">
+          <div>
+            {translate("add_filters")}{" "}
+            {
+              filters.map(
+                (filter, index) => (
+                  <>
+                    <strong key={index}>
+                      {metricsNameMap[filter.variable]}
+                    </strong>
+                    {index === filters.length - 1
+                      ? ""
+                      : " " + translate("and") + " "}
+                  </>
+                )
+                // `${filter.variable} (entre ${filter.range[0]} et ${filter.range[1]})`
+              )
+              // .join(" " + translate("and") + " ")
+            }
+          </div>
+          <div className="graphs-container">
+            {couples.map(([filter1, filter2], index) => {
+              const fromName = metricsNameMap[filter1.variable];
+              const toName = metricsNameMap[filter2.variable];
+              return (
+                <MiniGraph
+                  {...{
+                    index,
+                    filters: {
+                      0: filter1,
+                      1: filter2,
+                    },
+                    key: index,
+                    models,
+                    from: 0,
+                    to: 1,
+                    // onNav,
+                    fromName,
+                    toName,
+                    variables: variablesList,
+                    // choosenModel,
+                    // highlightedNodeId,
+                    // addFilters,
+                    filterModels: (m) => m,
+                    readOnly: true,
+                    displayMode: true,
+                  }}
+                />
+              );
+            })}
+          </div>
+        </div>
+      );
+    },
   },
   SET_DATAIKU_RESULTS: {
     payload: () => ({}),
@@ -121,13 +217,23 @@ const actionsSerialization = {
     payload: (payload) => payload,
     description: (iterationNumber) =>
       translate("set_iteration_number") + (+iterationNumber + 1),
+    symbol: "⟳",
   },
   SET_CHOOSEN_MODEL: {
     payload: (payload) => ({
       choosen_model: payload.variables.join("/"),
     }),
-    description: (payload) =>
-      translate("set_choosen_model") + " : " + payload.variables.join("/"),
+    description: (payload) => (
+      <div className="step-description model-choice">
+        <div>{translate("set_choosen_model")}</div>
+        <ul className="variables-detail">
+          {payload.variables.map((variable) => (
+            <li key={variable}>{variablesNamesMap[variable]}</li>
+          ))}
+        </ul>
+      </div>
+    ),
+    symbol: "✓",
   },
   SET_CURRENT_STEP: {
     payload: (payload) => ({ step: serializeStep(payload) }),
@@ -136,10 +242,13 @@ const actionsSerialization = {
   },
 };
 
-function History({ history = [] }) {
+function History({ history = [], models }) {
   const renderAction = (action, date, index) => {
     if (actionsSerialization[action.type]) {
-      return actionsSerialization[action.type].description(action.payload);
+      return actionsSerialization[action.type].description(
+        action.payload,
+        models
+      );
     }
     return "nope";
   };
@@ -183,10 +292,18 @@ ${history
           .map(({ action, date }, index) => {
             return (
               <li className="history-item" key={index}>
-                <div className="date-container">
-                  <code>{new Date(date).toLocaleTimeString()}</code>
+                <div
+                  title={new Date(date).toLocaleTimeString()}
+                  className="action-symbol-container"
+                >
+                  <span className="action-symbol">
+                    {actionsSerialization[action.type].symbol || "⟳"}
+                  </span>
+                  {/* <code>{new Date(date).toLocaleTimeString()}</code> */}
                 </div>
-                <div>{renderAction(action, date, index)}</div>
+                <div className="step-description-container">
+                  {renderAction(action, date, index)}
+                </div>
               </li>
             );
           })}

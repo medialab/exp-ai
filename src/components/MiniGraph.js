@@ -25,6 +25,7 @@ const MiniGraph = ({
   addFilters,
   filterModels,
   readOnly,
+  displayMode,
 }) => {
   const actuallyHighlitedNodeId = choosenModel
     ? highlightedNodeId || choosenModel.id
@@ -84,71 +85,92 @@ const MiniGraph = ({
   return (
     <div className="mini-graph-container">
       <h5 className="mini-graph-title">
-        <div>
-          <span onClick={onNav} className="number-indicator">
-            {index + 1}
-          </span>
-        </div>
+        {!displayMode && (
+          <div>
+            <span onClick={onNav} className="number-indicator">
+              {index + 1}
+            </span>
+          </div>
+        )}
+
         <div className="values-container">
           <span className="value-container">
             <code
               style={{
-                background: metricsColorMap[xVariable],
+                background: displayMode ? "white" : metricsColorMap[xVariable],
+                color: displayMode ? metricsColorMap[xVariable] : undefined,
               }}
             >
-              x: {fromName}
+              {!displayMode ? "x: " : ""}
+              {fromName}
             </code>
-            <Range
-              allowCross={false}
-              tipFormatter={(val) => val / SLIDER_MULTIPLIER}
-              onChange={([thatMin, thatMax]) => {
-                handleRangeChange("x", [
-                  thatMin / SLIDER_MULTIPLIER,
-                  thatMax / SLIDER_MULTIPLIER,
-                ]);
-              }}
-              step={metric1.type === "integer" ? SLIDER_MULTIPLIER : undefined}
-              min={min1 * SLIDER_MULTIPLIER}
-              max={max1 * SLIDER_MULTIPLIER}
-              defaultValue={[
-                min1 * SLIDER_MULTIPLIER,
-                max1 * SLIDER_MULTIPLIER,
-              ]}
-              value={[val1[0] * SLIDER_MULTIPLIER, val1[1] * SLIDER_MULTIPLIER]}
-              style={{
-                width: "100%",
-              }}
-            />
+            {!displayMode && (
+              <Range
+                allowCross={false}
+                tipFormatter={(val) => val / SLIDER_MULTIPLIER}
+                onChange={([thatMin, thatMax]) => {
+                  handleRangeChange("x", [
+                    thatMin / SLIDER_MULTIPLIER,
+                    thatMax / SLIDER_MULTIPLIER,
+                  ]);
+                }}
+                step={
+                  metric1.type === "integer" ? SLIDER_MULTIPLIER : undefined
+                }
+                min={min1 * SLIDER_MULTIPLIER}
+                max={max1 * SLIDER_MULTIPLIER}
+                defaultValue={[
+                  min1 * SLIDER_MULTIPLIER,
+                  max1 * SLIDER_MULTIPLIER,
+                ]}
+                value={[
+                  val1[0] * SLIDER_MULTIPLIER,
+                  val1[1] * SLIDER_MULTIPLIER,
+                ]}
+                style={{
+                  width: "100%",
+                }}
+              />
+            )}
           </span>
           <span className="value-container">
             <code
               style={{
-                background: metricsColorMap[yVariable],
+                background: displayMode ? "white" : metricsColorMap[yVariable],
+                color: displayMode ? metricsColorMap[yVariable] : undefined,
               }}
             >
-              y: {toName}
+              {!displayMode ? "y: " : ""}
+              {toName}
             </code>
-            <Range
-              allowCross={false}
-              tipFormatter={(val) => val / SLIDER_MULTIPLIER}
-              onChange={([thatMin, thatMax]) => {
-                handleRangeChange("y", [
-                  thatMin / SLIDER_MULTIPLIER,
-                  thatMax / SLIDER_MULTIPLIER,
-                ]);
-              }}
-              step={metric2.type === "integer" ? SLIDER_MULTIPLIER : undefined}
-              min={min2 * SLIDER_MULTIPLIER}
-              max={max2 * SLIDER_MULTIPLIER}
-              defaultValue={[
-                min2 * SLIDER_MULTIPLIER,
-                max2 * SLIDER_MULTIPLIER,
-              ]}
-              value={[val2[0] * SLIDER_MULTIPLIER, val2[1] * SLIDER_MULTIPLIER]}
-              style={{
-                width: "100%",
-              }}
-            />
+            {!displayMode && (
+              <Range
+                allowCross={false}
+                tipFormatter={(val) => val / SLIDER_MULTIPLIER}
+                onChange={([thatMin, thatMax]) => {
+                  handleRangeChange("y", [
+                    thatMin / SLIDER_MULTIPLIER,
+                    thatMax / SLIDER_MULTIPLIER,
+                  ]);
+                }}
+                step={
+                  metric2.type === "integer" ? SLIDER_MULTIPLIER : undefined
+                }
+                min={min2 * SLIDER_MULTIPLIER}
+                max={max2 * SLIDER_MULTIPLIER}
+                defaultValue={[
+                  min2 * SLIDER_MULTIPLIER,
+                  max2 * SLIDER_MULTIPLIER,
+                ]}
+                value={[
+                  val2[0] * SLIDER_MULTIPLIER,
+                  val2[1] * SLIDER_MULTIPLIER,
+                ]}
+                style={{
+                  width: "100%",
+                }}
+              />
+            )}
           </span>
         </div>
       </h5>
