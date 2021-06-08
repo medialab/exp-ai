@@ -19,6 +19,7 @@ import {
   STEP_MAIN_CHOICE,
   STEP_SECONDARY_CHOICE_1,
   STEP_SECONDARY_CHOICE_2,
+  STEP_MODEL_CHOICE,
 } from "../constants";
 import MiniGraph from "../components/MiniGraph";
 
@@ -59,10 +60,12 @@ function SecondChoiceContainer({
 
     addFilters(toUpdate);
     setMainChoiceIsValidated(true);
-    if (iterationNumber === 0) {
-      setCurrentStep(nextStep);
+    const remainingVariablesNumber =
+      metricsOrder.length - (currentStep - STEP_SECONDARY_CHOICE_1) - 3;
+    if (remainingVariablesNumber) {
+      setCurrentStep(currentStep + 1);
     } else {
-      setCurrentStep(nextStep);
+      setCurrentStep(STEP_MODEL_CHOICE);
     }
   };
   const handlePreviousStep = () => {

@@ -12,6 +12,7 @@ import "./GlobalContainer.scss";
 import StepContainer from "../components/StepContainer";
 
 import HeaderContainer from "./HeaderContainer";
+import InitialProvocationContainer from "./InitialProvocationContainer";
 // import DataikuIntroContainer from "./DataikuIntroContainer";
 // import EuLegislationContainer from "./EuLegislationContainer";
 // import MetricsIntroContainer from "./MetricsIntroContainer";
@@ -23,14 +24,15 @@ import ConclusionContainer from "./ConclusionContainer";
 
 import {
   STEP_HEADER,
-  STEP_DATAIKU_PRACTICE,
-  // STEP_EU_LEGISLATION,
-  STEP_METRICS_EXPLANATION_0,
-  STEP_METRICS_EXPLANATION_1,
-  STEP_METRICS_EXPLANATION_2,
-  STEP_METRICS_EXPLANATION_3,
-  STEP_METRICS_EXPLANATION_4,
-  STEP_METRICS_EXPLANATION_5,
+  STEP_INITIAL_PROVOCATION,
+  // STEP_DATAIKU_PRACTICE,
+  // // STEP_EU_LEGISLATION,
+  // STEP_METRICS_EXPLANATION_0,
+  // STEP_METRICS_EXPLANATION_1,
+  // STEP_METRICS_EXPLANATION_2,
+  // STEP_METRICS_EXPLANATION_3,
+  // STEP_METRICS_EXPLANATION_4,
+  // STEP_METRICS_EXPLANATION_5,
   STEP_METRICS_SORTING,
   STEP_MAIN_CHOICE,
   STEP_SECONDARY_CHOICE_1,
@@ -58,6 +60,10 @@ function GlobalContainer({
     [STEP_HEADER]: {
       renderStep: () => <HeaderContainer />,
       title: translate("home"),
+    },
+    [STEP_INITIAL_PROVOCATION]: {
+      renderStep: () => <InitialProvocationContainer />,
+      title: translate("provocation"),
     },
     // [STEP_DATAIKU_PRACTICE]: {
     //   renderStep: () => <DataikuIntroContainer />,

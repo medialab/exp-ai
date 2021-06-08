@@ -10,7 +10,7 @@ import * as dataDuck from "../state/duckData";
 import MetricsCrossingIndicator from "../components/MetricsCrossingIndicator";
 
 import FilterForm from "../components/FilterForm";
-import { STEP_SECONDARY_CHOICE_1 } from "../constants";
+import { STEP_SECONDARY_CHOICE_1, STEP_MODEL_CHOICE } from "../constants";
 
 function MainChoiceContainer({
   data: { metricsOrder, models, filters, privacyVariables },
@@ -27,7 +27,11 @@ function MainChoiceContainer({
       1: filter2,
     });
     setMainChoiceIsValidated(true);
-    setCurrentStep(STEP_SECONDARY_CHOICE_1);
+    if (metricsOrder.length <= 2) {
+      setCurrentStep(STEP_MODEL_CHOICE);
+    } else {
+      setCurrentStep(STEP_SECONDARY_CHOICE_1);
+    }
   };
   const handlePreviousStep = () => {
     setCurrentStep(currentStep - 1);

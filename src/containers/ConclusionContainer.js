@@ -16,11 +16,13 @@ import DebouncedInput from "../components/DebouncedInput";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import variablesLists from "../contents/variables_list.fr.yml";
-import { STEP_METRICS_SORTING } from "../constants";
+import { DECIMALS, STEP_METRICS_SORTING } from "../constants";
 import downloadFile from "../helpers/download";
 import { metricsColorMap } from "../helpers/misc";
 
 import metrics from "../contents/metrics_list.fr.yml";
+import provocations from "../contents/provocations.yml";
+import messages from "../contents/messages.fr.yml";
 
 function ConclusionContainer({
   data: {
@@ -43,7 +45,6 @@ function ConclusionContainer({
   if (!choosenModel) {
     return null;
   }
-
   const handleNewIteration = () => {
     // resetApp();
     setIterationNumber(iterationNumber + 1);
@@ -108,7 +109,7 @@ interface;${metricsList
               let previousValue = +metricsToCompare[id];
               previousValue =
                 previousValue !== undefined && previousValue.toFixed
-                  ? previousValue.toFixed(2)
+                  ? previousValue.toFixed(DECIMALS)
                   : previousValue;
               previousValue = +previousValue;
               // original value >
@@ -125,7 +126,9 @@ interface;${metricsList
                     ).length
                   : choosenModel[id];
               expResult = +expResult;
-              expResult = expResult.toFixed ? expResult.toFixed(2) : expResult;
+              expResult = expResult.toFixed
+                ? expResult.toFixed(DECIMALS)
+                : expResult;
               expResult = +expResult;
               // dataikuResult = +dataikuResult;
               let isImproving;
@@ -164,7 +167,7 @@ interface;${metricsList
                 "-1": "red",
                 0: "grey",
               };
-              const messages = {
+              const theseMessages = {
                 1: "Vous avez amélioré cet indicateur",
                 "-1": "Vous avez dégradé cet indicateur",
                 0: "Cet indicateur est resté identique",
@@ -233,7 +236,7 @@ interface;${metricsList
                   </th>
                   <th>
                     {dataikuResult !== undefined && !isNaN(dataikuResult)
-                      ? messages[isImproving]
+                      ? theseMessages[isImproving]
                       : "pas de valeur à comparer"}
                   </th>
                 </tr>
@@ -262,6 +265,21 @@ interface;${metricsList
           {translate("restart")}
         </button>
       </div> */}
+      <div className="provocation-image-container-in-conclusion">
+        <h1>{messages.provocation_intro}</h1>
+        {provocations
+          .filter(
+            (provocation) => provocation.iteration === iterationNumber + 1
+          )
+          .map(({ id, src }) => (
+            <img
+              key={src}
+              src={`${process.env.PUBLIC_URL}/images/${src}`}
+              alt={id}
+            />
+          ))}
+      </div>
+
       {iterationNumber <= 1 ? (
         <div>
           <button

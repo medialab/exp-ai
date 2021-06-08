@@ -2,30 +2,36 @@
 import react from "react"; /* eslint no-unused-vars : 0 */
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Md from "react-markdown";
 
 import translate from "../helpers/translate";
 
-import * as uiDuck from "../state/duckUi";
+import provocations from "../contents/provocations.yml";
 
-import intro from "!!raw-loader!../contents/global_intro.md";
+import * as uiDuck from "../state/duckUi";
 
 import ContinueButton from "../components/ContinueButton";
 // import { STEP_DATAIKU_PRACTICE } from "../constants";
-import { STEP_INITIAL_PROVOCATION } from "../constants";
+import { STEP_METRICS_SORTING } from "../constants";
 
-function HeaderContainer({ setCurrentStep }) {
+function HeaderContainer({ setCurrentStep, ui: { iterationNumber } }) {
+  const handleNext = () => setCurrentStep(STEP_METRICS_SORTING);
   return (
     <header className="header contents-wrapper">
       <div className="contents-container">
-        <h1 className="header-title">{translate("site_title")}</h1>
-        <div className="emphasis">
-          <Md source={intro} />
-        </div>
+        {provocations
+          .filter((provocation) => provocation.iteration === iterationNumber)
+          .map(({ id, src }) => (
+            <div className="provocation-image-container">
+              <h1>{translate("provocation_intro")}</h1>
+              <img
+                key={id}
+                src={`${process.env.PUBLIC_URL}/images/${src}`}
+                alt={id}
+              />
+            </div>
+          ))}
       </div>
-      <ContinueButton
-        onClick={() => setCurrentStep(STEP_INITIAL_PROVOCATION)}
-      />
+      <ContinueButton onClick={handleNext} />
     </header>
   );
 }
