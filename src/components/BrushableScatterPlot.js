@@ -3,7 +3,7 @@ import react, {
   useRef,
   useState,
 } from "react"; /* eslint no-unused-vars : 0 */
-import { extent, min } from "d3-array";
+import { extent, min, max } from "d3-array";
 import { scaleLinear } from "d3-scale";
 import cx from "classnames";
 import { Axis, axisPropsFromTickScale, LEFT, BOTTOM } from "react-d3-axis";
@@ -75,38 +75,57 @@ function BrushableScatterPlot({
     setXRange([thatX, thatX]);
     setYRange([thatY, thatY]);
   };
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (readOnly) return;
+      if (isBrushing) {
+        const svgDims = svgRef.current.getBoundingClientRect();
+        const thatX = xScale.invert(e.clientX - svgDims.x);
+        const thatY = yScale.invert(e.clientY - svgDims.y);
+        setXRange([xMin, thatX]);
+        setYRange([yMin, thatY]);
+      }
+    };
 
-  const handleMouseMove = (e) => {
-    if (readOnly) return;
-    if (isBrushing) {
-      const svgDims = svgRef.current.getBoundingClientRect();
-      const thatX = xScale.invert(e.clientX - svgDims.x);
-      const thatY = yScale.invert(e.clientY - svgDims.y);
-      setXRange([xMin, thatX]);
-      setYRange([yMin, thatY]);
-    }
-  };
+    const handleMouseUp = () => {
+      if (readOnly) return;
+      if (isBrushing && xMin !== xMax && yMin !== yMax) {
+        onBrushChange({
+          x: [
+            +xMin.toFixed ? +xMin.toFixed(DECIMALS) : +xMin,
+            +xMax.toFixed ? +xMax.toFixed(DECIMALS) : +xMax,
+          ].sort(),
+          y: [
+            +yMin.toFixed ? +yMin.toFixed(DECIMALS) : +yMin,
+            +yMax.toFixed ? +yMax.toFixed(DECIMALS) : +yMax,
+          ].sort(),
+        });
+      } else {
+        setXRange([xMinOriginal, xMaxOriginal]);
+        setYRange([yMinOriginal, yMaxOriginal]);
+      }
+      setIsBrushing(false);
+    };
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [isBrushing, xMin, xMax, yMin, yMax]);
 
-  const handleMouseUp = () => {
-    if (readOnly) return;
-    if (isBrushing && xMin !== xMax && yMin !== yMax) {
-      onBrushChange({
-        x: [
-          +xMin.toFixed ? +xMin.toFixed(DECIMALS) : +xMin,
-          +xMax.toFixed ? +xMax.toFixed(DECIMALS) : +xMax,
-        ].sort(),
-        y: [
-          +yMin.toFixed ? +yMin.toFixed(DECIMALS) : +yMin,
-          +yMax.toFixed ? +yMax.toFixed(DECIMALS) : +yMax,
-        ].sort(),
-      });
-    } else {
-      setXRange([xMinOriginal, xMaxOriginal]);
-      setYRange([yMinOriginal, yMaxOriginal]);
-    }
-    setIsBrushing(false);
-  };
-
+  const brushX =
+    xScale(min([xMin, xMax])) < axisMargin + padding
+      ? axisMargin + padding
+      : xScale(min([xMin, xMax]));
+  const brushWidth = xScale(max([xMin, xMax])) - brushX; // Math.abs(xScale(xMax) - xScale(xMin));
+  const brushY =
+    yScale(min([yMin, yMax])) - Math.abs(yScale(yMax) - yScale(yMin));
+  let brushHeight = Math.abs(yScale(yMax) - yScale(yMin));
+  brushHeight =
+    brushHeight + brushY > height - axisMargin - padding
+      ? height - axisMargin - padding - brushY
+      : brushHeight;
   return (
     <div className="brushable-scatterplot-container" {...props}>
       <svg
@@ -119,9 +138,9 @@ function BrushableScatterPlot({
           "is-minified": minified,
         })}
         onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        // onMouseMove={handleMouseMove}
+        // onMouseUp={handleMouseUp}
+        // onMouseLeave={handleMouseUp}
       >
         <g
           transform={`translate(0, ${height - axisMargin - padding})`}
@@ -143,12 +162,10 @@ function BrushableScatterPlot({
         </g>
         {xMin && xMax && yMin && yMax ? (
           <rect
-            x={xScale(min([xMin, xMax]))}
-            y={
-              yScale(min([yMin, yMax])) - Math.abs(yScale(yMax) - yScale(yMin))
-            }
-            width={Math.abs(xScale(xMax) - xScale(xMin))}
-            height={Math.abs(yScale(yMax) - yScale(yMin))}
+            x={brushX}
+            y={brushY}
+            width={brushWidth}
+            height={brushHeight}
             className="brush"
           />
         ) : null}

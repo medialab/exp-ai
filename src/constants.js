@@ -38,4 +38,4 @@ export const STEP_CONCLUSION = 7;
 /**
  * Number of decimals after comma for indicators brushes
  */
-export const DECIMALS = 2;
+export const DECIMALS = 3;
