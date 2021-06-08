@@ -174,9 +174,9 @@ function ModelChoiceContainer({
                   <th></th>
                   {metricsOrder.map(({ name, id }) => (
                     <th key={id}>
-                      <div>
+                      <span>
                         <span>{name}</span>
-                      </div>
+                      </span>
                     </th>
                   ))}
                 </tr>
