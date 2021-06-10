@@ -297,7 +297,7 @@ interface;${metricsList
             onClick={() => {
               resetApp();
               setIterationNumber(0);
-              setCurrentStep(STEP_METRICS_SORTING);
+              setCurrentStep(0);
             }}
           >
             {translate("restart")}
