@@ -75,6 +75,7 @@ no_value: pas de valeur
 loading: Chargement
 show_more_models: montrer plus de modèles
 not_displayed: non affichés
-new_iteration: S'équiper avec de nouvelles métriques
+new_iteration: Continuer l'expérimentation
 set_iteration_number: A commencé l'itération n°
 provocation_intro: Quand soudain ...
+download_models: télécharger les modèles choisis

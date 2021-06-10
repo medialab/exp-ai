@@ -521,6 +521,7 @@ select {
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+  justify-content: flex-end;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -528,10 +529,49 @@ select {
   top: 0;
   padding: 2rem;
   box-sizing: border-box;
+  min-height: 100vh;
   img {
     flex: 1;
     max-width: 70%;
     padding-left: 2rem;
     min-width: 70%;
+    pointer-events: none;
   }
+}
+
+.contents-container.final-steps {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  width: 100%;
+  padding-bottom: 1rem;
+
+  .provocation-image-container.final-steps {
+    position: relative;
+    min-height: unset;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    // min-height: calc(100vh - var(--gutter-small) * 16);
+    width: 100%;
+    display: block;
+
+    img {
+      padding: 0;
+      margin: 0;
+      max-width: unset;
+      max-height: 80vh;
+      // max-height: calc(100vh - var(--gutter-small) * 18);
+    }
+  }
+}
+.final-steps-buttons-container {
+  display: flex;
+  flex-flow: row nowrap;
+  button {
+    margin-right: var(--gutter-small);
+  }
+  // position: absolute;
+  // bottom: var(--gutter-small);
+  // left: var(--gutter-small);
 }

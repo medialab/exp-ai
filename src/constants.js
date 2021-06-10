@@ -36,6 +36,9 @@ export const STEP_SECONDARY_CHOICE_2 = 5;
 export const STEP_SECONDARY_CHOICE_3 = 6;
 export const STEP_MODEL_CHOICE = 7;
 export const STEP_CONCLUSION = 8;
+export const STEP_FINAL_PROVOCATION_1 = 9;
+export const STEP_FINAL_PROVOCATION_2 = 10;
+export const STEP_FINAL_PROVOCATION_3 = 11;
 /**
  * Number of decimals after comma for indicators brushes
  */

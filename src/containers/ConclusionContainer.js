@@ -16,12 +16,16 @@ import DebouncedInput from "../components/DebouncedInput";
 
 import metricsList from "../contents/metrics_list.fr.yml";
 import variablesLists from "../contents/variables_list.fr.yml";
-import { DECIMALS, STEP_METRICS_SORTING } from "../constants";
+import {
+  DECIMALS,
+  STEP_METRICS_SORTING,
+  STEP_INITIAL_PROVOCATION,
+} from "../constants";
 import downloadFile from "../helpers/download";
 import { metricsColorMap } from "../helpers/misc";
 
 import metrics from "../contents/metrics_list.fr.yml";
-import provocations from "../contents/provocations.yml";
+// import provocations from "../contents/provocations.yml";
 import messages from "../contents/messages.fr.yml";
 
 function ConclusionContainer({
@@ -34,7 +38,7 @@ function ConclusionContainer({
     previousModel,
     models,
   },
-  ui: { iterationNumber },
+  ui: { iterationNumber, currentStep },
   history,
   resetApp,
   setCurrentStep,
@@ -53,7 +57,7 @@ function ConclusionContainer({
       ...metrics.filter((m) => m.iteration <= iterationNumber + 1),
     ]);
     setPreviousModel(choosenModel);
-    setCurrentStep(STEP_METRICS_SORTING);
+    setCurrentStep(STEP_INITIAL_PROVOCATION);
   };
   const csv = `source;${metricsList
     .map(({ name }) => name)
@@ -245,11 +249,11 @@ interface;${metricsList
             })}
           </tbody>
         </table>
-        <div>
+        {/* <div>
           <button onClick={() => downloadFile(csv, "csv", "modeles_expe")}>
             {translate("download")}
           </button>
-        </div>
+        </div> */}
       </div>
       <div className="step-section">
         <h2>{translate("conclusion_history_title")}</h2>
@@ -266,7 +270,7 @@ interface;${metricsList
           {translate("restart")}
         </button>
       </div> */}
-      <div className="provocation-image-container-in-conclusion">
+      {/* <div className="provocation-image-container-in-conclusion">
         <h1>{messages.provocation_intro}</h1>
         {provocations
           .filter(
@@ -279,9 +283,9 @@ interface;${metricsList
               alt={id}
             />
           ))}
-      </div>
+      </div> */}
 
-      {iterationNumber <= 1 ? (
+      {iterationNumber < 2 ? (
         <div>
           <button
             onClick={() => {
@@ -295,12 +299,13 @@ interface;${metricsList
         <div>
           <button
             onClick={() => {
-              resetApp();
-              setIterationNumber(0);
-              setCurrentStep(0);
+              setCurrentStep(currentStep + 1);
+              // resetApp();
+              // setIterationNumber(0);
+              // setCurrentStep(0);
             }}
           >
-            {translate("restart")}
+            {translate("new_iteration")}
           </button>
         </div>
       )}

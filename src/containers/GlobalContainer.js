@@ -41,8 +41,12 @@ import {
   STEP_MODEL_CHOICE,
   // STEP_DATAIKU_FEEDBACK,
   STEP_CONCLUSION,
+  STEP_FINAL_PROVOCATION_1,
+  STEP_FINAL_PROVOCATION_2,
+  STEP_FINAL_PROVOCATION_3,
 } from "../constants";
 import translate from "../helpers/translate";
+import FinalProvocationContainer from "./FinalProvocationContainer";
 
 function GlobalContainer({
   ui: { currentStep, metricsOrderIsValidated, iterationNumber },
@@ -147,6 +151,24 @@ function GlobalContainer({
       renderStep: () => <ConclusionContainer />,
       title: translate("conclusion"),
       disabled: !metricsOrderIsValidated || !choosenModel,
+    },
+    [STEP_FINAL_PROVOCATION_1]: {
+      renderStep: () => <FinalProvocationContainer />,
+      title: translate("conclusion"),
+      disabled:
+        !metricsOrderIsValidated || !choosenModel || iterationNumber < 2,
+    },
+    [STEP_FINAL_PROVOCATION_2]: {
+      renderStep: () => <FinalProvocationContainer />,
+      title: translate("conclusion"),
+      disabled:
+        !metricsOrderIsValidated || !choosenModel || iterationNumber < 2,
+    },
+    [STEP_FINAL_PROVOCATION_3]: {
+      renderStep: () => <FinalProvocationContainer />,
+      title: translate("conclusion"),
+      disabled:
+        !metricsOrderIsValidated || !choosenModel || iterationNumber < 2,
     },
   };
   // console.log({ currentStep, steps });
