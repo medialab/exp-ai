@@ -61,10 +61,10 @@ function FilterForm({
   useEffect(() => {
     if (!models.length) return null;
     if (values && values.length > 1) {
-      setChoosenMin1(values[0].range[0]);
-      setChoosenMax1(values[0].range[1]);
-      setChoosenMin2(values[1].range[0]);
-      setChoosenMax2(values[1].range[1]);
+      setChoosenMin1(values[0] ? values[0].range[0] : absoluteMin1);
+      setChoosenMax1(values[0] ? values[0].range[1] : absoluteMax1);
+      setChoosenMin2(values[1] ? values[1].range[0] : absoluteMin2);
+      setChoosenMax2(values[1] ? values[1].range[1] : absoluteMax2);
     } else {
       setChoosenMin1(absoluteMin1);
       setChoosenMax1(absoluteMax1);
@@ -73,7 +73,8 @@ function FilterForm({
     }
   }, [values]); /* eslint react-hooks/exhaustive-deps : 0 */
 
-  useDebounce(
+  // useDebounce(
+  useEffect(
     () => {
       if (!models.length) return null;
       if (!metric1 || !metric2) {
@@ -143,16 +144,37 @@ function FilterForm({
       absMin2 = min(models, (d) => +d[metric2.id]);
       absMax2 = max(models, (d) => +d[metric2.id]);
     }
-    setAbsoluteMin1(+absMin1.toFixed(DECIMALS));
-    setAbsoluteMax1(+absMax1.toFixed(DECIMALS));
-    setAbsoluteMin2(+absMin2.toFixed(DECIMALS));
-    setAbsoluteMax2(+absMax2.toFixed(DECIMALS));
+    // setAbsoluteMin1(+absMin1.toFixed(DECIMALS));
+    // setAbsoluteMax1(+absMax1.toFixed(DECIMALS));
+    // setAbsoluteMin2(+absMin2.toFixed(DECIMALS));
+    // setAbsoluteMax2(+absMax2.toFixed(DECIMALS));
+    setAbsoluteMin1(+absMin1);
+    setAbsoluteMax1(+absMax1);
+    setAbsoluteMin2(+absMin2);
+    setAbsoluteMax2(+absMax2);
 
     if (!values) {
-      setChoosenMin1(+absMin1.toFixed(DECIMALS));
-      setChoosenMax1(+absMax1.toFixed(DECIMALS));
-      setChoosenMin2(+absMin2.toFixed(DECIMALS));
-      setChoosenMax2(+absMax2.toFixed(DECIMALS));
+      if (
+        choosenMin1 !== absMin1 ||
+        choosenMax1 !== absMax1 ||
+        choosenMin2 !== absMin2 ||
+        choosenMax2 !== absMax2
+      ) {
+        setChoosenMin1(absMin1);
+        setChoosenMax1(absMax1);
+        setChoosenMin2(absMin2);
+        setChoosenMax2(absMax2);
+      }
+      // setChoosenMin1(+absMin1.toFixed(DECIMALS));
+      // setChoosenMax1(+absMax1.toFixed(DECIMALS));
+      // setChoosenMin2(+absMin2.toFixed(DECIMALS));
+      // setChoosenMax2(+absMax2.toFixed(DECIMALS));
+    } else if (!values[0]) {
+      setChoosenMin1(absMin1);
+      setChoosenMax1(absMax1);
+    } else if (!values[1]) {
+      setChoosenMin2(absMin2);
+      setChoosenMax2(absMax2);
     }
   }, [models, metrics]);
 

@@ -172,7 +172,7 @@ function SecondChoiceContainer({
             privacyVariables={privacyVariables}
             onChange={handleMainChange}
             values={
-              tempFilters[fromMetric + ""] && tempFilters[toMetric + ""]
+              tempFilters[fromMetric + ""] || tempFilters[toMetric + ""]
                 ? [tempFilters[fromMetric + ""], tempFilters[toMetric + ""]]
                 : undefined
             }
