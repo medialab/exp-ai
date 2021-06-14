@@ -76,7 +76,6 @@ ${history
     };${new_order};${filter1_type};${filter1_value};${filter2_type};${filter2_value};${choosen_model};${step}`;
   })
   .join("\n")}`;
-  console.log({ choosenModels });
   return (
     <header className="header contents-wrapper">
       <div className="contents-container final-steps">
