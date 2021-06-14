@@ -140,10 +140,13 @@ function SecondChoiceContainer({
                       filters: tempFilters,
                       models,
                       fromName: metricsOrder.find(
-                        ({ id }) => id === filters[from + ""].variable
+                        ({ id }) =>
+                          filters[from + ""] &&
+                          id === filters[from + ""].variable
                       ).name,
                       toName: metricsOrder.find(
-                        ({ id }) => id === filters[to + ""].variable
+                        ({ id }) =>
+                          filters[to + ""] && id === filters[to + ""].variable
                       ).name,
                       onNav: handleNav,
                       from,

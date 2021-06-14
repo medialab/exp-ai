@@ -32,8 +32,8 @@ const MiniGraph = ({
     : highlightedNodeId;
 
   const brushData = {
-    x: filters[from + ""].range,
-    y: filters[to + ""].range,
+    x: filters[from + ""] !== undefined ? filters[from + ""].range : [0, 0],
+    y: filters[to + ""] !== undefined ? filters[to + ""].range : [0, 0],
   };
   const data =
     from === 0
@@ -71,14 +71,17 @@ const MiniGraph = ({
       },
     });
   };
-  const val1 = filters[from + ""].range;
-  const xVariable = filters[from + ""].variable;
+  const val1 =
+    filters[from + ""] !== undefined ? filters[from + ""].range : [0, 0];
+  const xVariable =
+    filters[from + ""] !== undefined ? filters[from + ""].variable : "";
   const metric1 = metricsList.find(({ id }) => id === xVariable);
   const min1 = min(data, (d) => +d[xVariable]);
   const max1 = max(data, (d) => +d[xVariable]);
 
-  const val2 = filters[to + ""].range;
-  const yVariable = filters[to + ""].variable;
+  const val2 = filters[to + ""] !== undefined ? filters[to + ""].range : [0, 0];
+  const yVariable =
+    filters[to + ""] !== undefined ? filters[to + ""].variable : "";
   const metric2 = metricsList.find(({ id }) => id === yVariable);
   const min2 = min(data, (d) => +d[yVariable]);
   const max2 = max(data, (d) => +d[yVariable]);
