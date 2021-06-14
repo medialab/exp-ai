@@ -32,7 +32,7 @@ const workerInstance = worker();
 const DISPLAY_FILTER_STEP = 30;
 
 function ModelChoiceContainer({
-  ui: { currentStep },
+  ui: { currentStep, iterationNumber },
   data: { models, filters, choosenModel, privacyVariables, metricsOrder },
   setChoosenModel,
   step,
@@ -195,7 +195,7 @@ function ModelChoiceContainer({
                       }}
                       onClick={() => {
                         if (model.id === selectedNodeId) {
-                          setChoosenModel(model);
+                          setChoosenModel(model, iterationNumber);
                           setCurrentStep(currentStep + 1);
                         } else {
                           setSelectedNodeId(model.id);

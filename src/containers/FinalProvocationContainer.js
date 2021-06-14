@@ -26,46 +26,57 @@ function FinalProvocationContainer({
   resetApp,
   setIterationNumber,
   history = [],
-  data: { models, privacyVariables, choosenModel, dataikuResults },
+  data: {
+    models,
+    privacyVariables,
+    choosenModel,
+    dataikuResults,
+    choosenModels,
+  },
   ui: { iterationNumber, currentStep },
 }) {
-  const modelsCsv = `source;${metricsList
-    .map(({ name }) => name)
-    .join(";")};variables considérées comme privées
-  dataiku;${metricsList.map(({ id }) => dataikuResults[id]).join(";")};
-  interface;${metricsList
-    .map(({ id, name }) => {
-      const value =
-        id === "Privacy"
-          ? -Object.keys(privacyVariables).filter((f) => privacyVariables[f])
-              .length
-          : choosenModel && choosenModel[id];
+  const modelsCsv = `source;${metricsList.map(({ name }) => name).join(";")}
+dataiku;${metricsList.map(({ id }) => dataikuResults[id]).join(";")};
+${Object.entries(choosenModels)
+  .map(([index, model]) => {
+    return `model_${+index + 1};${metricsList
+      .map(({ id, name }) => {
+        const value =
+          id === "Privacy"
+            ? -Object.keys(privacyVariables).filter((f) => privacyVariables[f])
+                .length
+            : model && model[id];
 
-      return value;
-    })
-    .filter((v) => v)
-    .join(";")};${Object.keys(privacyVariables)
-    .filter((f) => privacyVariables[f])
-    .join(", ")}`;
+        return value;
+      })
+      .filter((v) => v)
+      .join(";")}${
+      "" /*';' + Object.keys(privacyVariables)
+      .filter((f) => privacyVariables[f])
+    .join(", ")*/
+    }`;
+  })
+  .join("\n")}`;
 
   const historyCsv = `id;heure;resume;type;new_order;filter1_type;filter1_value;filter2_type;filter2_value;choosen_model;step
-    ${history
-      .map(({ action, date }, index) => {
-        const resume = renderAction(action, date, index, models);
-        const {
-          new_order = "",
-          filter1_type = "",
-          filter1_value = "",
-          filter2_type = "",
-          filter2_value = "",
-          choosen_model = "",
-          step = "",
-        } = renderPayload(action);
-        return `id;${new Date(date).toLocaleTimeString()};${resume};${
-          action.type
-        };${new_order};${filter1_type};${filter1_value};${filter2_type};${filter2_value};${choosen_model};${step}`;
-      })
-      .join("\n")}`;
+${history
+  .map(({ action, date }, index) => {
+    const resume = renderAction(action, date, index, models);
+    const {
+      new_order = "",
+      filter1_type = "",
+      filter1_value = "",
+      filter2_type = "",
+      filter2_value = "",
+      choosen_model = "",
+      step = "",
+    } = renderPayload(action);
+    return `id;${new Date(date).toLocaleTimeString()};${resume};${
+      action.type
+    };${new_order};${filter1_type};${filter1_value};${filter2_type};${filter2_value};${choosen_model};${step}`;
+  })
+  .join("\n")}`;
+  console.log({ choosenModels });
   return (
     <header className="header contents-wrapper">
       <div className="contents-container final-steps">
@@ -100,7 +111,7 @@ function FinalProvocationContainer({
         </div>
       ) : (
         <div className="final-steps-buttons-container">
-          <button onClick={() => downloadFile(modelsCsv, "csv", "history")}>
+          <button onClick={() => downloadFile(modelsCsv, "csv", "models")}>
             {translate("download_models")}
           </button>
           <button onClick={() => downloadFile(historyCsv, "csv", "history")}>

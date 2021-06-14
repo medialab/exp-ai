@@ -46,9 +46,10 @@ export const addFilters = (payload) => ({
   payload,
 });
 
-export const setChoosenModel = (payload) => ({
+export const setChoosenModel = (payload, iterationNumber) => ({
   type: SET_CHOOSEN_MODEL,
   payload,
+  iterationNumber,
 });
 
 export const setDataikuResults = (payload) => ({
@@ -80,6 +81,7 @@ const DEFAULT_STATE = {
   dataikuResults: {},
   privacyVariables: defaultPrivacyVariables,
   previousModel: undefined,
+  choosenModels: {},
 };
 
 function data(state = DEFAULT_STATE, action) {
@@ -118,8 +120,17 @@ function data(state = DEFAULT_STATE, action) {
         filters: DEFAULT_STATE.filters,
       };
     case SET_DATAIKU_RESULTS:
-    case SET_CHOOSEN_MODEL:
       return setPropInState(action.type, payload, state);
+    case SET_CHOOSEN_MODEL:
+      return {
+        ...state,
+        choosenModel: payload,
+        choosenModels: {
+          ...state.choosenModels,
+          [action.iterationNumber]: payload,
+        },
+      };
+    // setPropInState(action.type, payload, state);
     default:
       return state;
   }
@@ -139,6 +150,7 @@ const choosenModel = (state) => state.choosenModel;
 const dataikuResults = (state) => state.dataikuResults;
 const privacyVariables = (state) => state.privacyVariables;
 const previousModel = (state) => state.previousModel;
+const choosenModels = (state) => choosenModels;
 
 export const selector = createStructuredSelector({
   models,
@@ -148,4 +160,5 @@ export const selector = createStructuredSelector({
   dataikuResults,
   privacyVariables,
   previousModel,
+  choosenModels,
 });
