@@ -31,7 +31,7 @@ function FinalProvocationContainer({
     privacyVariables,
     choosenModel,
     dataikuResults,
-    choosenModels,
+    choosenModels = {},
   },
   ui: { iterationNumber, currentStep },
 }) {
