@@ -87,8 +87,10 @@ function ModelChoiceContainer({
       // absolute scaling
       // let range = extent(models, (d) => +d[id]);
       let mapping = ["red", "green"];
-      if (["disparate_impact"].includes(id)) {
-        range = extent(models, (d) => Math.abs(1 - +d[id]));
+      if (id.includes("disparate_impact")) {
+        range = extent(models, (d) =>
+          Math.abs(1 - parseFloat(d[id]).toFixed(DECIMALS))
+        ).reverse();
       }
       const scale = scaleLinear().domain(range).range(mapping);
       return {
@@ -241,19 +243,16 @@ function ModelChoiceContainer({
                             data-tip={tip}
                             data-html={true}
                             style={{
-                              background:
-                                id === "disparate_impact"
-                                  ? colorScales[id](
-                                      Math.abs(
-                                        1 -
-                                          parseFloat(model[id]).toFixed(
-                                            DECIMALS
-                                          )
-                                      )
+                              background: id.includes("disparate_impact")
+                                ? colorScales[id](
+                                    Math.abs(
+                                      1 -
+                                        parseFloat(model[id]).toFixed(DECIMALS)
                                     )
-                                  : colorScales[id](
-                                      parseFloat(model[id]).toFixed(DECIMALS)
-                                    ),
+                                  )
+                                : colorScales[id](
+                                    parseFloat(model[id]).toFixed(DECIMALS)
+                                  ),
                             }}
                           >
                             {val}
