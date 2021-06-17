@@ -257,7 +257,11 @@ interface;${metricsList
       </div>
       <div className="step-section">
         <h2>{translate("conclusion_history_title")}</h2>
-        <History history={history} models={models} />
+        <History
+          iterationNumber={iterationNumber}
+          history={history}
+          models={models}
+        />
       </div>
 
       {/* <div>

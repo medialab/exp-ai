@@ -1,4 +1,4 @@
-import react from "react"; /* eslint no-unused-vars : 0 */
+import react, { useMemo } from "react"; /* eslint no-unused-vars : 0 */
 import translate from "../helpers/translate";
 
 import {
@@ -40,7 +40,7 @@ import "./History.scss";
 import FileSaver from "file-saver";
 import MiniGraph from "./MiniGraph";
 
-function History({ history = [], models }) {
+function History({ history = [], iterationNumber, models }) {
   const csv = `id;heure;resume;type;new_order;filter1_type;filter1_value;filter2_type;filter2_value;choosen_model;step
 ${history
   .map(({ action, date }, index) => {
@@ -59,36 +59,49 @@ ${history
     };${new_order};${filter1_type};${filter1_value};${filter2_type};${filter2_value};${choosen_model};${step}`;
   })
   .join("\n")}`;
+  const actionableHistory = useMemo(() => {
+    let items = history.filter(
+      ({ action }) =>
+        !["START_APP", "SET_CURRENT_STEP", "SET_DATAIKU_RESULTS"].includes(
+          action.type
+        )
+    );
+    let currentIterationNumber = 0;
+    items = items.map((item) => {
+      if (item.action.type === "SET_ITERATION_NUMBER") {
+        currentIterationNumber = item.action.payload;
+      }
+      return {
+        ...item,
+        iterationNumber: currentIterationNumber,
+      };
+    });
+    return items.filter(
+      ({ iterationNumber: thatIterationNumber }) =>
+        thatIterationNumber === iterationNumber
+    );
+  }, [history, iterationNumber]);
   return (
     <div className="history">
       <ul className="history-details">
-        {history
-          .filter(
-            ({ action }) =>
-              ![
-                "START_APP",
-                "SET_CURRENT_STEP",
-                "SET_DATAIKU_RESULTS",
-              ].includes(action.type)
-          )
-          .map(({ action, date }, index) => {
-            return (
-              <li className="history-item" key={index}>
-                <div
-                  title={new Date(date).toLocaleTimeString()}
-                  className="action-symbol-container"
-                >
-                  <span className="action-symbol">
-                    {actionsSerialization[action.type].symbol || "⟳"}
-                  </span>
-                  {/* <code>{new Date(date).toLocaleTimeString()}</code> */}
-                </div>
-                <div className="step-description-container">
-                  {renderAction(action, date, index, models)}
-                </div>
-              </li>
-            );
-          })}
+        {actionableHistory.map(({ action, date }, index) => {
+          return (
+            <li className="history-item" key={index}>
+              <div
+                title={new Date(date).toLocaleTimeString()}
+                className="action-symbol-container"
+              >
+                <span className="action-symbol">
+                  {actionsSerialization[action.type].symbol || "⟳"}
+                </span>
+                {/* <code>{new Date(date).toLocaleTimeString()}</code> */}
+              </div>
+              <div className="step-description-container">
+                {renderAction(action, date, index, models)}
+              </div>
+            </li>
+          );
+        })}
       </ul>
       {/* <div>
         <button onClick={() => downloadFile(csv, "csv", "history")}>
